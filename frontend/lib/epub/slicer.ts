@@ -124,10 +124,18 @@ export async function sliceEPUB(
 									sectionContent.documentElement.innerHTML;
 							} else if (sectionContent.body) {
 								content = sectionContent.body.innerHTML;
-							} else if (sectionContent.innerHTML) {
-								content = sectionContent.innerHTML;
-							} else if (sectionContent.outerHTML) {
-								content = sectionContent.outerHTML;
+							} else {
+								// Handle other types of content (Element, etc.)
+								const contentElement = sectionContent as any;
+								if (contentElement.innerHTML) {
+									content = contentElement.innerHTML;
+								} else if (contentElement.outerHTML) {
+									content = contentElement.outerHTML;
+								} else if (contentElement.textContent) {
+									content = contentElement.textContent;
+								} else {
+									content = String(sectionContent);
+								}
 							}
 						}
 					}
@@ -380,7 +388,6 @@ ${content}
 		return {
 			success: true,
 			outputUrl,
-			fileName,
 			blobKey,
 		};
 	} catch (error) {
@@ -618,7 +625,9 @@ export async function downloadEPUBTasksAsZip(
 			}
 
 			// Create blob and download
-			const zipBlob = new Blob([data], { type: 'application/zip' });
+			const zipBlob = new Blob([new Uint8Array(data)], {
+				type: 'application/zip',
+			});
 			console.log(`Generated ZIP: ${zipBlob.size} bytes`);
 
 			const url = URL.createObjectURL(zipBlob);

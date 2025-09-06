@@ -11,13 +11,13 @@ export function getFileType(file: File): FileType | null {
 		return 'pdf';
 	}
 
-	if (SECURITY_CONFIG.ALLOWED_MIME_TYPES.includes(mimeType)) {
+	if (SECURITY_CONFIG.ALLOWED_MIME_TYPES.includes(mimeType as any)) {
 		return 'epub';
 	}
 
 	// Fallback to file extension (with security validation)
 	const extension = fileName.slice(fileName.lastIndexOf('.'));
-	if (SECURITY_CONFIG.ALLOWED_EXTENSIONS.includes(extension)) {
+	if (SECURITY_CONFIG.ALLOWED_EXTENSIONS.includes(extension as any)) {
 		if (extension === '.pdf') return 'pdf';
 		if (extension === '.epub') return 'epub';
 	}

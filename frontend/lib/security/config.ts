@@ -88,7 +88,7 @@ export class SecurityValidator {
 		}
 
 		// Check file type by MIME type
-		if (!SECURITY_CONFIG.ALLOWED_MIME_TYPES.includes(file.type)) {
+		if (!SECURITY_CONFIG.ALLOWED_MIME_TYPES.includes(file.type as any)) {
 			return {
 				valid: false,
 				error: SECURITY_CONFIG.ERRORS.INVALID_FILE_TYPE,
@@ -99,7 +99,7 @@ export class SecurityValidator {
 		const extension = file.name
 			.toLowerCase()
 			.slice(file.name.lastIndexOf('.'));
-		if (!SECURITY_CONFIG.ALLOWED_EXTENSIONS.includes(extension)) {
+		if (!SECURITY_CONFIG.ALLOWED_EXTENSIONS.includes(extension as any)) {
 			return {
 				valid: false,
 				error: SECURITY_CONFIG.ERRORS.INVALID_FILE_TYPE,
@@ -267,6 +267,11 @@ export function checkBrowserSupport(): {
 	supported: boolean;
 	missing?: string[];
 } {
+	// Only run on client-side
+	if (typeof window === 'undefined') {
+		return { supported: true }; // Assume supported on server
+	}
+
 	const missing: string[] = [];
 
 	// Check for required features

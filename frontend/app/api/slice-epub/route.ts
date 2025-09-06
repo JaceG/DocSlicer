@@ -74,6 +74,22 @@ export async function POST(request: NextRequest) {
 					const content = await section.load(book.load.bind(book));
 					const chapterFileName = `chapter_${chapterIndex + 1}.xhtml`;
 
+					// Extract content as string, handling different content types
+					let bodyContent = '';
+					if (typeof content === 'string') {
+						bodyContent = content;
+					} else if (content && typeof content === 'object') {
+						// Try to get content from different possible properties
+						const contentElement = content as any;
+						bodyContent =
+							contentElement.innerHTML ||
+							contentElement.outerHTML ||
+							contentElement.textContent ||
+							String(content);
+					} else {
+						bodyContent = String(content || '');
+					}
+
 					// Create XHTML content
 					const xhtmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -82,7 +98,7 @@ export async function POST(request: NextRequest) {
 <title>${chapter.label}</title>
 </head>
 <body>
-${content.innerHTML || content.outerHTML || content}
+${bodyContent}
 </body>
 </html>`;
 
