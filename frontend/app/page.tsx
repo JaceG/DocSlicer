@@ -9,6 +9,7 @@ import { EPUBSelector } from '@/components/slicer/EPUBSelector';
 import { SliceManager } from '@/components/slicer/SliceManager';
 import { Header } from '@/components/ui/Header';
 import { SecurityStatus } from '@/components/ui/SecurityStatus';
+import { ConditionalAds } from '@/components/ads/ConditionalAds';
 import { UploadedFile, PageRange, SliceTask } from '@/types';
 import {
 	processSliceTasks,
@@ -211,8 +212,14 @@ export default function Home() {
 
 			<div className='container mx-auto px-4 py-8'>
 				{!uploadedFile ? (
-					<div className='max-w-4xl mx-auto'>
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{/* Header Ad - Above file upload */}
+						<ConditionalAds placement='header' />
+
 						<FileUpload onFileUpload={handleFileUpload} />
+
+						{/* Footer Ad - Below file upload */}
+						<ConditionalAds placement='footer' />
 					</div>
 				) : uploadedFile.type === 'epub' ? (
 					/* EPUB-specific interface */
@@ -221,6 +228,9 @@ export default function Home() {
 							file={uploadedFile}
 							onChapterCountLoaded={handlePageCountLoaded}
 						/>
+
+						{/* Between content ad for EPUB */}
+						<ConditionalAds placement='between-content' />
 
 						<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
 							<div className='lg:col-span-2'>
@@ -232,7 +242,10 @@ export default function Home() {
 								/>
 							</div>
 
-							<div className='lg:col-span-1'>
+							<div className='lg:col-span-1 space-y-6'>
+								{/* Sidebar ad for EPUB tools */}
+								<ConditionalAds placement='sidebar' />
+
 								<SliceManager
 									pageRanges={pageRanges}
 									sliceTasks={sliceTasks}
@@ -255,6 +268,9 @@ export default function Home() {
 							/>
 						</div>
 
+						{/* Between content ad for PDF */}
+						<ConditionalAds placement='between-content' />
+
 						{/* Tools Section */}
 						<div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
 							<div className='lg:col-span-2'>
@@ -266,7 +282,10 @@ export default function Home() {
 								/>
 							</div>
 
-							<div className='lg:col-span-1'>
+							<div className='lg:col-span-1 space-y-6'>
+								{/* Sidebar ad for PDF tools */}
+								<ConditionalAds placement='sidebar' />
+
 								<SliceManager
 									pageRanges={pageRanges}
 									sliceTasks={sliceTasks}
