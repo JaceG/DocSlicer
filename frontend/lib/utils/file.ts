@@ -1,15 +1,25 @@
 import { FileType } from '@/types';
+import { SECURITY_CONFIG, SecurityValidator } from '@/lib/security/config';
 
+// File type detection with enhanced security validation
 export function getFileType(file: File): FileType | null {
-	const extension = file.name.split('.').pop()?.toLowerCase();
 	const mimeType = file.type.toLowerCase();
+	const fileName = file.name.toLowerCase();
 
-	if (extension === 'pdf' || mimeType === 'application/pdf') {
+	// Check by MIME type first
+	if (mimeType === 'application/pdf') {
 		return 'pdf';
 	}
 
-	if (extension === 'epub' || mimeType === 'application/epub+zip') {
+	if (SECURITY_CONFIG.ALLOWED_MIME_TYPES.includes(mimeType)) {
 		return 'epub';
+	}
+
+	// Fallback to file extension (with security validation)
+	const extension = fileName.slice(fileName.lastIndexOf('.'));
+	if (SECURITY_CONFIG.ALLOWED_EXTENSIONS.includes(extension)) {
+		if (extension === '.pdf') return 'pdf';
+		if (extension === '.epub') return 'epub';
 	}
 
 	return null;
@@ -25,22 +35,88 @@ export function formatFileSize(bytes: number): string {
 	return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
 }
 
-export function validateFile(file: File): { valid: boolean; error?: string } {
-	const maxSize = 100 * 1024 * 1024; // 100MB
-
-	if (file.size > maxSize) {
-		return { valid: false, error: 'File size exceeds 100MB limit' };
-	}
-
-	const fileType = getFileType(file);
-	if (!fileType) {
+// Enhanced file validation with security checks
+export function validateFile(file: File): {
+	valid: boolean;
+	error?: string;
+	errorCode?: string;
+} {
+	// Use security validator for comprehensive validation
+	const securityResult = SecurityValidator.validateFile(file);
+	if (!securityResult.valid) {
 		return {
 			valid: false,
-			error: 'Invalid file type. Only PDF and EPUB files are supported',
+			error: securityResult.error,
+			errorCode: Object.keys(SECURITY_CONFIG.ERRORS).find(
+				(key) =>
+					SECURITY_CONFIG.ERRORS[
+						key as keyof typeof SECURITY_CONFIG.ERRORS
+					] === securityResult.error
+			),
 		};
 	}
 
+	// Additional file content validation
+	if (file.size === 0) {
+		return {
+			valid: false,
+			error: 'File appears to be empty',
+			errorCode: 'CORRUPTED_FILE',
+		};
+	}
+
+	// Check for suspicious file names
+	const suspiciousPatterns = [
+		/\.(exe|bat|cmd|scr|vbs|js|jar)$/i, // Executable extensions
+		/[<>:"|?*]/, // Invalid filename characters
+		/\.\./, // Directory traversal
+	];
+
+	for (const pattern of suspiciousPatterns) {
+		if (pattern.test(file.name)) {
+			return {
+				valid: false,
+				error: 'Invalid filename detected',
+				errorCode: 'INVALID_FILE_TYPE',
+			};
+		}
+	}
+
 	return { valid: true };
+}
+
+// Rate limiting validation
+export function validateUploadRate(): {
+	allowed: boolean;
+	error?: string;
+	errorCode?: string;
+} {
+	const rateResult = SecurityValidator.checkUploadRateLimit();
+	if (!rateResult.allowed) {
+		return {
+			allowed: false,
+			error: rateResult.error,
+			errorCode: 'RATE_LIMIT_EXCEEDED',
+		};
+	}
+	return { allowed: true };
+}
+
+// Slice rate limiting validation
+export function validateSliceRate(): {
+	allowed: boolean;
+	error?: string;
+	errorCode?: string;
+} {
+	const rateResult = SecurityValidator.checkSliceRateLimit();
+	if (!rateResult.allowed) {
+		return {
+			allowed: false,
+			error: rateResult.error,
+			errorCode: 'RATE_LIMIT_EXCEEDED',
+		};
+	}
+	return { allowed: true };
 }
 
 export function generateFileId(): string {

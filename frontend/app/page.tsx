@@ -8,6 +8,7 @@ import { PageSelector } from '@/components/slicer/PageSelector';
 import { EPUBSelector } from '@/components/slicer/EPUBSelector';
 import { SliceManager } from '@/components/slicer/SliceManager';
 import { Header } from '@/components/ui/Header';
+import { SecurityStatus } from '@/components/ui/SecurityStatus';
 import { UploadedFile, PageRange, SliceTask } from '@/types';
 import {
 	processSliceTasks,
@@ -20,6 +21,8 @@ import {
 	cleanupEPUBBlobStoreEntry,
 	getEPUBBlobStoreSize,
 } from '@/lib/epub/slicer';
+import { SecurityValidator, SECURITY_CONFIG } from '@/lib/security/config';
+import { validateSliceRate } from '@/lib/utils/file';
 
 export default function Home() {
 	const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
@@ -46,9 +49,21 @@ export default function Home() {
 		});
 	}, []);
 
-	const handleAddPageRange = useCallback((range: PageRange) => {
-		setPageRanges((prev) => [...prev, range]);
-	}, []);
+	const handleAddPageRange = useCallback(
+		(range: PageRange) => {
+			// Validate range count limits
+			const rangeCheck = SecurityValidator.validateRangeCount(
+				pageRanges.length
+			);
+			if (!rangeCheck.valid) {
+				alert(rangeCheck.error || 'Too many ranges');
+				return;
+			}
+
+			setPageRanges((prev) => [...prev, range]);
+		},
+		[pageRanges.length]
+	);
 
 	const handleRemovePageRange = useCallback((index: number) => {
 		setPageRanges((prev) => prev.filter((_, i) => i !== index));
@@ -70,6 +85,13 @@ export default function Home() {
 	const handleStartSlicing = useCallback(async () => {
 		if (!uploadedFile || !uploadedFile.file) return;
 
+		// Check slice rate limiting
+		const rateCheck = validateSliceRate();
+		if (!rateCheck.allowed) {
+			alert(rateCheck.error || 'Rate limit exceeded');
+			return;
+		}
+
 		// Find ranges that haven't been sliced yet
 		const existingRanges = sliceTasks.map((task) => task.range);
 		const newRanges = pageRanges.filter((range) => {
@@ -83,6 +105,19 @@ export default function Home() {
 			// All ranges have already been sliced
 			return;
 		}
+
+		// Check memory usage before processing
+		const estimatedMemoryMB =
+			(uploadedFile.size / (1024 * 1024)) * newRanges.length * 2; // Estimate 2x file size per range
+		const memoryCheck =
+			SecurityValidator.checkMemoryUsage(estimatedMemoryMB);
+		if (!memoryCheck.safe) {
+			alert(memoryCheck.error || 'Memory limit exceeded');
+			return;
+		}
+
+		// Record slice attempt for rate limiting
+		SecurityValidator.recordSlice();
 
 		// Create tasks only for new ranges
 		const newTasks: SliceTask[] = newRanges.map((range, index) => {
@@ -108,18 +143,23 @@ export default function Home() {
 		});
 
 		// Start processing only the new tasks
-		if (uploadedFile.type === 'pdf') {
-			await processSliceTasks(
-				uploadedFile.file,
-				newTasks,
-				handleTaskUpdate
-			);
-		} else if (uploadedFile.type === 'epub') {
-			await processEPUBSliceTasks(
-				uploadedFile.file,
-				newTasks,
-				handleTaskUpdate
-			);
+		try {
+			if (uploadedFile.type === 'pdf') {
+				await processSliceTasks(
+					uploadedFile.file,
+					newTasks,
+					handleTaskUpdate
+				);
+			} else if (uploadedFile.type === 'epub') {
+				await processEPUBSliceTasks(
+					uploadedFile.file,
+					newTasks,
+					handleTaskUpdate
+				);
+			}
+		} finally {
+			// Mark slice operation as complete for rate limiting
+			SecurityValidator.completeSlice();
 		}
 	}, [uploadedFile, pageRanges, sliceTasks, handleTaskUpdate]);
 
@@ -137,6 +177,9 @@ export default function Home() {
 				}
 			}
 		});
+
+		// Reset security session tracking
+		SecurityValidator.resetSession();
 
 		setUploadedFile(null);
 		setPageRanges([]);
@@ -237,6 +280,9 @@ export default function Home() {
 					</div>
 				)}
 			</div>
+
+			{/* Security Status Monitor (only show when file is uploaded) */}
+			<SecurityStatus show={!!uploadedFile} />
 		</div>
 	);
 }

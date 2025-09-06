@@ -9,7 +9,13 @@ import {
 	formatFileSize,
 	validateFile,
 	generateFileId,
+	validateUploadRate,
 } from '@/lib/utils/file';
+import {
+	SecurityValidator,
+	SECURITY_CONFIG,
+	checkBrowserSupport,
+} from '@/lib/security/config';
 import { cn } from '@/lib/utils/cn';
 import { PDFViewer } from '@/lib/pdf/viewer';
 import { EPUBViewer } from '@/lib/epub/viewer';
@@ -21,20 +27,45 @@ interface FileUploadProps {
 export function FileUpload({ onFileUpload }: FileUploadProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [isProcessing, setIsProcessing] = useState(false);
+	const [securityWarning, setSecurityWarning] = useState<string | null>(null);
+
+	// Check browser support on component mount
+	useState(() => {
+		const browserCheck = checkBrowserSupport();
+		if (!browserCheck.supported) {
+			setSecurityWarning(
+				`${
+					SECURITY_CONFIG.ERRORS.BROWSER_NOT_SUPPORTED
+				} Missing: ${browserCheck.missing?.join(', ')}`
+			);
+		}
+	});
 
 	const onDrop = useCallback(
 		async (acceptedFiles: File[]) => {
 			setError(null);
+			setSecurityWarning(null);
 
 			if (acceptedFiles.length === 0) return;
 
-			const file = acceptedFiles[0];
-			const validation = validateFile(file);
+			// Check upload rate limiting first
+			const rateCheck = validateUploadRate();
+			if (!rateCheck.allowed) {
+				setError(rateCheck.error || 'Rate limit exceeded');
+				return;
+			}
 
+			const file = acceptedFiles[0];
+
+			// Enhanced file validation with security checks
+			const validation = validateFile(file);
 			if (!validation.valid) {
 				setError(validation.error || 'Invalid file');
 				return;
 			}
+
+			// Record upload attempt for rate limiting
+			SecurityValidator.recordUpload();
 
 			setIsProcessing(true);
 
@@ -53,26 +84,82 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 					url: URL.createObjectURL(file),
 				};
 
-				// Extract page count based on file type
+				// Extract page count based on file type with timeout protection
+				const timeoutPromise = new Promise((_, reject) =>
+					setTimeout(
+						() => reject(new Error('Processing timeout')),
+						SECURITY_CONFIG.UPLOAD_TIMEOUT_MS
+					)
+				);
+
 				if (fileType === 'pdf') {
 					try {
 						const pdfViewer = new PDFViewer();
-						await pdfViewer.loadDocument(file);
+						await Promise.race([
+							pdfViewer.loadDocument(file),
+							timeoutPromise,
+						]);
 						uploadedFile.pageCount = pdfViewer.getPageCount();
+
+						// Validate document limits
+						const limitsCheck =
+							SecurityValidator.validateDocumentLimits(
+								uploadedFile.pageCount,
+								false
+							);
+						if (!limitsCheck.valid) {
+							pdfViewer.destroy();
+							throw new Error(limitsCheck.error);
+						}
+
 						pdfViewer.destroy();
 					} catch (err) {
 						console.warn('Could not extract PDF page count:', err);
-						uploadedFile.pageCount = 0;
+						if (
+							err instanceof Error &&
+							err.message.includes('timeout')
+						) {
+							throw new Error(
+								SECURITY_CONFIG.ERRORS.PROCESSING_ERROR
+							);
+						}
+						throw err;
 					}
 				} else if (fileType === 'epub') {
 					try {
 						const epubViewer = new EPUBViewer();
-						await epubViewer.loadDocument(file);
+						await Promise.race([
+							epubViewer.loadDocument(file),
+							timeoutPromise,
+						]);
 						uploadedFile.pageCount = epubViewer.getChapterCount();
+
+						// Validate document limits
+						const limitsCheck =
+							SecurityValidator.validateDocumentLimits(
+								uploadedFile.pageCount,
+								true
+							);
+						if (!limitsCheck.valid) {
+							epubViewer.destroy();
+							throw new Error(limitsCheck.error);
+						}
+
 						epubViewer.destroy();
 					} catch (err) {
-						console.warn('Could not extract EPUB chapter count:', err);
-						uploadedFile.pageCount = 0;
+						console.warn(
+							'Could not extract EPUB chapter count:',
+							err
+						);
+						if (
+							err instanceof Error &&
+							err.message.includes('timeout')
+						) {
+							throw new Error(
+								SECURITY_CONFIG.ERRORS.PROCESSING_ERROR
+							);
+						}
+						throw err;
 					}
 				} else {
 					uploadedFile.pageCount = 0;
@@ -189,10 +276,10 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 							<CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0' />
 							<div className='text-left'>
 								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-									Up to 100MB
+									Up to 50MB
 								</p>
 								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									Large file support
+									Secure file processing
 								</p>
 							</div>
 						</div>
@@ -221,6 +308,22 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 				)}
 			</div>
 
+			{/* Security Warning */}
+			{securityWarning && (
+				<div className='mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl flex items-start space-x-3'>
+					<AlertCircle className='h-5 w-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5' />
+					<div>
+						<p className='text-sm font-semibold text-amber-800 dark:text-amber-200'>
+							Browser Compatibility Warning
+						</p>
+						<p className='text-sm text-amber-700 dark:text-amber-300 mt-1'>
+							{securityWarning}
+						</p>
+					</div>
+				</div>
+			)}
+
+			{/* Error Display */}
 			{error && (
 				<div className='mt-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl flex items-start space-x-3'>
 					<AlertCircle className='h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5' />
@@ -230,6 +333,10 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						</p>
 						<p className='text-sm text-red-700 dark:text-red-300 mt-1'>
 							{error}
+						</p>
+						<p className='text-xs text-red-600 dark:text-red-400 mt-2'>
+							Please try again or use a different file. Maximum
+							file size is 50MB.
 						</p>
 					</div>
 				</div>
