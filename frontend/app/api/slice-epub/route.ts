@@ -31,19 +31,22 @@ export async function POST(request: NextRequest) {
 
 		// Create a new EPUB structure
 		const zip = new JSZip();
-		
+
 		// Copy mimetype
 		zip.file('mimetype', 'application/epub+zip');
 
 		// Create META-INF directory
 		const metaInf = zip.folder('META-INF');
 		if (metaInf) {
-			metaInf.file('container.xml', `<?xml version="1.0"?>
+			metaInf.file(
+				'container.xml',
+				`<?xml version="1.0"?>
 <container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
   <rootfiles>
     <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
   </rootfiles>
-</container>`);
+</container>`
+			);
 		}
 
 		// Create OEBPS directory
@@ -63,14 +66,14 @@ export async function POST(request: NextRequest) {
 		for (let i = 0; i < selectedChapters.length; i++) {
 			const chapter = selectedChapters[i];
 			const chapterIndex = startChapter + i;
-			
+
 			try {
 				// Get the section from the book
 				const section = book.spine.get(chapter.href);
 				if (section) {
 					const content = await section.load(book.load.bind(book));
 					const chapterFileName = `chapter_${chapterIndex + 1}.xhtml`;
-					
+
 					// Create XHTML content
 					const xhtmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -84,12 +87,21 @@ ${content.innerHTML || content.outerHTML || content}
 </html>`;
 
 					oebps.file(chapterFileName, xhtmlContent);
-					
-					manifestItems.push(`<item id="chapter${chapterIndex + 1}" href="${chapterFileName}" media-type="application/xhtml+xml"/>`);
-					spineItems.push(`<itemref idref="chapter${chapterIndex + 1}"/>`);
+
+					manifestItems.push(
+						`<item id="chapter${
+							chapterIndex + 1
+						}" href="${chapterFileName}" media-type="application/xhtml+xml"/>`
+					);
+					spineItems.push(
+						`<itemref idref="chapter${chapterIndex + 1}"/>`
+					);
 				}
 			} catch (error) {
-				console.warn(`Failed to extract chapter ${chapterIndex}:`, error);
+				console.warn(
+					`Failed to extract chapter ${chapterIndex}:`,
+					error
+				);
 			}
 		}
 
@@ -128,13 +140,17 @@ ${content.innerHTML || content.outerHTML || content}
     <text>${fileName.replace('.epub', '')}</text>
   </docTitle>
   <navMap>
-    ${selectedChapters.map((chapter, index) => `
+    ${selectedChapters
+		.map(
+			(chapter, index) => `
     <navPoint id="navpoint-${index + 1}" playOrder="${index + 1}">
       <navLabel>
         <text>${chapter.label}</text>
       </navLabel>
       <content src="chapter_${startChapter + index + 1}.xhtml"/>
-    </navPoint>`).join('')}
+    </navPoint>`
+		)
+		.join('')}
   </navMap>
 </ncx>`;
 

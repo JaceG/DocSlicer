@@ -3,7 +3,9 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { FileUpload } from '@/components/upload/FileUpload';
 import { DocumentViewer } from '@/components/viewer/DocumentViewer';
+import { EPUBViewer } from '@/components/viewer/EPUBViewer';
 import { PageSelector } from '@/components/slicer/PageSelector';
+import { EPUBSelector } from '@/components/slicer/EPUBSelector';
 import { SliceManager } from '@/components/slicer/SliceManager';
 import { Header } from '@/components/ui/Header';
 import { UploadedFile, PageRange, SliceTask } from '@/types';
@@ -83,15 +85,20 @@ export default function Home() {
 		}
 
 		// Create tasks only for new ranges
-		const newTasks: SliceTask[] = newRanges.map((range, index) => ({
-			id: `task-${Date.now()}-${index}`,
-			fileId: uploadedFile.id,
-			fileName: `${uploadedFile.name.replace(/\.[^/.]+$/, '')}_pages_${
-				range.start
-			}-${range.end}.pdf`,
-			range,
-			status: 'pending' as const,
-		}));
+		const newTasks: SliceTask[] = newRanges.map((range, index) => {
+			const baseName = uploadedFile.name.replace(/\.[^/.]+$/, '');
+			const rangeType =
+				uploadedFile.type === 'epub' ? 'chapters' : 'pages';
+			const extension = uploadedFile.type === 'epub' ? 'epub' : 'pdf';
+
+			return {
+				id: `task-${Date.now()}-${index}`,
+				fileId: uploadedFile.id,
+				fileName: `${baseName}_${rangeType}_${range.start}-${range.end}.${extension}`,
+				range,
+				status: 'pending' as const,
+			};
+		});
 
 		// Add new tasks to existing ones
 		setSliceTasks((prev) => {
@@ -102,9 +109,17 @@ export default function Home() {
 
 		// Start processing only the new tasks
 		if (uploadedFile.type === 'pdf') {
-			await processSliceTasks(uploadedFile.file, newTasks, handleTaskUpdate);
+			await processSliceTasks(
+				uploadedFile.file,
+				newTasks,
+				handleTaskUpdate
+			);
 		} else if (uploadedFile.type === 'epub') {
-			await processEPUBSliceTasks(uploadedFile.file, newTasks, handleTaskUpdate);
+			await processEPUBSliceTasks(
+				uploadedFile.file,
+				newTasks,
+				handleTaskUpdate
+			);
 		}
 	}, [uploadedFile, pageRanges, sliceTasks, handleTaskUpdate]);
 
@@ -156,7 +171,38 @@ export default function Home() {
 					<div className='max-w-4xl mx-auto'>
 						<FileUpload onFileUpload={handleFileUpload} />
 					</div>
+				) : uploadedFile.type === 'epub' ? (
+					/* EPUB-specific interface */
+					<div className='space-y-6'>
+						<EPUBViewer
+							file={uploadedFile}
+							onChapterCountLoaded={handlePageCountLoaded}
+						/>
+
+						<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+							<div className='lg:col-span-2'>
+								<EPUBSelector
+									file={uploadedFile}
+									chapterRanges={pageRanges}
+									onAddRange={handleAddPageRange}
+									onRemoveRange={handleRemovePageRange}
+								/>
+							</div>
+
+							<div className='lg:col-span-1'>
+								<SliceManager
+									pageRanges={pageRanges}
+									sliceTasks={sliceTasks}
+									onStartSlicing={handleStartSlicing}
+									disabled={pageRanges.length === 0}
+									fileName={uploadedFile.name}
+									fileType={uploadedFile.type}
+								/>
+							</div>
+						</div>
+					</div>
 				) : (
+					/* PDF interface */
 					<div className='space-y-8'>
 						{/* Document Viewer */}
 						<div className='w-full'>

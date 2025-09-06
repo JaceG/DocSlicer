@@ -94,7 +94,7 @@ export function DocumentViewer({
 
 			epubViewerRef.current = epubViewer;
 			const chapterCount = epubViewer.getChapterCount();
-			
+
 			setTotalPages(chapterCount);
 			setCurrentPage(1);
 			setIsLoading(false);
@@ -114,7 +114,10 @@ export function DocumentViewer({
 		}
 	}, [file.file, onPageCountLoaded]);
 
-	const loadEPUBThumbnails = async (startChapter: number, endChapter: number) => {
+	const loadEPUBThumbnails = async (
+		startChapter: number,
+		endChapter: number
+	) => {
 		if (!epubViewerRef.current) return;
 
 		const newThumbnails = new Map(thumbnails);
@@ -123,11 +126,17 @@ export function DocumentViewer({
 		for (let i = startChapter; i <= endChapter; i++) {
 			if (!newLoadedThumbnails.has(i)) {
 				try {
-					const thumbnail = await epubViewerRef.current.generateChapterThumbnail(i - 1);
+					const thumbnail =
+						await epubViewerRef.current.generateChapterThumbnail(
+							i - 1
+						);
 					newThumbnails.set(i, thumbnail);
 					newLoadedThumbnails.add(i);
 				} catch (error) {
-					console.warn(`Failed to generate thumbnail for chapter ${i}:`, error);
+					console.warn(
+						`Failed to generate thumbnail for chapter ${i}:`,
+						error
+					);
 				}
 			}
 		}
@@ -137,7 +146,8 @@ export function DocumentViewer({
 	};
 
 	const loadNextBatch = useCallback(async () => {
-		if ((!pdfViewerRef.current && !epubViewerRef.current) || isLoadingMore) return;
+		if ((!pdfViewerRef.current && !epubViewerRef.current) || isLoadingMore)
+			return;
 
 		const startPage = loadedThumbnails.size + 1;
 		const endPage = Math.min(
@@ -187,7 +197,10 @@ export function DocumentViewer({
 					const newThumbnails = new Map(prev);
 					results.forEach((result) => {
 						if (result) {
-							newThumbnails.set(result.pageNumber, result.thumbnail);
+							newThumbnails.set(
+								result.pageNumber,
+								result.thumbnail
+							);
 						}
 					});
 					return newThumbnails;
@@ -231,7 +244,8 @@ export function DocumentViewer({
 	// Render current page when page, scale, or view mode changes
 	useEffect(() => {
 		const render = async () => {
-			if (file.type === 'pdf' && 
+			if (
+				file.type === 'pdf' &&
 				pdfViewerRef.current &&
 				canvasRef.current &&
 				totalPages > 0 &&
@@ -256,7 +270,8 @@ export function DocumentViewer({
 					console.error('Failed to render page:', err);
 					setError(`Failed to render page ${currentPage}`);
 				}
-			} else if (file.type === 'epub' && 
+			} else if (
+				file.type === 'epub' &&
 				epubViewerRef.current &&
 				epubContainerRef.current &&
 				totalPages > 0 &&
@@ -421,7 +436,8 @@ export function DocumentViewer({
 						</h3>
 						<p className='text-sm text-gray-600 dark:text-gray-400'>
 							{formatFileSize(file.size)} •{' '}
-							{file.type.toUpperCase()} • {totalPages} pages
+							{file.type.toUpperCase()} • {totalPages}{' '}
+							{file.type === 'epub' ? 'chapters' : 'pages'}
 						</p>
 					</div>
 
@@ -504,66 +520,109 @@ export function DocumentViewer({
 					</div>
 				) : (
 					<div className='h-[600px] overflow-hidden flex flex-col'>
-						{/* Thumbnail header */}
+						{/* Header */}
 						<div className='flex items-center justify-between px-6 py-3 border-b border-gray-200 dark:border-gray-700'>
 							<div className='text-sm text-gray-600 dark:text-gray-400'>
-								Showing {visibleThumbnailCount} of {totalPages}{' '}
-								pages
+								{file.type === 'epub'
+									? `${totalPages} chapters`
+									: `Showing ${visibleThumbnailCount} of ${totalPages} pages`}
 							</div>
-							<div className='text-xs text-gray-500 dark:text-gray-500'>
-								Scroll down to load more
-							</div>
+							{file.type === 'pdf' && (
+								<div className='text-xs text-gray-500 dark:text-gray-500'>
+									Scroll down to load more
+								</div>
+							)}
 						</div>
 
-						{/* Thumbnail grid with infinite scroll */}
-						<div
-							className='flex-1 overflow-auto p-6'
-							onScroll={handleScroll}>
-							<div className='grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4'>
-								{Array.from(
-									{ length: visibleThumbnailCount },
-									(_, i) => i + 1
-								).map((pageNum) => (
-									<div
-										key={pageNum}
-										ref={(el) => {
-											if (el) {
-												thumbnailRefs.current.set(
-													pageNum,
-													el
-												);
-											}
-										}}
-										onClick={() => handlePageClick(pageNum)}
-										className={cn(
-											'relative group cursor-pointer rounded-lg overflow-hidden border-2 transition-all duration-200 hover:shadow-lg',
-											currentPage === pageNum
-												? 'border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800 shadow-lg'
-												: 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
-										)}>
-										{thumbnails.has(pageNum) ? (
-											<img
-												src={thumbnails.get(pageNum)}
-												alt={`Page ${pageNum}`}
-												className='w-full h-auto'
-											/>
-										) : (
-											<div className='w-full aspect-[3/4] bg-gray-100 dark:bg-gray-800 flex items-center justify-center'>
-												{loadingThumbnails.has(
-													pageNum
-												) ? (
-													<Loader2 className='h-4 w-4 animate-spin text-gray-400' />
-												) : (
-													<MoreHorizontal className='h-4 w-4 text-gray-400' />
-												)}
+						{/* Content area */}
+						<div className='flex-1 overflow-auto p-6'>
+							{file.type === 'epub' ? (
+								/* Chapter list for EPUB */
+								<div className='space-y-2'>
+									{epubViewerRef.current
+										?.getChapters()
+										.map((chapter, index) => (
+											<div
+												key={chapter.id}
+												onClick={() =>
+													handlePageClick(index + 1)
+												}
+												className={cn(
+													'p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 hover:shadow-md',
+													currentPage === index + 1
+														? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 shadow-lg'
+														: 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800'
+												)}>
+												<div className='flex items-center justify-between'>
+													<div className='flex-1'>
+														<div className='font-medium text-gray-900 dark:text-gray-100'>
+															{chapter.label}
+														</div>
+														<div className='text-sm text-gray-500 dark:text-gray-400'>
+															Chapter {index + 1}
+														</div>
+													</div>
+													<div className='text-sm font-medium text-blue-600 dark:text-blue-400'>
+														{index + 1}
+													</div>
+												</div>
 											</div>
-										)}
-										<div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent text-white text-xs text-center py-2'>
-											{pageNum}
-										</div>
+										))}
+								</div>
+							) : (
+								/* Thumbnail grid for PDF */
+								<div onScroll={handleScroll}>
+									<div className='grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-4'>
+										{Array.from(
+											{ length: visibleThumbnailCount },
+											(_, i) => i + 1
+										).map((pageNum) => (
+											<div
+												key={pageNum}
+												ref={(el) => {
+													if (el) {
+														thumbnailRefs.current.set(
+															pageNum,
+															el
+														);
+													}
+												}}
+												onClick={() =>
+													handlePageClick(pageNum)
+												}
+												className={cn(
+													'relative group cursor-pointer rounded-lg overflow-hidden border-2 transition-all duration-200 hover:shadow-lg',
+													currentPage === pageNum
+														? 'border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800 shadow-lg'
+														: 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+												)}>
+												{thumbnails.has(pageNum) ? (
+													<img
+														src={thumbnails.get(
+															pageNum
+														)}
+														alt={`Page ${pageNum}`}
+														className='w-full h-auto'
+													/>
+												) : (
+													<div className='w-full aspect-[3/4] bg-gray-100 dark:bg-gray-800 flex items-center justify-center'>
+														{loadingThumbnails.has(
+															pageNum
+														) ? (
+															<Loader2 className='h-4 w-4 animate-spin text-gray-400' />
+														) : (
+															<MoreHorizontal className='h-4 w-4 text-gray-400' />
+														)}
+													</div>
+												)}
+												<div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/75 to-transparent text-white text-xs text-center py-2'>
+													{pageNum}
+												</div>
+											</div>
+										))}
 									</div>
-								))}
-							</div>
+								</div>
+							)}
 
 							{/* Loading indicator */}
 							{isLoadingMore && (

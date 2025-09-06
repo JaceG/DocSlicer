@@ -65,7 +65,10 @@ export class EPUBViewer {
 		return [...this.chapters];
 	}
 
-	async renderChapter(chapterIndex: number, container: HTMLElement): Promise<void> {
+	async renderChapter(
+		chapterIndex: number,
+		container: HTMLElement
+	): Promise<void> {
 		if (!this.book || chapterIndex >= this.chapters.length) {
 			throw new Error('Invalid chapter index or book not loaded');
 		}
@@ -75,18 +78,31 @@ export class EPUBViewer {
 			this.rendition.destroy();
 		}
 
-		// Create new rendition
-		this.rendition = this.book.renderTo(container, {
-			width: '100%',
-			height: '100%',
-			spread: 'none',
-		});
+		try {
+			// Create new rendition with safer options
+			this.rendition = this.book.renderTo(container, {
+				width: '100%',
+				height: '100%',
+				spread: 'none',
+				allowScriptedContent: false,
+			});
 
-		const chapter = this.chapters[chapterIndex];
-		await this.rendition.display(chapter.href);
+			const chapter = this.chapters[chapterIndex];
+			await this.rendition.display(chapter.href);
 
-		// Store current location
-		this.currentLocation = this.rendition.currentLocation();
+			// Store current location
+			this.currentLocation = this.rendition.currentLocation();
+		} catch (error) {
+			console.error('Error rendering chapter:', error);
+			// Fallback: show chapter content as HTML
+			const content = await this.getChapterContent(chapterIndex);
+			container.innerHTML = `
+				<div class="p-4 bg-white rounded-lg shadow-sm">
+					<h2 class="text-lg font-semibold mb-4">${this.chapters[chapterIndex].label}</h2>
+					<div class="prose max-w-none">${content}</div>
+				</div>
+			`;
+		}
 	}
 
 	async getChapterContent(chapterIndex: number): Promise<string> {
@@ -96,7 +112,7 @@ export class EPUBViewer {
 
 		const chapter = this.chapters[chapterIndex];
 		const section = this.book.spine.get(chapter.href);
-		
+
 		if (!section) {
 			throw new Error('Chapter section not found');
 		}
@@ -109,13 +125,13 @@ export class EPUBViewer {
 		// For EPUB, we'll create a text-based thumbnail
 		// This is a simplified approach - in a real implementation,
 		// you might want to render the actual chapter content
-		
+
 		if (chapterIndex >= this.chapters.length) {
 			throw new Error('Invalid chapter index');
 		}
 
 		const chapter = this.chapters[chapterIndex];
-		
+
 		// Create a simple text-based thumbnail
 		const canvas = document.createElement('canvas');
 		canvas.width = 150;
@@ -139,13 +155,13 @@ export class EPUBViewer {
 		ctx.fillStyle = '#374151';
 		ctx.font = '12px Arial';
 		ctx.textAlign = 'center';
-		
+
 		// Wrap text
 		const words = chapter.label.split(' ');
 		const lines: string[] = [];
 		let currentLine = '';
-		
-		words.forEach(word => {
+
+		words.forEach((word) => {
 			const testLine = currentLine + (currentLine ? ' ' : '') + word;
 			const metrics = ctx.measureText(testLine);
 			if (metrics.width > canvas.width - 20 && currentLine) {
@@ -159,12 +175,16 @@ export class EPUBViewer {
 
 		// Draw lines
 		lines.slice(0, 8).forEach((line, index) => {
-			ctx.fillText(line, canvas.width / 2, 30 + (index * 16));
+			ctx.fillText(line, canvas.width / 2, 30 + index * 16);
 		});
 
 		// Draw chapter number
 		ctx.font = 'bold 14px Arial';
-		ctx.fillText(`${chapterIndex + 1}`, canvas.width / 2, canvas.height - 20);
+		ctx.fillText(
+			`${chapterIndex + 1}`,
+			canvas.width / 2,
+			canvas.height - 20
+		);
 
 		return canvas.toDataURL();
 	}

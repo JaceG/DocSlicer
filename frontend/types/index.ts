@@ -12,6 +12,7 @@ export interface UploadedFile {
 }
 
 export interface PageRange {
+	id?: string;
 	start: number;
 	end: number;
 	name?: string;
