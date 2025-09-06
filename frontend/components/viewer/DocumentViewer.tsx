@@ -18,6 +18,7 @@ import { UploadedFile } from '@/types';
 import { formatFileSize } from '@/lib/utils/file';
 import { cn } from '@/lib/utils/cn';
 import { PDFViewer } from '@/lib/pdf/viewer';
+import { EPUBViewer } from '@/lib/epub/viewer';
 
 interface DocumentViewerProps {
 	file: UploadedFile;
@@ -51,7 +52,9 @@ export function DocumentViewer({
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
+	const epubContainerRef = useRef<HTMLDivElement>(null);
 	const pdfViewerRef = useRef<PDFViewer | null>(null);
+	const epubViewerRef = useRef<EPUBViewer | null>(null);
 	const thumbnailRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
 	useEffect(() => {
@@ -64,22 +67,77 @@ export function DocumentViewer({
 
 		if (file.type === 'pdf') {
 			loadPDF();
-		} else {
-			// For EPUB files, we'll implement this later
-			setTotalPages(10); // Placeholder
-			setIsLoading(false);
-			if (onPageCountLoaded) onPageCountLoaded(10);
+		} else if (file.type === 'epub') {
+			loadEPUB();
 		}
 
 		return () => {
 			if (pdfViewerRef.current) {
 				pdfViewerRef.current.destroy();
 			}
+			if (epubViewerRef.current) {
+				epubViewerRef.current.destroy();
+			}
 		};
 	}, [file.id]); // Only depend on file.id to prevent infinite loops
 
+	const loadEPUB = useCallback(async () => {
+		if (!file.file) return;
+
+		setIsLoading(true);
+		setError(null);
+		setLoadingProgress('Loading EPUB...');
+
+		try {
+			const epubViewer = new EPUBViewer();
+			await epubViewer.loadDocument(file.file);
+
+			epubViewerRef.current = epubViewer;
+			const chapterCount = epubViewer.getChapterCount();
+			
+			setTotalPages(chapterCount);
+			setCurrentPage(1);
+			setIsLoading(false);
+
+			if (onPageCountLoaded) {
+				onPageCountLoaded(chapterCount);
+			}
+
+			// Load initial chapter thumbnails
+			loadEPUBThumbnails(1, Math.min(THUMBNAILS_PER_PAGE, chapterCount));
+		} catch (err) {
+			console.error('EPUB loading error:', err);
+			setError(
+				err instanceof Error ? err.message : 'Failed to load EPUB'
+			);
+			setIsLoading(false);
+		}
+	}, [file.file, onPageCountLoaded]);
+
+	const loadEPUBThumbnails = async (startChapter: number, endChapter: number) => {
+		if (!epubViewerRef.current) return;
+
+		const newThumbnails = new Map(thumbnails);
+		const newLoadedThumbnails = new Set(loadedThumbnails);
+
+		for (let i = startChapter; i <= endChapter; i++) {
+			if (!newLoadedThumbnails.has(i)) {
+				try {
+					const thumbnail = await epubViewerRef.current.generateChapterThumbnail(i - 1);
+					newThumbnails.set(i, thumbnail);
+					newLoadedThumbnails.add(i);
+				} catch (error) {
+					console.warn(`Failed to generate thumbnail for chapter ${i}:`, error);
+				}
+			}
+		}
+
+		setThumbnails(newThumbnails);
+		setLoadedThumbnails(newLoadedThumbnails);
+	};
+
 	const loadNextBatch = useCallback(async () => {
-		if (!pdfViewerRef.current || isLoadingMore) return;
+		if ((!pdfViewerRef.current && !epubViewerRef.current) || isLoadingMore) return;
 
 		const startPage = loadedThumbnails.size + 1;
 		const endPage = Math.min(
@@ -101,46 +159,50 @@ export function DocumentViewer({
 		setLoadingThumbnails((prev) => new Set([...prev, ...loadingSet]));
 
 		try {
-			const thumbnailPromises = [];
-			for (let i = startPage; i <= endPage; i++) {
-				if (!loadedThumbnails.has(i)) {
-					thumbnailPromises.push(
-						pdfViewerRef.current
-							.generateThumbnail(i, 120)
-							.then((thumbnail) => ({
-								pageNumber: i,
-								thumbnail,
-							}))
-							.catch((error) => {
-								console.warn(
-									`Failed to generate thumbnail for page ${i}:`,
-									error
-								);
-								return null;
-							})
-					);
-				}
-			}
-
-			const results = await Promise.all(thumbnailPromises);
-
-			setThumbnails((prev) => {
-				const newThumbnails = new Map(prev);
-				results.forEach((result) => {
-					if (result) {
-						newThumbnails.set(result.pageNumber, result.thumbnail);
-					}
-				});
-				return newThumbnails;
-			});
-
-			setLoadedThumbnails((prev) => {
-				const newSet = new Set(prev);
+			if (file.type === 'pdf' && pdfViewerRef.current) {
+				const thumbnailPromises = [];
 				for (let i = startPage; i <= endPage; i++) {
-					newSet.add(i);
+					if (!loadedThumbnails.has(i)) {
+						thumbnailPromises.push(
+							pdfViewerRef.current
+								.generateThumbnail(i, 120)
+								.then((thumbnail) => ({
+									pageNumber: i,
+									thumbnail,
+								}))
+								.catch((error) => {
+									console.warn(
+										`Failed to generate thumbnail for page ${i}:`,
+										error
+									);
+									return null;
+								})
+						);
+					}
 				}
-				return newSet;
-			});
+
+				const results = await Promise.all(thumbnailPromises);
+
+				setThumbnails((prev) => {
+					const newThumbnails = new Map(prev);
+					results.forEach((result) => {
+						if (result) {
+							newThumbnails.set(result.pageNumber, result.thumbnail);
+						}
+					});
+					return newThumbnails;
+				});
+
+				setLoadedThumbnails((prev) => {
+					const newSet = new Set(prev);
+					for (let i = startPage; i <= endPage; i++) {
+						newSet.add(i);
+					}
+					return newSet;
+				});
+			} else if (file.type === 'epub' && epubViewerRef.current) {
+				await loadEPUBThumbnails(startPage, endPage);
+			}
 
 			setVisibleThumbnailCount(endPage);
 		} catch (error) {
@@ -169,7 +231,7 @@ export function DocumentViewer({
 	// Render current page when page, scale, or view mode changes
 	useEffect(() => {
 		const render = async () => {
-			if (
+			if (file.type === 'pdf' && 
 				pdfViewerRef.current &&
 				canvasRef.current &&
 				totalPages > 0 &&
@@ -194,10 +256,25 @@ export function DocumentViewer({
 					console.error('Failed to render page:', err);
 					setError(`Failed to render page ${currentPage}`);
 				}
+			} else if (file.type === 'epub' && 
+				epubViewerRef.current &&
+				epubContainerRef.current &&
+				totalPages > 0 &&
+				viewMode === 'single'
+			) {
+				try {
+					await epubViewerRef.current.renderChapter(
+						currentPage - 1, // Convert to 0-based index
+						epubContainerRef.current
+					);
+				} catch (err) {
+					console.error('Failed to render chapter:', err);
+					setError(`Failed to render chapter ${currentPage}`);
+				}
 			}
 		};
 		render();
-	}, [currentPage, scale, totalPages, viewMode]);
+	}, [currentPage, scale, totalPages, viewMode, file.type]);
 
 	const loadPDF = useCallback(async () => {
 		try {
@@ -416,13 +493,12 @@ export function DocumentViewer({
 								/>
 							</div>
 						) : (
-							<div className='bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center'>
-								<p className='text-gray-600 dark:text-gray-400'>
-									EPUB preview will be displayed here
-								</p>
-								<p className='text-sm text-gray-500 dark:text-gray-500 mt-2'>
-									Page {currentPage} of {totalPages}
-								</p>
+							<div className='bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-full max-h-full overflow-auto'>
+								<div
+									ref={epubContainerRef}
+									className='w-full h-full min-h-[500px]'
+									style={{ fontSize: `${scale * 16}px` }}
+								/>
 							</div>
 						)}
 					</div>

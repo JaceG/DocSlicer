@@ -12,6 +12,7 @@ import {
 } from '@/lib/utils/file';
 import { cn } from '@/lib/utils/cn';
 import { PDFViewer } from '@/lib/pdf/viewer';
+import { EPUBViewer } from '@/lib/epub/viewer';
 
 interface FileUploadProps {
 	onFileUpload: (file: UploadedFile) => void;
@@ -63,8 +64,17 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						console.warn('Could not extract PDF page count:', err);
 						uploadedFile.pageCount = 0;
 					}
+				} else if (fileType === 'epub') {
+					try {
+						const epubViewer = new EPUBViewer();
+						await epubViewer.loadDocument(file);
+						uploadedFile.pageCount = epubViewer.getChapterCount();
+						epubViewer.destroy();
+					} catch (err) {
+						console.warn('Could not extract EPUB chapter count:', err);
+						uploadedFile.pageCount = 0;
+					}
 				} else {
-					// For EPUB files, we'll implement this later
 					uploadedFile.pageCount = 0;
 				}
 

@@ -13,6 +13,11 @@ import {
 	cleanupBlobStoreEntry,
 	getBlobStoreSize,
 } from '@/lib/pdf/slicer';
+import {
+	processEPUBSliceTasks,
+	cleanupEPUBBlobStoreEntry,
+	getEPUBBlobStoreSize,
+} from '@/lib/epub/slicer';
 
 export default function Home() {
 	const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
@@ -96,7 +101,11 @@ export default function Home() {
 		});
 
 		// Start processing only the new tasks
-		await processSliceTasks(uploadedFile.file, newTasks, handleTaskUpdate);
+		if (uploadedFile.type === 'pdf') {
+			await processSliceTasks(uploadedFile.file, newTasks, handleTaskUpdate);
+		} else if (uploadedFile.type === 'epub') {
+			await processEPUBSliceTasks(uploadedFile.file, newTasks, handleTaskUpdate);
+		}
 	}, [uploadedFile, pageRanges, sliceTasks, handleTaskUpdate]);
 
 	const handleNewDocument = useCallback(() => {
@@ -106,7 +115,11 @@ export default function Home() {
 				cleanupBlobUrl(task.outputUrl);
 			}
 			if (task.blobKey) {
-				cleanupBlobStoreEntry(task.blobKey);
+				if (uploadedFile?.type === 'pdf') {
+					cleanupBlobStoreEntry(task.blobKey);
+				} else if (uploadedFile?.type === 'epub') {
+					cleanupEPUBBlobStoreEntry(task.blobKey);
+				}
 			}
 		});
 
@@ -114,7 +127,7 @@ export default function Home() {
 		setPageRanges([]);
 		setSliceTasks([]);
 		sliceTasksRef.current = []; // Reset ref
-	}, []);
+	}, [uploadedFile?.type]);
 
 	// Cleanup blob URLs and blob store when component unmounts only
 	useEffect(() => {
@@ -124,7 +137,9 @@ export default function Home() {
 					cleanupBlobUrl(task.outputUrl);
 				}
 				if (task.blobKey) {
+					// Try both cleanup functions since we don't know the file type at unmount
 					cleanupBlobStoreEntry(task.blobKey);
+					cleanupEPUBBlobStoreEntry(task.blobKey);
 				}
 			});
 		};
@@ -169,6 +184,7 @@ export default function Home() {
 									onStartSlicing={handleStartSlicing}
 									disabled={pageRanges.length === 0}
 									fileName={uploadedFile.name}
+									fileType={uploadedFile.type}
 								/>
 							</div>
 						</div>
