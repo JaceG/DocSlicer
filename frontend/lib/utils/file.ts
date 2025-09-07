@@ -1,7 +1,7 @@
 import { FileType } from '@/types';
 import { SECURITY_CONFIG, SecurityValidator } from '@/lib/security/config';
 
-// File type detection with enhanced security validation
+// File type detection for PDF files only
 export function getFileType(file: File): FileType | null {
 	const mimeType = file.type.toLowerCase();
 	const fileName = file.name.toLowerCase();
@@ -11,15 +11,10 @@ export function getFileType(file: File): FileType | null {
 		return 'pdf';
 	}
 
-	if (SECURITY_CONFIG.ALLOWED_MIME_TYPES.includes(mimeType as any)) {
-		return 'epub';
-	}
-
-	// Fallback to file extension (with security validation)
+	// Fallback to file extension
 	const extension = fileName.slice(fileName.lastIndexOf('.'));
-	if (SECURITY_CONFIG.ALLOWED_EXTENSIONS.includes(extension as any)) {
-		if (extension === '.pdf') return 'pdf';
-		if (extension === '.epub') return 'epub';
+	if (extension === '.pdf') {
+		return 'pdf';
 	}
 
 	return null;

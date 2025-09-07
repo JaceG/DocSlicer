@@ -18,7 +18,6 @@ import {
 } from '@/lib/security/config';
 import { cn } from '@/lib/utils/cn';
 import { PDFViewer } from '@/lib/pdf/viewer';
-import { EPUBViewer } from '@/lib/epub/viewer';
 
 interface FileUploadProps {
 	onFileUpload: (file: UploadedFile) => void;
@@ -104,8 +103,7 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						// Validate document limits
 						const limitsCheck =
 							SecurityValidator.validateDocumentLimits(
-								uploadedFile.pageCount,
-								false
+								uploadedFile.pageCount
 							);
 						if (!limitsCheck.valid) {
 							pdfViewer.destroy();
@@ -115,42 +113,6 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						pdfViewer.destroy();
 					} catch (err) {
 						console.warn('Could not extract PDF page count:', err);
-						if (
-							err instanceof Error &&
-							err.message.includes('timeout')
-						) {
-							throw new Error(
-								SECURITY_CONFIG.ERRORS.PROCESSING_ERROR
-							);
-						}
-						throw err;
-					}
-				} else if (fileType === 'epub') {
-					try {
-						const epubViewer = new EPUBViewer();
-						await Promise.race([
-							epubViewer.loadDocument(file),
-							timeoutPromise,
-						]);
-						uploadedFile.pageCount = epubViewer.getChapterCount();
-
-						// Validate document limits
-						const limitsCheck =
-							SecurityValidator.validateDocumentLimits(
-								uploadedFile.pageCount,
-								true
-							);
-						if (!limitsCheck.valid) {
-							epubViewer.destroy();
-							throw new Error(limitsCheck.error);
-						}
-
-						epubViewer.destroy();
-					} catch (err) {
-						console.warn(
-							'Could not extract EPUB chapter count:',
-							err
-						);
 						if (
 							err instanceof Error &&
 							err.message.includes('timeout')
@@ -183,7 +145,6 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 		onDrop,
 		accept: {
 			'application/pdf': ['.pdf'],
-			'application/epub+zip': ['.epub'],
 		},
 		maxFiles: 1,
 		multiple: false,
@@ -204,12 +165,12 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 					</div>
 				</div>
 				<h1 className='text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4'>
-					PDF/EPUB Document Slicer
+					PDF Document Slicer
 				</h1>
 				<p className='text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto'>
-					Upload your PDF or EPUB document to split it into separate
-					files by page ranges. Perfect for extracting chapters,
-					sections, or specific pages.
+					Upload your PDF document to split it into separate files by
+					page ranges. Perfect for extracting chapters, sections, or
+					specific pages.
 				</p>
 			</div>
 
@@ -237,7 +198,7 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						<p className='text-xl font-semibold text-gray-900 dark:text-gray-100'>
 							{isDragActive
 								? 'Drop your file here'
-								: 'Drag & drop your PDF or EPUB file'}
+								: 'Drag & drop your PDF file'}
 						</p>
 						<p className='text-gray-600 dark:text-gray-400'>
 							or{' '}
@@ -254,10 +215,10 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 							<CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0' />
 							<div className='text-left'>
 								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-									PDF & EPUB Support
+									PDF Support
 								</p>
 								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									Both formats supported
+									All PDF versions supported
 								</p>
 							</div>
 						</div>

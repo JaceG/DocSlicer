@@ -113,12 +113,10 @@ export function PageSelector({
 			<div className='border-b border-gray-200 dark:border-gray-800 px-6 py-4'>
 				<div className='flex items-center justify-between'>
 					<h3 className='text-lg font-semibold text-gray-900 dark:text-gray-100'>
-						Select {file.type === 'epub' ? 'Chapter' : 'Page'}{' '}
-						Ranges
+						Select Page Ranges
 					</h3>
 					<div className='text-sm text-gray-600 dark:text-gray-400'>
-						{getTotalSelectedPages()} of {totalPages}{' '}
-						{file.type === 'epub' ? 'chapters' : 'pages'} selected
+						{getTotalSelectedPages()} of {totalPages} pages selected
 					</div>
 				</div>
 			</div>
@@ -129,8 +127,7 @@ export function PageSelector({
 					<div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
 						<div>
 							<label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
-								Start{' '}
-								{file.type === 'epub' ? 'Chapter' : 'Page'}
+								Start Page
 							</label>
 							<input
 								type='number'
@@ -144,7 +141,7 @@ export function PageSelector({
 						</div>
 						<div>
 							<label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
-								End {file.type === 'epub' ? 'Chapter' : 'Page'}
+								End Page
 							</label>
 							<input
 								type='number'

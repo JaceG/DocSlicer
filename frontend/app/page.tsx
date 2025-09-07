@@ -3,9 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { FileUpload } from '@/components/upload/FileUpload';
 import { DocumentViewer } from '@/components/viewer/DocumentViewer';
-import { EPUBViewer } from '@/components/viewer/EPUBViewer';
 import { PageSelector } from '@/components/slicer/PageSelector';
-import { EPUBSelector } from '@/components/slicer/EPUBSelector';
 import { SliceManager } from '@/components/slicer/SliceManager';
 import { Header } from '@/components/ui/Header';
 import { SecurityStatus } from '@/components/ui/SecurityStatus';
@@ -17,11 +15,6 @@ import {
 	cleanupBlobStoreEntry,
 	getBlobStoreSize,
 } from '@/lib/pdf/slicer';
-import {
-	processEPUBSliceTasks,
-	cleanupEPUBBlobStoreEntry,
-	getEPUBBlobStoreSize,
-} from '@/lib/epub/slicer';
 import { SecurityValidator, SECURITY_CONFIG } from '@/lib/security/config';
 import { validateSliceRate } from '@/lib/utils/file';
 
@@ -123,14 +116,11 @@ export default function Home() {
 		// Create tasks only for new ranges
 		const newTasks: SliceTask[] = newRanges.map((range, index) => {
 			const baseName = uploadedFile.name.replace(/\.[^/.]+$/, '');
-			const rangeType =
-				uploadedFile.type === 'epub' ? 'chapters' : 'pages';
-			const extension = uploadedFile.type === 'epub' ? 'epub' : 'pdf';
 
 			return {
 				id: `task-${Date.now()}-${index}`,
 				fileId: uploadedFile.id,
-				fileName: `${baseName}_${rangeType}_${range.start}-${range.end}.${extension}`,
+				fileName: `${baseName}_pages_${range.start}-${range.end}.pdf`,
 				range,
 				status: 'pending' as const,
 			};
@@ -145,19 +135,11 @@ export default function Home() {
 
 		// Start processing only the new tasks
 		try {
-			if (uploadedFile.type === 'pdf') {
-				await processSliceTasks(
-					uploadedFile.file,
-					newTasks,
-					handleTaskUpdate
-				);
-			} else if (uploadedFile.type === 'epub') {
-				await processEPUBSliceTasks(
-					uploadedFile.file,
-					newTasks,
-					handleTaskUpdate
-				);
-			}
+			await processSliceTasks(
+				uploadedFile.file,
+				newTasks,
+				handleTaskUpdate
+			);
 		} finally {
 			// Mark slice operation as complete for rate limiting
 			SecurityValidator.completeSlice();
@@ -171,11 +153,7 @@ export default function Home() {
 				cleanupBlobUrl(task.outputUrl);
 			}
 			if (task.blobKey) {
-				if (uploadedFile?.type === 'pdf') {
-					cleanupBlobStoreEntry(task.blobKey);
-				} else if (uploadedFile?.type === 'epub') {
-					cleanupEPUBBlobStoreEntry(task.blobKey);
-				}
+				cleanupBlobStoreEntry(task.blobKey);
 			}
 		});
 
@@ -196,9 +174,7 @@ export default function Home() {
 					cleanupBlobUrl(task.outputUrl);
 				}
 				if (task.blobKey) {
-					// Try both cleanup functions since we don't know the file type at unmount
 					cleanupBlobStoreEntry(task.blobKey);
-					cleanupEPUBBlobStoreEntry(task.blobKey);
 				}
 			});
 		};
@@ -220,42 +196,6 @@ export default function Home() {
 
 						{/* Footer Ad - Below file upload */}
 						<ConditionalAds placement='footer' />
-					</div>
-				) : uploadedFile.type === 'epub' ? (
-					/* EPUB-specific interface */
-					<div className='space-y-6'>
-						<EPUBViewer
-							file={uploadedFile}
-							onChapterCountLoaded={handlePageCountLoaded}
-						/>
-
-						{/* Between content ad for EPUB */}
-						<ConditionalAds placement='between-content' />
-
-						<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-							<div className='lg:col-span-2'>
-								<EPUBSelector
-									file={uploadedFile}
-									chapterRanges={pageRanges}
-									onAddRange={handleAddPageRange}
-									onRemoveRange={handleRemovePageRange}
-								/>
-							</div>
-
-							<div className='lg:col-span-1 space-y-6'>
-								{/* Sidebar ad for EPUB tools */}
-								<ConditionalAds placement='sidebar' />
-
-								<SliceManager
-									pageRanges={pageRanges}
-									sliceTasks={sliceTasks}
-									onStartSlicing={handleStartSlicing}
-									disabled={pageRanges.length === 0}
-									fileName={uploadedFile.name}
-									fileType={uploadedFile.type}
-								/>
-							</div>
-						</div>
 					</div>
 				) : (
 					/* PDF interface */

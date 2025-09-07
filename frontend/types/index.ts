@@ -1,4 +1,4 @@
-export type FileType = 'pdf' | 'epub';
+export type FileType = 'pdf';
 
 export interface UploadedFile {
 	id: string;

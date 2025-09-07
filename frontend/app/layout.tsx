@@ -11,10 +11,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-	title: 'PDF/EPUB Slicer - Split Documents with Ease',
+	title: 'PDF Slicer - Split PDF Documents with Ease',
 	description:
-		'A modern web application to slice PDF and EPUB files by page ranges. Upload, preview, select, and download your document sections.',
-	keywords: ['PDF', 'EPUB', 'slicer', 'document', 'split', 'extract pages'],
+		'A modern web application to slice PDF files by page ranges. Upload, preview, select, and download your document sections.',
+	keywords: [
+		'PDF',
+		'slicer',
+		'document',
+		'split',
+		'extract pages',
+		'PDF splitter',
+	],
 	icons: {
 		icon: [
 			{ url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },

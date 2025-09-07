@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Shield, AlertTriangle, Info, Activity } from 'lucide-react';
 import { SecurityValidator, SECURITY_CONFIG } from '@/lib/security/config';
 import { getBlobStoreSize } from '@/lib/pdf/slicer';
-import { getEPUBBlobStoreSize } from '@/lib/epub/slicer';
 
 interface SecurityStatusProps {
 	show?: boolean;
@@ -24,9 +23,7 @@ export function SecurityStatus({
 		const updateStats = () => {
 			const sessionStats = SecurityValidator.getSessionStats();
 			const pdfBlobSize = getBlobStoreSize();
-			const epubBlobSize = getEPUBBlobStoreSize();
-			const totalBlobSizeMB =
-				(pdfBlobSize + epubBlobSize) / (1024 * 1024);
+			const totalBlobSizeMB = pdfBlobSize / (1024 * 1024);
 
 			setStats({
 				...sessionStats,

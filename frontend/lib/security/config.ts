@@ -14,18 +14,12 @@ export const SECURITY_CONFIG = {
 	MAX_CONCURRENT_SLICES: 3,
 
 	// File validation
-	ALLOWED_MIME_TYPES: [
-		'application/pdf',
-		'application/epub+zip',
-		'application/epub',
-		'application/x-epub+zip',
-	],
+	ALLOWED_MIME_TYPES: ['application/pdf'],
 
-	ALLOWED_EXTENSIONS: ['.pdf', '.epub'],
+	ALLOWED_EXTENSIONS: ['.pdf'],
 
 	// Content limits
 	MAX_PDF_PAGES: 1000,
-	MAX_EPUB_CHAPTERS: 100,
 	MAX_PAGE_RANGES: 20,
 
 	// Browser storage limits
@@ -40,7 +34,7 @@ export const SECURITY_CONFIG = {
 	ERRORS: {
 		FILE_TOO_LARGE:
 			'File size exceeds the 50MB limit. Please use a smaller file.',
-		INVALID_FILE_TYPE: 'Only PDF and EPUB files are supported.',
+		INVALID_FILE_TYPE: 'Only PDF files are supported.',
 		TOO_MANY_FILES:
 			'Maximum 5 files allowed per session. Please refresh to start over.',
 		RATE_LIMIT_EXCEEDED:
@@ -49,9 +43,7 @@ export const SECURITY_CONFIG = {
 			'Memory limit exceeded. Please refresh and try with a smaller file.',
 		TOO_MANY_PAGES:
 			'Document has too many pages. Maximum 1000 pages supported.',
-		TOO_MANY_CHAPTERS:
-			'Document has too many chapters. Maximum 100 chapters supported.',
-		TOO_MANY_RANGES: 'Maximum 20 page/chapter ranges allowed.',
+		TOO_MANY_RANGES: 'Maximum 20 page ranges allowed.',
 		SLICE_TIMEOUT:
 			'Slicing took too long and was cancelled. Please try a smaller range.',
 		CONCURRENT_LIMIT:
@@ -180,24 +172,15 @@ export class SecurityValidator {
 	}
 
 	// Validate document limits
-	static validateDocumentLimits(
-		pageCount: number,
-		isEPUB: boolean
-	): { valid: boolean; error?: string } {
-		if (isEPUB) {
-			if (pageCount > SECURITY_CONFIG.MAX_EPUB_CHAPTERS) {
-				return {
-					valid: false,
-					error: SECURITY_CONFIG.ERRORS.TOO_MANY_CHAPTERS,
-				};
-			}
-		} else {
-			if (pageCount > SECURITY_CONFIG.MAX_PDF_PAGES) {
-				return {
-					valid: false,
-					error: SECURITY_CONFIG.ERRORS.TOO_MANY_PAGES,
-				};
-			}
+	static validateDocumentLimits(pageCount: number): {
+		valid: boolean;
+		error?: string;
+	} {
+		if (pageCount > SECURITY_CONFIG.MAX_PDF_PAGES) {
+			return {
+				valid: false,
+				error: SECURITY_CONFIG.ERRORS.TOO_MANY_PAGES,
+			};
 		}
 
 		return { valid: true };

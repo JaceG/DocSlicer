@@ -17,10 +17,6 @@ import {
 	downloadTasksAsZip,
 	getBlobStoreSize,
 } from '@/lib/pdf/slicer';
-import {
-	downloadEPUB,
-	getEPUBBlobStoreSize,
-} from '@/lib/epub/slicer';
 import { useState, useEffect } from 'react';
 
 interface SliceManagerProps {
@@ -29,7 +25,7 @@ interface SliceManagerProps {
 	onStartSlicing: () => void;
 	disabled?: boolean;
 	fileName?: string;
-	fileType?: 'pdf' | 'epub';
+	fileType?: 'pdf';
 }
 
 export function SliceManager({
@@ -115,13 +111,7 @@ export function SliceManager({
 			fileType,
 		});
 
-		if (fileType === 'pdf') {
-			downloadFile(task.outputUrl, task.fileName);
-		} else if (fileType === 'epub') {
-			downloadEPUB(task).catch((error) => {
-				console.error('EPUB download failed:', error);
-			});
-		}
+		downloadFile(task.outputUrl, task.fileName);
 	};
 
 	const handleDownloadAll = async () => {
@@ -373,7 +363,7 @@ export function SliceManager({
 									</h3>
 									{/* Debug info */}
 									<div className='text-xs text-green-600 dark:text-green-400'>
-										Blob Store: {fileType === 'pdf' ? getBlobStoreSize() : getEPUBBlobStoreSize()} items
+										Blob Store: {getBlobStoreSize()} items
 									</div>
 									{completedCount > 1 && (
 										<label className='flex items-center space-x-2 cursor-pointer'>

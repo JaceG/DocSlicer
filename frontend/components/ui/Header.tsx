@@ -20,10 +20,10 @@ export function Header({ onNewDocument }: HeaderProps) {
 						</div>
 						<div>
 							<h1 className='text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent'>
-								PDF/EPUB Slicer
+								PDF Slicer
 							</h1>
 							<p className='text-sm text-gray-600 dark:text-gray-400'>
-								Split documents into chapters with ease
+								Split PDF documents into pages with ease
 							</p>
 						</div>
 					</div>
