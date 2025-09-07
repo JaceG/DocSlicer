@@ -1,46 +1,46 @@
-# PDF/EPUB Slicer
+# PDF Slicer
 
-A modern, browser-based application for extracting chapters and page ranges from PDF and EPUB documents. Split your files into smaller, manageable pieces with an intuitive drag-and-drop interface.
+A modern, browser-based application for extracting page ranges from PDF documents. Split your PDFs into smaller, manageable pieces with an intuitive drag-and-drop interface and secure client-side processing.
 
 ## ✨ Features
 
-### PDF Support
-- **Drag & Drop Upload**: Seamless file upload with visual feedback
-- **Page Thumbnails**: Infinite scroll grid view of all pages
-- **Visual Page Selection**: Click pages to set start/end ranges
-- **Range Management**: Add multiple page ranges with preview
-- **Batch Processing**: Slice multiple ranges simultaneously
-- **ZIP Downloads**: Download individual files or bulk ZIP archives
+### Core PDF Processing
+- **Drag & Drop Upload**: Seamless file upload with visual feedback and validation
+- **Page Thumbnails**: Infinite scroll grid view with optimized loading
+- **Visual Page Selection**: Click pages to set start/end ranges intuitively
+- **Range Management**: Add multiple page ranges with live preview
+- **Batch Processing**: Slice multiple ranges simultaneously with progress tracking
+- **Smart Downloads**: Individual PDF files or bulk ZIP archives
 
-### EPUB Support
-- **Chapter Navigation**: Split-view interface with chapter list and reader
-- **Smart Chapter Detection**: Uses table of contents for accurate extraction
-- **Range Selection**: Quick select options (All, First Half, Second Half)
-- **Chapter Preview**: Read chapter content before slicing
-- **Metadata Preservation**: Maintains chapter titles and structure
+### Security & Performance
+- **Rate Limiting**: Upload and slicing rate limits to prevent abuse
+- **File Validation**: Size, type, and content security checks
+- **Memory Management**: Browser memory monitoring and limits
+- **Client-Side Processing**: No server storage - everything happens in your browser
+- **Error Boundaries**: Graceful error handling with auto-recovery
 
-### Universal Features
-- **In-Memory Processing**: No server storage - everything happens in your browser
-- **Progress Tracking**: Real-time slicing progress indicators
-- **Multiple Downloads**: Individual chapter/page downloads or bulk ZIP
-- **Dark Mode Support**: Responsive design with modern UI
-- **Error Handling**: Graceful fallbacks and user-friendly error messages
+### User Experience
+- **Responsive Design**: Modern UI that works on all devices
+- **Progress Tracking**: Real-time slicing progress with detailed feedback
+- **Infinite Scroll**: Smooth thumbnail loading without manual pagination
+- **Dark Mode Ready**: Clean, professional interface
+- **Accessibility**: Keyboard navigation and screen reader support
 
 ## 🚀 Tech Stack
 
 ### Frontend
 - **Next.js 14** (React 18 + TypeScript)
-- **Tailwind CSS v4** for modern styling
-- **PDF.js** for PDF rendering and thumbnails
-- **epub.js** for EPUB parsing and display
-- **pdf-lib** for PDF manipulation
-- **JSZip & fflate** for archive creation
+- **Tailwind CSS v4** for modern, responsive styling
+- **PDF.js** for PDF rendering and thumbnail generation
+- **pdf-lib** for PDF manipulation and slicing
+- **JSZip** for ZIP archive creation
 
-### Processing
-- **Client-side processing** (no server required)
-- **Web Workers** for PDF rendering
-- **In-memory blob storage** for file persistence
-- **Incremental slicing** (only processes new ranges)
+### Security & Performance
+- **Client-side processing** (no server storage required)
+- **Web Workers** for non-blocking PDF rendering
+- **In-memory blob storage** for temporary file persistence
+- **Rate limiting** and validation for security
+- **Memory monitoring** to prevent browser crashes
 
 ## 📦 Installation
 
@@ -61,31 +61,31 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🎯 Usage
 
-### PDF Workflow
-1. **Upload**: Drag & drop a PDF file
-2. **Preview**: Browse page thumbnails in grid view
+### Simple 5-Step Process
+1. **Upload**: Drag & drop a PDF file (up to 50MB)
+2. **Preview**: Browse page thumbnails in infinite scroll grid
 3. **Select**: Click start page, then end page to create ranges
 4. **Slice**: Process selected ranges into separate PDF files
-5. **Download**: Get individual files or a ZIP archive
+5. **Download**: Get individual files or a complete ZIP archive
 
-### EPUB Workflow
-1. **Upload**: Drag & drop an EPUB file
-2. **Navigate**: Browse chapters in the split-view interface
-3. **Select**: Choose chapter ranges using quick select or manual range
-4. **Slice**: Extract chapters into separate EPUB files
-5. **Download**: Get individual chapters or bulk download
+### Security Features
+- **File validation** ensures only valid PDFs are processed
+- **Rate limiting** prevents abuse (max 5 uploads/minute, 10 slices/minute)
+- **Memory monitoring** protects against browser crashes
+- **Client-side processing** keeps your files completely private
 
 ## 🔧 Configuration
 
-### Environment Variables
-```bash
-# Optional: Customize build settings
-NEXT_PUBLIC_MAX_FILE_SIZE=50000000  # 50MB default
-```
+### Security Limits (Built-in)
+- **File Size**: 50MB maximum per PDF
+- **Upload Rate**: 5 uploads per minute
+- **Slice Rate**: 10 slicing operations per minute  
+- **Memory Limit**: 500MB browser memory usage
+- **Page Range**: Maximum 100 pages per slice
 
 ### Supported Formats
-- **PDF**: Any standard PDF file
-- **EPUB**: EPUB 2.0 and 3.0 formats
+- **PDF**: Any standard PDF file (version 1.0-2.0)
+- **File Types**: `.pdf` files only
 
 ## 🚀 Deployment
 
@@ -116,32 +116,32 @@ pdf-epub-slicer/
 ├── frontend/                 # Next.js application
 │   ├── app/                 # App router pages
 │   ├── components/          # React components
-│   │   ├── upload/         # File upload components
-│   │   ├── viewer/         # Document viewers
-│   │   ├── slicer/         # Slicing interface
+│   │   ├── upload/         # File upload & validation
+│   │   ├── viewer/         # PDF viewer & thumbnails
+│   │   ├── slicer/         # Page selection & slicing
 │   │   └── ui/             # Shared UI components
 │   ├── lib/                # Core libraries
-│   │   ├── pdf/            # PDF processing
-│   │   ├── epub/           # EPUB processing
-│   │   └── utils/          # Utilities
+│   │   ├── pdf/            # PDF processing & rendering
+│   │   ├── security/       # Security & rate limiting
+│   │   └── utils/          # Utilities & validation
 │   └── types/              # TypeScript definitions
 ├── backend/                 # Future API routes
 └── shared/                 # Shared utilities
 ```
 
 ### Key Components
-- `DocumentViewer`: PDF/EPUB preview interface
-- `FileUpload`: Drag & drop file handling  
-- `PageSelector`: Range selection for PDFs
-- `EPUBSelector`: Chapter selection for EPUBs
-- `SliceManager`: Task management and downloads
+- `DocumentViewer`: PDF preview with infinite scroll thumbnails
+- `FileUpload`: Drag & drop with security validation
+- `PageSelector`: Visual page range selection interface
+- `SliceManager`: Task management, progress tracking & downloads
+- `SecurityStatus`: Rate limiting and memory monitoring display
 
 ## 🔮 Future Plans
-- **Desktop App**: Electron version for offline use
-- **Advanced Features**: Password-protected PDFs, OCR text extraction
-- **Cloud Storage**: Integration with Google Drive, Dropbox
-- **Batch Processing**: Multiple file uploads
-- **Custom Styling**: User themes and preferences
+- **Password-Protected PDFs**: Support for encrypted PDF files
+- **OCR Integration**: Text extraction from scanned PDFs
+- **Batch Processing**: Multiple file uploads and processing
+- **Advanced Security**: Enhanced rate limiting and abuse prevention
+- **Performance Optimization**: Faster rendering and processing
 
 ## 📝 License
 MIT License - see LICENSE file for details.
