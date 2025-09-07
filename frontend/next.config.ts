@@ -1,6 +1,12 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+	// Disable x-powered-by header
+	poweredByHeader: false,
+
+	// Compression
+	compress: true,
+
 	webpack: (config, { isServer }) => {
 		// Fix for PDF.js in browser
 		if (!isServer) {
@@ -15,6 +21,22 @@ const nextConfig: NextConfig = {
 				'pdfjs-dist/build/pdf.worker.min.mjs',
 		};
 
+		// Optimize chunks for better loading
+		config.optimization = {
+			...config.optimization,
+			splitChunks: {
+				...config.optimization.splitChunks,
+				cacheGroups: {
+					...config.optimization.splitChunks?.cacheGroups,
+					default: {
+						minChunks: 2,
+						priority: -20,
+						reuseExistingChunk: true,
+					},
+				},
+			},
+		};
+
 		return config;
 	},
 
@@ -23,13 +45,37 @@ const nextConfig: NextConfig = {
 		esmExternals: 'loose',
 	},
 
-	// Ignore build errors from pdfjs-dist during development
+	// Build configuration
 	typescript: {
 		ignoreBuildErrors: false,
 	},
 
 	eslint: {
 		ignoreDuringBuilds: false,
+	},
+
+	// Headers for better caching
+	async headers() {
+		return [
+			{
+				source: '/_next/static/(.*)',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=31536000, immutable',
+					},
+				],
+			},
+			{
+				source: '/favicon.ico',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=86400',
+					},
+				],
+			},
+		];
 	},
 };
 
