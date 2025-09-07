@@ -9,11 +9,11 @@ const initPDFJS = async () => {
 		try {
 			pdfjsLib = await import('pdfjs-dist');
 
-			// Configure PDF.js worker
+			// Configure PDF.js worker with fallback
 			if (pdfjsLib.GlobalWorkerOptions) {
-				// Use local worker file for better reliability
+				// Use reliable CDN worker that matches our version
 				pdfjsLib.GlobalWorkerOptions.workerSrc =
-					'/js/pdf.worker.min.mjs';
+					'https://unpkg.com/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs';
 			}
 		} catch (error) {
 			console.error('Failed to load PDF.js:', error);

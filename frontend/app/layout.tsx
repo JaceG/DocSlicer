@@ -16,7 +16,11 @@ export const metadata: Metadata = {
 		'A modern web application to slice PDF and EPUB files by page ranges. Upload, preview, select, and download your document sections.',
 	keywords: ['PDF', 'EPUB', 'slicer', 'document', 'split', 'extract pages'],
 	icons: {
-		icon: '/favicon.ico',
+		icon: [
+			{ url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
+			{ url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+			{ url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+		],
 		shortcut: '/favicon.ico',
 		apple: '/apple-touch-icon.png',
 	},
