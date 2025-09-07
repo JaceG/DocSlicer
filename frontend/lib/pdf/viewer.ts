@@ -11,9 +11,9 @@ const initPDFJS = async () => {
 
 			// Configure PDF.js worker
 			if (pdfjsLib.GlobalWorkerOptions) {
-				// Use CDN worker for reliable production deployment
+				// Use CDN worker matching the installed version
 				pdfjsLib.GlobalWorkerOptions.workerSrc =
-					'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+					'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.js';
 			}
 		} catch (error) {
 			console.error('Failed to load PDF.js:', error);
