@@ -9,10 +9,11 @@ const initPDFJS = async () => {
 		try {
 			pdfjsLib = await import('pdfjs-dist');
 
-			// Configure PDF.js worker with local file
+			// Configure PDF.js worker
 			if (pdfjsLib.GlobalWorkerOptions) {
+				// Use CDN worker for reliable production deployment
 				pdfjsLib.GlobalWorkerOptions.workerSrc =
-					'/js/pdf.worker.min.mjs';
+					'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 			}
 		} catch (error) {
 			console.error('Failed to load PDF.js:', error);

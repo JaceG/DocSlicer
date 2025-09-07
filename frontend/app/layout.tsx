@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import HotjarProvider from '../components/analytics/HotjarProvider';
-import AdSenseProvider from '../components/analytics/AdSenseProvider';
+// import AdSenseProvider from '../components/analytics/AdSenseProvider';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 		apple: '/apple-touch-icon.png',
 	},
 	other: {
-		'google-adsense-account': 'ca-pub-9935452437578823',
+		// 'google-adsense-account': 'ca-pub-9935452437578823',
 	},
 };
 
@@ -32,7 +32,7 @@ export default function RootLayout({
 	return (
 		<html lang='en' className={inter.variable}>
 			<body className='font-sans antialiased'>
-				<AdSenseProvider />
+				{/* <AdSenseProvider /> */}
 				<HotjarProvider />
 				<main className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
 					{children}
