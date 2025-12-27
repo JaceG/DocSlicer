@@ -1,6 +1,10 @@
 # PDF Slicer
 
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
+
 A modern, browser-based application for extracting page ranges from PDF documents. Split your PDFs into smaller, manageable pieces with an intuitive drag-and-drop interface and secure client-side processing.
+
+![PDF Slicer Screenshot](assets/screentshot.png)
 
 ## ✨ Features
 
