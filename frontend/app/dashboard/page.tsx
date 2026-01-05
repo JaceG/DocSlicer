@@ -7,9 +7,29 @@ import { Footer } from '@/components/ui/Footer';
 import { useSubscription } from '@/lib/subscription/hooks';
 import { getPdfsProcessedThisMonth, getRemainingPdfs } from '@/lib/subscription/usage';
 import { CheckCircle, FileText, Zap, Calendar, Crown } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 
+// Wrap in Suspense for Next.js 15 compatibility with useSearchParams
 export default function DashboardPage() {
+	return (
+		<Suspense fallback={<DashboardLoading />}>
+			<DashboardContent />
+		</Suspense>
+	);
+}
+
+function DashboardLoading() {
+	return (
+		<div className='min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/30 dark:from-gray-900 dark:via-blue-950/20 dark:to-indigo-950/30 flex items-center justify-center'>
+			<div className='text-center'>
+				<div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto'></div>
+				<p className='mt-4 text-gray-600 dark:text-gray-400'>Loading...</p>
+			</div>
+		</div>
+	);
+}
+
+function DashboardContent() {
 	const { user, isLoaded } = useUser();
 	const { subscription, limits, isPremium } = useSubscription();
 	const router = useRouter();
