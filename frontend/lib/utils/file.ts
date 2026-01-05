@@ -1,5 +1,6 @@
-import { FileType } from '@/types';
+import { FileType, ConvertibleFileType, SupportedFileType } from '@/types';
 import { SECURITY_CONFIG, SecurityValidator } from '@/lib/security/config';
+import { MIME_TYPE_MAP, EXTENSION_MAP } from '@/lib/conversion/types';
 
 // File type detection for PDF files only
 export function getFileType(file: File): FileType | null {
@@ -18,6 +19,58 @@ export function getFileType(file: File): FileType | null {
 	}
 
 	return null;
+}
+
+// Check if a file is a convertible type (non-PDF that can be converted)
+export function isConvertibleFile(file: File): boolean {
+	const mimeType = file.type.toLowerCase();
+	const fileName = file.name.toLowerCase();
+	const extension = fileName.slice(fileName.lastIndexOf('.'));
+
+	// Already a PDF - not convertible
+	if (mimeType === 'application/pdf' || extension === '.pdf') {
+		return false;
+	}
+
+	// Check if it's in our supported convertible types
+	if (mimeType && MIME_TYPE_MAP[mimeType]) {
+		return true;
+	}
+
+	if (extension && EXTENSION_MAP[extension]) {
+		return true;
+	}
+
+	return false;
+}
+
+// Get the convertible file type for a file
+export function getConvertibleFileType(file: File): ConvertibleFileType | null {
+	const mimeType = file.type.toLowerCase();
+	const fileName = file.name.toLowerCase();
+	const extension = fileName.slice(fileName.lastIndexOf('.'));
+
+	// Check by MIME type first
+	if (mimeType && MIME_TYPE_MAP[mimeType]) {
+		return MIME_TYPE_MAP[mimeType];
+	}
+
+	// Fallback to extension
+	if (extension && EXTENSION_MAP[extension]) {
+		return EXTENSION_MAP[extension];
+	}
+
+	return null;
+}
+
+// Get any supported file type (PDF or convertible)
+export function getSupportedFileType(file: File): SupportedFileType | null {
+	// First check if it's a PDF
+	const pdfType = getFileType(file);
+	if (pdfType) return pdfType;
+
+	// Then check if it's convertible
+	return getConvertibleFileType(file);
 }
 
 export function formatFileSize(bytes: number): string {

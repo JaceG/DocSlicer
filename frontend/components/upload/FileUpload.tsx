@@ -1,15 +1,17 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, FileText, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { UploadedFile } from '@/types';
+import { Upload, FileText, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react';
+import { UploadedFile, ConvertibleFileType } from '@/types';
 import {
 	getFileType,
 	formatFileSize,
 	validateFile,
 	generateFileId,
 	validateUploadRate,
+	isConvertibleFile,
+	getConvertibleFileType,
 } from '@/lib/utils/file';
 import {
 	SecurityValidator,
@@ -18,6 +20,9 @@ import {
 } from '@/lib/security/config';
 import { cn } from '@/lib/utils/cn';
 import { PDFViewer } from '@/lib/pdf/viewer';
+import { ConversionModal } from '@/components/conversion/ConversionModal';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { detectFileType, requiresConversion } from '@/lib/conversion/converter';
 
 interface FileUploadProps {
 	onFileUpload: (file: UploadedFile) => void;
@@ -27,9 +32,18 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [securityWarning, setSecurityWarning] = useState<string | null>(null);
+	
+	// Conversion modal state
+	const [showConversionModal, setShowConversionModal] = useState(false);
+	const [fileToConvert, setFileToConvert] = useState<File | null>(null);
+	const [fileTypeToConvert, setFileTypeToConvert] = useState<ConvertibleFileType | null>(null);
+	
+	const { isPremium, limits, isLoaded, user } = useSubscription();
+	const isLoggedIn = !!user;
+	const hasConversionAccess = isPremium; // Only premium users can convert
 
 	// Check browser support on component mount
-	useState(() => {
+	useEffect(() => {
 		const browserCheck = checkBrowserSupport();
 		if (!browserCheck.supported) {
 			setSecurityWarning(
@@ -38,7 +52,46 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 				} Missing: ${browserCheck.missing?.join(', ')}`
 			);
 		}
-	});
+	}, []);
+
+	// Handle conversion completion
+	const handleConversionComplete = useCallback(
+		async (pdfFile: File) => {
+			setShowConversionModal(false);
+			setIsProcessing(true);
+
+			try {
+				const uploadedFile: UploadedFile = {
+					id: generateFileId(),
+					name: pdfFile.name,
+					type: 'pdf',
+					size: pdfFile.size,
+					file: pdfFile,
+					url: URL.createObjectURL(pdfFile),
+					convertedFrom: fileTypeToConvert || undefined,
+				};
+
+				// Extract page count from converted PDF
+				const pdfViewer = new PDFViewer();
+				await pdfViewer.loadDocument(pdfFile);
+				uploadedFile.pageCount = pdfViewer.getPageCount();
+				pdfViewer.destroy();
+
+				onFileUpload(uploadedFile);
+			} catch (err) {
+				setError(
+					err instanceof Error
+						? err.message
+						: 'Failed to process converted file'
+				);
+			} finally {
+				setIsProcessing(false);
+				setFileToConvert(null);
+				setFileTypeToConvert(null);
+			}
+		},
+		[fileTypeToConvert, onFileUpload]
+	);
 
 	const onDrop = useCallback(
 		async (acceptedFiles: File[]) => {
@@ -56,7 +109,25 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 
 			const file = acceptedFiles[0];
 
-			// Enhanced file validation with security checks
+			// Detect file type using our enhanced detection
+			const detectedType = detectFileType(file);
+
+			// If file type is not supported at all
+			if (!detectedType) {
+				setError(SECURITY_CONFIG.ERRORS.INVALID_FILE_TYPE);
+				return;
+			}
+
+			// If file requires conversion (not a PDF)
+			if (requiresConversion(detectedType)) {
+				// Show conversion modal
+				setFileToConvert(file);
+				setFileTypeToConvert(detectedType);
+				setShowConversionModal(true);
+				return;
+			}
+
+			// Enhanced file validation with security checks (for PDFs)
 			const validation = validateFile(file);
 			if (!validation.valid) {
 				setError(validation.error || 'Invalid file');
@@ -145,6 +216,29 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 		onDrop,
 		accept: {
 			'application/pdf': ['.pdf'],
+			// E-books
+			'application/epub+zip': ['.epub'],
+			// Word processors
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+			'application/msword': ['.doc'],
+			'application/vnd.oasis.opendocument.text': ['.odt'],
+			'application/rtf': ['.rtf'],
+			'text/rtf': ['.rtf'],
+			// Plain text
+			'text/plain': ['.txt'],
+			'text/markdown': ['.md', '.markdown'],
+			'text/html': ['.html', '.htm'],
+			// Presentations
+			'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx'],
+			'application/vnd.ms-powerpoint': ['.ppt'],
+			'application/vnd.oasis.opendocument.presentation': ['.odp'],
+			// Images
+			'image/jpeg': ['.jpg', '.jpeg'],
+			'image/png': ['.png'],
+			'image/gif': ['.gif'],
+			'image/webp': ['.webp'],
+			'image/bmp': ['.bmp'],
+			'image/tiff': ['.tiff', '.tif'],
 		},
 		maxFiles: 1,
 		multiple: false,
@@ -198,7 +292,7 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						<p className='text-xl font-semibold text-gray-900 dark:text-gray-100'>
 							{isDragActive
 								? 'Drop your file here'
-								: 'Drag & drop your PDF file'}
+								: 'Drag & drop your document'}
 						</p>
 						<p className='text-gray-600 dark:text-gray-400'>
 							or{' '}
@@ -207,10 +301,13 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 							</span>{' '}
 							to upload
 						</p>
+						<p className='text-sm text-gray-500 dark:text-gray-500'>
+							PDF, EPUB, DOCX, TXT, images, and more
+						</p>
 					</div>
 
 					{/* Features Grid */}
-					<div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 w-full max-w-2xl'>
+					<div className='grid grid-cols-1 md:grid-cols-4 gap-4 mt-8 w-full max-w-3xl'>
 						<div className='flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl'>
 							<CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0' />
 							<div className='text-left'>
@@ -218,7 +315,18 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 									PDF Support
 								</p>
 								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									All PDF versions supported
+									All versions
+								</p>
+							</div>
+						</div>
+						<div className='flex items-center space-x-3 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl border border-purple-200 dark:border-purple-800'>
+							<Sparkles className='h-5 w-5 text-purple-600 dark:text-purple-400 flex-shrink-0' />
+							<div className='text-left'>
+								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
+									Auto-Convert
+								</p>
+								<p className='text-xs text-purple-600 dark:text-purple-400'>
+									EPUB, DOCX, etc
 								</p>
 							</div>
 						</div>
@@ -226,10 +334,10 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 							<CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0' />
 							<div className='text-left'>
 								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-									Page Previews
+									Previews
 								</p>
 								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									Visual page selection
+									Visual selection
 								</p>
 							</div>
 						</div>
@@ -240,7 +348,7 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 									Up to 50MB
 								</p>
 								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									Secure file processing
+									Secure
 								</p>
 							</div>
 						</div>
@@ -301,6 +409,22 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						</p>
 					</div>
 				</div>
+			)}
+
+			{/* Conversion Modal */}
+			{showConversionModal && fileToConvert && fileTypeToConvert && (
+				<ConversionModal
+					isOpen={showConversionModal}
+					file={fileToConvert}
+					fileType={fileTypeToConvert}
+					hasConversionAccess={hasConversionAccess}
+					onClose={() => {
+						setShowConversionModal(false);
+						setFileToConvert(null);
+						setFileTypeToConvert(null);
+					}}
+					onConversionComplete={handleConversionComplete}
+				/>
 			)}
 		</div>
 	);

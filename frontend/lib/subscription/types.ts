@@ -15,7 +15,8 @@ export interface UsageLimits {
 	hasZipDownload: boolean;
 	hasNoAds: boolean;
 	hasPriorityProcessing: boolean;
-	hasCloudSaves: boolean;
+	hasFileConversion: boolean; // Convert EPUB, DOCX, etc. to PDF
+	maxConversionsPerMonth: number;
 }
 
 export const TIER_LIMITS: Record<SubscriptionTier, UsageLimits> = {
@@ -26,7 +27,8 @@ export const TIER_LIMITS: Record<SubscriptionTier, UsageLimits> = {
 		hasZipDownload: false,
 		hasNoAds: false,
 		hasPriorityProcessing: false,
-		hasCloudSaves: false,
+		hasFileConversion: false, // Free users cannot convert files
+		maxConversionsPerMonth: 0,
 	},
 	premium: {
 		maxPdfsPerMonth: -1, // unlimited
@@ -35,6 +37,7 @@ export const TIER_LIMITS: Record<SubscriptionTier, UsageLimits> = {
 		hasZipDownload: true,
 		hasNoAds: true,
 		hasPriorityProcessing: true,
-		hasCloudSaves: true,
+		hasFileConversion: true, // Premium users can convert files
+		maxConversionsPerMonth: -1, // unlimited
 	},
 };

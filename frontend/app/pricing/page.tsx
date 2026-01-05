@@ -5,7 +5,7 @@ import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, Sparkles } from 'lucide-react';
 
 export default function PricingPage() {
 	const { isSignedIn } = useUser();
@@ -113,7 +113,7 @@ export default function PricingPage() {
 								<Feature text='3 PDFs per month' />
 								<Feature text='25MB file size limit' />
 								<Feature text='Up to 3 page ranges' />
-								<Feature text='Basic processing' />
+								<Feature text='PDF files only' />
 								<Feature text='Individual file downloads' />
 							</ul>
 
@@ -156,10 +156,11 @@ export default function PricingPage() {
 								<Feature text='Unlimited PDFs' light />
 								<Feature text='100MB file size limit' light />
 								<Feature text='Unlimited page ranges' light />
+								<Feature text='Convert EPUB, DOCX, images & more' light highlight />
 								<Feature text='ZIP downloads' light />
 								<Feature text='No ads' light />
 								<Feature text='Priority processing' light />
-								<Feature text='Cloud saves (7 days)' light />
+								<Feature text='100% browser-based privacy' light />
 							</ul>
 
 							<button
@@ -189,15 +190,23 @@ export default function PricingPage() {
 	);
 }
 
-function Feature({ text, light = false }: { text: string; light?: boolean }) {
+function Feature({ text, light = false, highlight = false }: { text: string; light?: boolean; highlight?: boolean }) {
 	return (
 		<li className='flex items-start'>
-			<CheckCircle
-				className={`w-5 h-5 ${
-					light ? 'text-white' : 'text-green-500'
-				} mr-3 flex-shrink-0 mt-0.5`}
-			/>
-			<span className={light ? 'text-white' : 'text-gray-700 dark:text-gray-300'}>
+			{highlight ? (
+				<Sparkles
+					className={`w-5 h-5 ${
+						light ? 'text-yellow-300' : 'text-purple-500'
+					} mr-3 flex-shrink-0 mt-0.5`}
+				/>
+			) : (
+				<CheckCircle
+					className={`w-5 h-5 ${
+						light ? 'text-white' : 'text-green-500'
+					} mr-3 flex-shrink-0 mt-0.5`}
+				/>
+			)}
+			<span className={`${light ? 'text-white' : 'text-gray-700 dark:text-gray-300'} ${highlight ? 'font-semibold' : ''}`}>
 				{text}
 			</span>
 		</li>

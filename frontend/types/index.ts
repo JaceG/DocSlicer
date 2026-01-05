@@ -1,5 +1,29 @@
 export type FileType = 'pdf';
 
+// File types that can be converted to PDF
+export type ConvertibleFileType = 
+	| 'epub'
+	| 'docx'
+	| 'doc'
+	| 'txt'
+	| 'rtf'
+	| 'odt'
+	| 'pptx'
+	| 'ppt'
+	| 'odp'
+	| 'html'
+	| 'md'
+	| 'jpg'
+	| 'jpeg'
+	| 'png'
+	| 'gif'
+	| 'webp'
+	| 'bmp'
+	| 'tiff';
+
+// All supported file types (PDF + convertible)
+export type SupportedFileType = FileType | ConvertibleFileType;
+
 export interface UploadedFile {
 	id: string;
 	name: string;
@@ -9,6 +33,18 @@ export interface UploadedFile {
 	pageCount?: number;
 	url?: string;
 	thumbnail?: string;
+	convertedFrom?: ConvertibleFileType; // Track if file was converted
+}
+
+// Quality warning levels for conversion
+export type ConversionQuality = 'excellent' | 'good' | 'fair' | 'poor';
+
+export interface ConversionWarning {
+	fileType: ConvertibleFileType;
+	quality: ConversionQuality;
+	title: string;
+	description: string;
+	caveats: string[];
 }
 
 export interface PageRange {

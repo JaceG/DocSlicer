@@ -13,10 +13,39 @@ export const SECURITY_CONFIG = {
 	MAX_MEMORY_USAGE_MB: 500, // 500MB total memory for processing
 	MAX_CONCURRENT_SLICES: 3,
 
-	// File validation
+	// File validation - PDF only (direct processing)
 	ALLOWED_MIME_TYPES: ['application/pdf'],
-
 	ALLOWED_EXTENSIONS: ['.pdf'],
+
+	// Convertible file types (require conversion to PDF first)
+	CONVERTIBLE_MIME_TYPES: [
+		'application/epub+zip',
+		'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+		'application/msword',
+		'application/vnd.oasis.opendocument.text',
+		'application/rtf',
+		'text/rtf',
+		'text/plain',
+		'text/markdown',
+		'text/x-markdown',
+		'text/html',
+		'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+		'application/vnd.ms-powerpoint',
+		'application/vnd.oasis.opendocument.presentation',
+		'image/jpeg',
+		'image/png',
+		'image/gif',
+		'image/webp',
+		'image/bmp',
+		'image/tiff',
+	],
+	CONVERTIBLE_EXTENSIONS: [
+		'.epub',
+		'.docx', '.doc', '.odt', '.rtf',
+		'.txt', '.md', '.markdown', '.html', '.htm',
+		'.pptx', '.ppt', '.odp',
+		'.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.tiff', '.tif',
+	],
 
 	// Content limits
 	MAX_PDF_PAGES: 1000,
@@ -34,7 +63,7 @@ export const SECURITY_CONFIG = {
 	ERRORS: {
 		FILE_TOO_LARGE:
 			'File size exceeds the 50MB limit. Please use a smaller file.',
-		INVALID_FILE_TYPE: 'Only PDF files are supported.',
+		INVALID_FILE_TYPE: 'This file type is not supported. Supported formats: PDF, EPUB, DOCX, TXT, images, and more.',
 		TOO_MANY_FILES:
 			'Maximum 5 files allowed per session. Please refresh to start over.',
 		RATE_LIMIT_EXCEEDED:
