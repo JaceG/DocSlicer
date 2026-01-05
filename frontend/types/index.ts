@@ -97,4 +97,38 @@ export interface MergeTask {
 }
 
 // App mode type
-export type AppMode = 'split' | 'merge';
+export type AppMode = 'split' | 'merge' | 'compress';
+
+// Compression functionality types
+export type CompressionLevel = 'screen' | 'ebook' | 'printer' | 'prepress';
+
+export interface CompressionSettings {
+	level: CompressionLevel;
+	imageQuality: number; // 0-100
+	removeMetadata: boolean;
+	grayscale: boolean;
+}
+
+export interface CompressFile {
+	id: string;
+	name: string;
+	file: File;
+	size: number;
+	pageCount?: number;
+	thumbnail?: string;
+}
+
+export interface CompressTask {
+	id: string;
+	file: CompressFile;
+	settings: CompressionSettings;
+	outputFileName: string;
+	status: 'pending' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+	originalSize: number;
+	compressedSize?: number;
+	compressionRatio?: number; // Percentage saved
+}

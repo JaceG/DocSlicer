@@ -11,7 +11,9 @@ export default function PricingPage() {
 	const { isSignedIn } = useUser();
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
-	const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+	const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>(
+		'monthly'
+	);
 
 	const handleSubscribe = async (priceId: string) => {
 		if (!isSignedIn) {
@@ -71,8 +73,7 @@ export default function PricingPage() {
 									billingCycle === 'monthly'
 										? 'bg-blue-600 text-white'
 										: 'text-gray-600 dark:text-gray-300'
-								}`}
-							>
+								}`}>
 								Monthly
 							</button>
 							<button
@@ -81,8 +82,7 @@ export default function PricingPage() {
 									billingCycle === 'yearly'
 										? 'bg-blue-600 text-white'
 										: 'text-gray-600 dark:text-gray-300'
-								}`}
-							>
+								}`}>
 								Yearly
 							</button>
 						</div>
@@ -110,18 +110,18 @@ export default function PricingPage() {
 							</div>
 
 							<ul className='space-y-4 mb-8'>
-								<Feature text='3 splits, merges & conversions/month' />
+								<Feature text='3 splits per month' />
+								<Feature text='3 merges per month' />
+								<Feature text='3 compressions per month' />
+								<Feature text='3 file conversions per month' />
 								<Feature text='25MB file size limit' />
 								<Feature text='Up to 3 page ranges' />
-								<Feature text='Split & Merge PDFs' />
-								<Feature text='Convert EPUB, DOCX, images' />
 								<Feature text='Individual file downloads' />
 							</ul>
 
 							<button
 								onClick={() => router.push('/')}
-								className='w-full py-3 px-6 rounded-lg font-semibold transition-all border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700'
-							>
+								className='w-full py-3 px-6 rounded-lg font-semibold transition-all border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700'>
 								Get Started
 							</button>
 						</div>
@@ -142,10 +142,16 @@ export default function PricingPage() {
 								</h2>
 								<div className='flex items-baseline mb-4'>
 									<span className='text-5xl font-bold text-white'>
-										${billingCycle === 'monthly' ? '2' : '20'}
+										$
+										{billingCycle === 'monthly'
+											? '2'
+											: '20'}
 									</span>
 									<span className='ml-2 text-blue-100'>
-										/{billingCycle === 'monthly' ? 'month' : 'year'}
+										/
+										{billingCycle === 'monthly'
+											? 'month'
+											: 'year'}
 									</span>
 								</div>
 								<p className='text-blue-100'>
@@ -154,23 +160,37 @@ export default function PricingPage() {
 							</div>
 
 							<ul className='space-y-4 mb-8'>
-								<Feature text='Unlimited PDFs' light />
+								<Feature text='Unlimited splits' light />
+								<Feature text='Unlimited merges' light />
+								<Feature text='Unlimited compressions' light />
+								<Feature
+									text='Unlimited file conversions'
+									light
+								/>
 								<Feature text='100MB file size limit' light />
 								<Feature text='Unlimited page ranges' light />
-								<Feature text='Split & Merge PDFs' light />
-								<Feature text='Convert EPUB, DOCX, images & more' light highlight />
 								<Feature text='ZIP downloads' light />
 								<Feature text='No ads' light />
 								<Feature text='Priority processing' light />
-								<Feature text='100% browser-based privacy' light />
+								<Feature
+									text='100% browser-based privacy'
+									light
+								/>
 							</ul>
 
 							<button
-								onClick={() => handleSubscribe(billingCycle === 'monthly' ? monthlyPrice : yearlyPrice)}
+								onClick={() =>
+									handleSubscribe(
+										billingCycle === 'monthly'
+											? monthlyPrice
+											: yearlyPrice
+									)
+								}
 								disabled={isLoading}
-								className='w-full py-3 px-6 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'
-							>
-								{isLoading ? 'Processing...' : 'Upgrade to Premium'}
+								className='w-full py-3 px-6 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed'>
+								{isLoading
+									? 'Processing...'
+									: 'Upgrade to Premium'}
 							</button>
 						</div>
 					</div>
@@ -192,7 +212,15 @@ export default function PricingPage() {
 	);
 }
 
-function Feature({ text, light = false, highlight = false }: { text: string; light?: boolean; highlight?: boolean }) {
+function Feature({
+	text,
+	light = false,
+	highlight = false,
+}: {
+	text: string;
+	light?: boolean;
+	highlight?: boolean;
+}) {
 	return (
 		<li className='flex items-start'>
 			{highlight ? (
@@ -208,7 +236,10 @@ function Feature({ text, light = false, highlight = false }: { text: string; lig
 					} mr-3 flex-shrink-0 mt-0.5`}
 				/>
 			)}
-			<span className={`${light ? 'text-white' : 'text-gray-700 dark:text-gray-300'} ${highlight ? 'font-semibold' : ''}`}>
+			<span
+				className={`${
+					light ? 'text-white' : 'text-gray-700 dark:text-gray-300'
+				} ${highlight ? 'font-semibold' : ''}`}>
 				{text}
 			</span>
 		</li>

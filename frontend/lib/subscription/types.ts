@@ -14,6 +14,7 @@ export interface UsageLimits {
 	maxPageRanges: number;
 	maxMergesPerMonth: number;
 	maxConversionsPerMonth: number;
+	maxCompressionsPerMonth: number;
 	hasZipDownload: boolean;
 	hasNoAds: boolean;
 	hasPriorityProcessing: boolean;
@@ -26,6 +27,7 @@ export const TIER_LIMITS: Record<SubscriptionTier, UsageLimits> = {
 		maxPageRanges: 3,
 		maxMergesPerMonth: 3,
 		maxConversionsPerMonth: 3,
+		maxCompressionsPerMonth: 3,
 		hasZipDownload: false,
 		hasNoAds: false,
 		hasPriorityProcessing: false,
@@ -36,6 +38,7 @@ export const TIER_LIMITS: Record<SubscriptionTier, UsageLimits> = {
 		maxPageRanges: -1, // unlimited
 		maxMergesPerMonth: -1, // unlimited
 		maxConversionsPerMonth: -1, // unlimited
+		maxCompressionsPerMonth: -1, // unlimited
 		hasZipDownload: true,
 		hasNoAds: true,
 		hasPriorityProcessing: true,

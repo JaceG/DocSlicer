@@ -10,6 +10,7 @@ interface UsageData {
 	pdfsProcessed: number;
 	mergesProcessed: number;
 	conversionsProcessed: number;
+	compressionsProcessed: number;
 }
 
 function getCurrentMonth(): string {
@@ -23,6 +24,7 @@ function getDefaultUsageData(): UsageData {
 		pdfsProcessed: 0,
 		mergesProcessed: 0,
 		conversionsProcessed: 0,
+		compressionsProcessed: 0,
 	};
 }
 
@@ -50,6 +52,7 @@ function getUsageData(): UsageData {
 			pdfsProcessed: data.pdfsProcessed || 0,
 			mergesProcessed: data.mergesProcessed || 0,
 			conversionsProcessed: data.conversionsProcessed || 0,
+			compressionsProcessed: data.compressionsProcessed || 0,
 		};
 	} catch {
 		return getDefaultUsageData();
@@ -113,6 +116,24 @@ export function getRemainingConversions(maxConversions: number): number {
 	if (maxConversions === -1) return -1; // unlimited
 	const used = getConversionsProcessedThisMonth();
 	return Math.max(0, maxConversions - used);
+}
+
+// PDF Compression usage
+export function getCompressionsProcessedThisMonth(): number {
+	return getUsageData().compressionsProcessed;
+}
+
+export function incrementCompressionUsage(): number {
+	const data = getUsageData();
+	data.compressionsProcessed += 1;
+	saveUsageData(data);
+	return data.compressionsProcessed;
+}
+
+export function getRemainingCompressions(maxCompressions: number): number {
+	if (maxCompressions === -1) return -1; // unlimited
+	const used = getCompressionsProcessedThisMonth();
+	return Math.max(0, maxCompressions - used);
 }
 
 export function resetUsage(): void {

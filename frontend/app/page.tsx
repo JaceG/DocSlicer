@@ -12,7 +12,7 @@ import { Footer } from '@/components/ui/Footer';
 import { SecurityStatus } from '@/components/ui/SecurityStatus';
 import { UsageBanner } from '@/components/subscription/UsageBanner';
 import { UpgradePrompt } from '@/components/subscription/UpgradePrompt';
-import { UploadedFile, PageRange, SliceTask, MergeFile, AppMode } from '@/types';
+import { UploadedFile, PageRange, SliceTask, MergeFile, AppMode, CompressFile } from '@/types';
 import {
 	processSliceTasks,
 	cleanupBlobUrl,
@@ -25,7 +25,10 @@ import { validateSliceRate } from '@/lib/utils/file';
 import { useSubscription } from '@/lib/subscription/hooks';
 import { getPdfsProcessedThisMonth, incrementPdfUsage, getRemainingPdfs } from '@/lib/subscription/usage';
 import { useRouter } from 'next/navigation';
-import { Scissors, Layers } from 'lucide-react';
+import { Scissors, Layers, FileDown } from 'lucide-react';
+import { FileUploadCompress } from '@/components/compressor/FileUploadCompress';
+import { CompressionManager } from '@/components/compressor/CompressionManager';
+import { cleanupCompressBlobUrl, cleanupCompressBlobStoreEntry } from '@/lib/pdf/compressor';
 
 export default function Home() {
 	// App mode state
@@ -40,6 +43,9 @@ export default function Home() {
 	// Merge mode state
 	const [mergeFiles, setMergeFiles] = useState<MergeFile[]>([]);
 	const [showMergeUpload, setShowMergeUpload] = useState(true);
+	
+	// Compress mode state
+	const [compressFile, setCompressFile] = useState<CompressFile | null>(null);
 	
 	// Shared state
 	const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
@@ -242,20 +248,27 @@ export default function Home() {
 		setShowMergeUpload(true);
 	}, []);
 
+	// Compress mode handlers
+	const handleCompressFileUpload = useCallback((file: CompressFile) => {
+		setCompressFile(file);
+	}, []);
+
+	const handleCompressReset = useCallback(() => {
+		setCompressFile(null);
+	}, []);
+
 	// Mode switch handler
 	const handleModeSwitch = useCallback((mode: AppMode) => {
 		if (mode === appMode) return;
 		
-		// Reset states when switching modes
-		if (mode === 'split') {
-			setMergeFiles([]);
-			setShowMergeUpload(true);
-		} else {
-			setUploadedFile(null);
-			setPageRanges([]);
-			setSliceTasks([]);
-			sliceTasksRef.current = [];
-		}
+		// Reset all states when switching modes
+		setUploadedFile(null);
+		setPageRanges([]);
+		setSliceTasks([]);
+		sliceTasksRef.current = [];
+		setMergeFiles([]);
+		setShowMergeUpload(true);
+		setCompressFile(null);
 		
 		setAppMode(mode);
 		setShowUpgradePrompt(false);
@@ -309,6 +322,18 @@ export default function Home() {
 								`}>
 								<Layers className='h-4 w-4' />
 								<span>Merge PDFs</span>
+							</button>
+							<button
+								onClick={() => handleModeSwitch('compress')}
+								className={`
+									flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200
+									${appMode === 'compress'
+										? 'bg-white dark:bg-gray-700 text-green-600 dark:text-green-400 shadow-md'
+										: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+									}
+								`}>
+								<FileDown className='h-4 w-4' />
+								<span>Compress PDF</span>
 							</button>
 						</div>
 					</div>
@@ -404,6 +429,29 @@ export default function Home() {
 					</div>
 				)}
 
+				{/* Compress Mode */}
+				{appMode === 'compress' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{/* Usage Banner for Free Users */}
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{/* File Upload or Compression Manager */}
+						{!compressFile ? (
+							<FileUploadCompress onFileUpload={handleCompressFileUpload} />
+						) : (
+							<CompressionManager
+								file={compressFile}
+								onReset={handleCompressReset}
+							/>
+						)}
+
+						{/* Upgrade Prompt */}
+						{showUpgradePrompt && (
+							<UpgradePrompt message="Get unlimited compressions and larger files with Premium for just $2/month!" />
+						)}
+					</div>
+				)}
+
 				{/* Split Mode - PDF Interface */}
 				{appMode === 'split' && uploadedFile && (
 					<div className='space-y-8'>
@@ -452,7 +500,7 @@ export default function Home() {
 			</div>
 
 			{/* Security Status Monitor (only show when file is uploaded) */}
-			<SecurityStatus show={!!uploadedFile} />
+			<SecurityStatus show={!!uploadedFile || mergeFiles.length > 0 || !!compressFile} />
 
 			{/* Footer */}
 			<Footer />
