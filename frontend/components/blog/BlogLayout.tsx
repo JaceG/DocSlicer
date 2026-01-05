@@ -116,7 +116,7 @@ export function BlogLayout({ children, post }: BlogLayoutProps) {
 				</header>
 
 				{/* Article Content */}
-				<div className='prose prose-lg prose-gray dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-900 dark:prose-pre:bg-gray-950 prose-img:rounded-xl prose-img:shadow-lg'>
+				<div className='prose prose-lg prose-gray dark:prose-invert max-w-none prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-900 dark:prose-pre:bg-gray-950 prose-img:rounded-xl prose-img:shadow-lg [&_h2]:!text-3xl [&_h2]:!mt-12 [&_h2]:!mb-6 [&_h3]:!text-2xl [&_h3]:!mt-8 [&_h3]:!mb-4'>
 					{children}
 				</div>
 
