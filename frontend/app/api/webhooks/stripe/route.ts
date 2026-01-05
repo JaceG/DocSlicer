@@ -84,8 +84,8 @@ export async function POST(req: Request) {
 								tier: isActive ? 'premium' : 'free',
 								stripeCustomerId: customerId,
 								stripeSubscriptionId: subscription.id,
-								currentPeriodEnd: subscription.current_period_end,
-								cancelAtPeriodEnd: subscription.cancel_at_period_end,
+								currentPeriodEnd: subscription.currentPeriodEnd,
+								cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
 							},
 						},
 					});
