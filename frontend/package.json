@@ -17,8 +17,8 @@
     "next": "15.5.2",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.0.379",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "19.1.4",
+    "react-dom": "19.1.4",
     "react-dropzone": "^14.3.8",
     "stripe": "^20.1.0"
   },
