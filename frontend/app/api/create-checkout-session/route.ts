@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-	apiVersion: '2025-01-27.acacia',
+	apiVersion: '2025-12-15.clover',
 });
 
 export async function POST(req: Request) {
@@ -78,8 +78,14 @@ export async function POST(req: Request) {
 		return NextResponse.json({ sessionId: session.id, url: session.url });
 	} catch (error) {
 		console.error('Error creating checkout session:', error);
+		const errorMessage = error instanceof Error ? error.message : 'Internal server error';
 		return NextResponse.json(
-			{ error: 'Internal server error' },
+			{ 
+				error: 'Failed to create checkout session',
+				details: errorMessage,
+				// Include more debug info in development
+				...(process.env.NODE_ENV === 'development' && { stack: error instanceof Error ? error.stack : undefined })
+			},
 			{ status: 500 }
 		);
 	}
