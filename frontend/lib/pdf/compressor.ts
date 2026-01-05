@@ -103,10 +103,10 @@ export async function compressPDF(
 			objectsPerTick: 50,
 		});
 
-		onProgress?.(90);
+	onProgress?.(90);
 
-		// Create blob and URL
-		const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+	// Create blob and URL
+	const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 		const compressedSize = blob.size;
 		const compressionRatio = Math.round((1 - compressedSize / originalSize) * 100);
 
