@@ -50,6 +50,18 @@ const blogPosts = [
 		tags: ['epub', 'convert to pdf', 'file formats'],
 	},
 	{
+		slug: 'how-to-merge-multiple-pdfs',
+		title: 'How to Merge Multiple PDFs into One (Complete Guide 2026)',
+		description:
+			'Combine several PDF documents into a single file on Windows, Mac, or Linux. Learn the best methods, tools, and tips for merging PDFs quickly and securely.',
+		date: '2026-01-05',
+		readTime: '7 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: ['merge pdf', 'combine pdf', 'join pdf', 'tutorial'],
+	},
+	{
 		slug: 'how-to-split-pdf-on-computer',
 		title: 'How to Split a PDF on Your Computer (Complete Guide 2026)',
 		description:
@@ -61,27 +73,10 @@ const blogPosts = [
 		featured: false,
 		tags: ['split pdf', 'windows', 'mac', 'tutorial'],
 	},
-	// Add more posts here as you create them:
-	// {
-	//   slug: 'how-to-merge-pdfs',
-	//   title: 'How to Merge Multiple PDFs into One Document',
-	//   description: 'Combine PDF files easily...',
-	//   date: '2026-01-10',
-	//   readTime: '6 min read',
-	//   category: 'Tutorials',
-	//   icon: FileText,
-	//   featured: false,
-	//   tags: ['merge pdf', 'combine pdf'],
-	// },
 ];
 
 // Upcoming topics for SEO and user engagement
 const upcomingTopics = [
-	{
-		title: 'How to Merge Multiple PDFs into One',
-		icon: FileText,
-		description: 'Combine several documents into a single PDF file.',
-	},
 	{
 		title: 'Best PDF Tools for Privacy & Security',
 		icon: Shield,
@@ -91,6 +86,11 @@ const upcomingTopics = [
 		title: 'PDF Compression: Reduce File Size Without Quality Loss',
 		icon: Zap,
 		description: 'Make your PDFs smaller while keeping them crisp.',
+	},
+	{
+		title: 'How to Extract Pages from a PDF',
+		icon: FileText,
+		description: 'Pull specific pages out of PDFs without splitting the whole file.',
 	},
 ];
 
