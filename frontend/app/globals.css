@@ -20,6 +20,158 @@
     color: hsl(var(--color-foreground));
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* Dark mode theme overrides for system preference */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-border: 217 33% 17.5%;
+      --color-background: 222 84% 4.9%;
+      --color-foreground: 210 40% 98%;
+      --color-muted: 217 33% 17.5%;
+      --color-muted-foreground: 215 20% 65%;
+    }
+  }
+}
+
+/* 
+ * Dark mode text visibility fixes for blog content
+ * The @tailwindcss/typography plugin is not installed, so .prose classes
+ * don't have styles. This provides essential dark mode text colors for all
+ * blog content when the system uses dark mode (prefers-color-scheme: dark).
+ */
+@media (prefers-color-scheme: dark) {
+  /* ========================================
+   * PROSE CONTENT - All text inside .prose containers
+   * ======================================== */
+  .prose,
+  .prose-lg,
+  .prose-xl {
+    color: rgb(229, 231, 235); /* gray-200 */
+  }
+  
+  .prose p,
+  .prose-lg p,
+  .prose li,
+  .prose-lg li,
+  .prose span,
+  .prose-lg span {
+    color: rgb(229, 231, 235); /* gray-200 */
+  }
+  
+  .prose strong,
+  .prose-lg strong,
+  .prose b,
+  .prose-lg b {
+    color: rgb(255, 255, 255); /* white for emphasis */
+  }
+  
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6,
+  .prose-lg h1,
+  .prose-lg h2,
+  .prose-lg h3,
+  .prose-lg h4 {
+    color: rgb(255, 255, 255); /* white */
+  }
+  
+  .prose ul,
+  .prose ol,
+  .prose-lg ul,
+  .prose-lg ol {
+    color: rgb(209, 213, 219); /* gray-300 */
+  }
+  
+  .prose a,
+  .prose-lg a {
+    color: rgb(96, 165, 250); /* blue-400 */
+  }
+  
+  .prose code,
+  .prose-lg code {
+    color: rgb(244, 114, 182); /* pink-400 */
+  }
+  
+  /* ========================================
+   * FIX GRAY TEXT UTILITIES WITHOUT DARK VARIANTS
+   * These use low specificity so Tailwind's dark: variants can override
+   * Applied inside article/blog contexts to avoid affecting the whole site
+   * ======================================== */
+  article .text-gray-700,
+  .prose .text-gray-700,
+  .prose-lg .text-gray-700,
+  section .text-gray-700 {
+    color: rgb(209, 213, 219); /* gray-300 */
+  }
+  
+  article .text-gray-600,
+  .prose .text-gray-600,
+  .prose-lg .text-gray-600,
+  section .text-gray-600 {
+    color: rgb(156, 163, 175); /* gray-400 */
+  }
+  
+  article .text-gray-500,
+  .prose .text-gray-500,
+  .prose-lg .text-gray-500,
+  section .text-gray-500 {
+    color: rgb(156, 163, 175); /* gray-400 */
+  }
+  
+  article .text-gray-800,
+  .prose .text-gray-800,
+  .prose-lg .text-gray-800,
+  section .text-gray-800 {
+    color: rgb(229, 231, 235); /* gray-200 */
+  }
+  
+  article .text-gray-900,
+  .prose .text-gray-900,
+  .prose-lg .text-gray-900,
+  section .text-gray-900 {
+    color: rgb(255, 255, 255); /* white */
+  }
+  
+  /* ========================================
+   * TABLE CONTENT
+   * ======================================== */
+  .prose table td,
+  .prose table th,
+  .prose-lg table td,
+  .prose-lg table th,
+  table td,
+  table th {
+    color: rgb(229, 231, 235); /* gray-200 */
+  }
+  
+  /* ========================================
+   * SPECIFIC BLOG ELEMENT FIXES
+   * ======================================== */
+   
+  /* Lead paragraphs often used in blog intros */
+  .lead,
+  .prose-lg > p:first-of-type,
+  [class*="text-xl"][class*="text-gray-7"] {
+    color: rgb(209, 213, 219); /* gray-300 */
+  }
+  
+  /* Blog article sections that use prose-lg wrapper */
+  article .prose-lg p,
+  article .prose-lg li,
+  article .prose-lg span:not([class*="text-"]) {
+    color: rgb(229, 231, 235); /* gray-200 */
+  }
+  
+  /* Cards and info boxes with gray text */
+  [class*="bg-"][class*="dark:bg-"] p.text-gray-700,
+  [class*="bg-"][class*="dark:bg-"] p.text-gray-600,
+  [class*="bg-"][class*="dark:bg-"] span.text-gray-700,
+  [class*="bg-"][class*="dark:bg-"] span.text-gray-600 {
+    color: rgb(209, 213, 219); /* gray-300 */
+  }
 }
 
 @layer utilities {
