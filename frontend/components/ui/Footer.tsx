@@ -11,24 +11,30 @@ export function Footer() {
 					</div>
 
 					{/* Links */}
-					<div className='flex items-center gap-6'>
+					<div className='flex flex-wrap items-center justify-center gap-x-6 gap-y-2'>
 						<Link
-							href='/terms'
+							href='/blog'
 							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors'
 						>
-							Terms of Service
-						</Link>
-						<Link
-							href='/privacy'
-							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors'
-						>
-							Privacy Policy
+							Guides
 						</Link>
 						<Link
 							href='/pricing'
 							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors'
 						>
 							Pricing
+						</Link>
+						<Link
+							href='/terms'
+							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors'
+						>
+							Terms
+						</Link>
+						<Link
+							href='/privacy'
+							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors'
+						>
+							Privacy
 						</Link>
 					</div>
 				</div>
