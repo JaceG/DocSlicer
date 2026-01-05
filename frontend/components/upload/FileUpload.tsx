@@ -2,7 +2,13 @@
 
 import { useCallback, useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, FileText, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react';
+import {
+	Upload,
+	FileText,
+	AlertCircle,
+	CheckCircle2,
+	Sparkles,
+} from 'lucide-react';
 import { UploadedFile, ConvertibleFileType } from '@/types';
 import {
 	getFileType,
@@ -32,15 +38,15 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [securityWarning, setSecurityWarning] = useState<string | null>(null);
-	
+
 	// Conversion modal state
 	const [showConversionModal, setShowConversionModal] = useState(false);
 	const [fileToConvert, setFileToConvert] = useState<File | null>(null);
-	const [fileTypeToConvert, setFileTypeToConvert] = useState<ConvertibleFileType | null>(null);
-	
+	const [fileTypeToConvert, setFileTypeToConvert] =
+		useState<ConvertibleFileType | null>(null);
+
 	const { isPremium, limits, isLoaded, user } = useSubscription();
 	const isLoggedIn = !!user;
-	const hasConversionAccess = isPremium; // Only premium users can convert
 
 	// Check browser support on component mount
 	useEffect(() => {
@@ -219,7 +225,8 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 			// E-books
 			'application/epub+zip': ['.epub'],
 			// Word processors
-			'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+				['.docx'],
 			'application/msword': ['.doc'],
 			'application/vnd.oasis.opendocument.text': ['.odt'],
 			'application/rtf': ['.rtf'],
@@ -229,7 +236,8 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 			'text/markdown': ['.md', '.markdown'],
 			'text/html': ['.html', '.htm'],
 			// Presentations
-			'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx'],
+			'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+				['.pptx'],
 			'application/vnd.ms-powerpoint': ['.ppt'],
 			'application/vnd.oasis.opendocument.presentation': ['.odp'],
 			// Images
@@ -345,10 +353,12 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 							<CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0' />
 							<div className='text-left'>
 								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-									Up to 50MB
+									Up to {limits?.maxFileSizeMB || 25}MB
 								</p>
 								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									Secure
+									{isPremium
+										? 'Secure file processing'
+										: '100MB with Premium'}
 								</p>
 							</div>
 						</div>
@@ -405,7 +415,7 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						</p>
 						<p className='text-xs text-red-600 dark:text-red-400 mt-2'>
 							Please try again or use a different file. Maximum
-							file size is 50MB.
+							file size is {limits?.maxFileSizeMB || 25}MB.
 						</p>
 					</div>
 				</div>
@@ -417,7 +427,7 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 					isOpen={showConversionModal}
 					file={fileToConvert}
 					fileType={fileTypeToConvert}
-					hasConversionAccess={hasConversionAccess}
+					isLoggedIn={isLoggedIn}
 					onClose={() => {
 						setShowConversionModal(false);
 						setFileToConvert(null);

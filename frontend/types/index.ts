@@ -72,3 +72,29 @@ export interface ViewerState {
 	totalPages: number;
 	selectedPages: Set<number>;
 }
+
+// Merge functionality types
+export interface MergeFile {
+	id: string;
+	name: string;
+	file: File;
+	size: number;
+	pageCount?: number;
+	order: number;
+	thumbnail?: string;
+}
+
+export interface MergeTask {
+	id: string;
+	files: MergeFile[];
+	outputFileName: string;
+	status: 'pending' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+	totalPages?: number;
+}
+
+// App mode type
+export type AppMode = 'split' | 'merge';

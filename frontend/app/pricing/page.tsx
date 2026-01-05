@@ -110,10 +110,11 @@ export default function PricingPage() {
 							</div>
 
 							<ul className='space-y-4 mb-8'>
-								<Feature text='3 PDFs per month' />
+								<Feature text='3 splits, merges & conversions/month' />
 								<Feature text='25MB file size limit' />
 								<Feature text='Up to 3 page ranges' />
-								<Feature text='PDF files only' />
+								<Feature text='Split & Merge PDFs' />
+								<Feature text='Convert EPUB, DOCX, images' />
 								<Feature text='Individual file downloads' />
 							</ul>
 
@@ -156,6 +157,7 @@ export default function PricingPage() {
 								<Feature text='Unlimited PDFs' light />
 								<Feature text='100MB file size limit' light />
 								<Feature text='Unlimited page ranges' light />
+								<Feature text='Split & Merge PDFs' light />
 								<Feature text='Convert EPUB, DOCX, images & more' light highlight />
 								<Feature text='ZIP downloads' light />
 								<Feature text='No ads' light />

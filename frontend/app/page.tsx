@@ -5,30 +5,44 @@ import { FileUpload } from '@/components/upload/FileUpload';
 import { DocumentViewer } from '@/components/viewer/DocumentViewer';
 import { PageSelector } from '@/components/slicer/PageSelector';
 import { SliceManager } from '@/components/slicer/SliceManager';
+import { MergeManager } from '@/components/merger/MergeManager';
+import { FileUploadMultiple } from '@/components/merger/FileUploadMultiple';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
 import { SecurityStatus } from '@/components/ui/SecurityStatus';
 import { UsageBanner } from '@/components/subscription/UsageBanner';
 import { UpgradePrompt } from '@/components/subscription/UpgradePrompt';
-import { UploadedFile, PageRange, SliceTask } from '@/types';
+import { UploadedFile, PageRange, SliceTask, MergeFile, AppMode } from '@/types';
 import {
 	processSliceTasks,
 	cleanupBlobUrl,
 	cleanupBlobStoreEntry,
 	getBlobStoreSize,
 } from '@/lib/pdf/slicer';
+import { cleanupMergeBlobUrl, cleanupMergeBlobStoreEntry } from '@/lib/pdf/merger';
 import { SecurityValidator, SECURITY_CONFIG } from '@/lib/security/config';
 import { validateSliceRate } from '@/lib/utils/file';
 import { useSubscription } from '@/lib/subscription/hooks';
 import { getPdfsProcessedThisMonth, incrementPdfUsage, getRemainingPdfs } from '@/lib/subscription/usage';
 import { useRouter } from 'next/navigation';
+import { Scissors, Layers } from 'lucide-react';
 
 export default function Home() {
+	// App mode state
+	const [appMode, setAppMode] = useState<AppMode>('split');
+	
+	// Split mode state
 	const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
 	const [pageRanges, setPageRanges] = useState<PageRange[]>([]);
 	const [sliceTasks, setSliceTasks] = useState<SliceTask[]>([]);
-	const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
 	const sliceTasksRef = useRef<SliceTask[]>([]);
+	
+	// Merge mode state
+	const [mergeFiles, setMergeFiles] = useState<MergeFile[]>([]);
+	const [showMergeUpload, setShowMergeUpload] = useState(true);
+	
+	// Shared state
+	const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
 	const { isPremium, limits, isLoaded } = useSubscription();
 	const router = useRouter();
 
@@ -205,7 +219,47 @@ export default function Home() {
 		setPageRanges([]);
 		setSliceTasks([]);
 		sliceTasksRef.current = []; // Reset ref
+		
+		// Reset merge state too
+		setMergeFiles([]);
+		setShowMergeUpload(true);
 	}, [uploadedFile?.type]);
+
+	// Merge mode handlers
+	const handleMergeFilesUpload = useCallback((files: MergeFile[]) => {
+		setMergeFiles(files);
+		if (files.length >= 2) {
+			setShowMergeUpload(false);
+		}
+	}, []);
+
+	const handleAddMoreMergeFiles = useCallback(() => {
+		setShowMergeUpload(true);
+	}, []);
+
+	const handleMergeReset = useCallback(() => {
+		setMergeFiles([]);
+		setShowMergeUpload(true);
+	}, []);
+
+	// Mode switch handler
+	const handleModeSwitch = useCallback((mode: AppMode) => {
+		if (mode === appMode) return;
+		
+		// Reset states when switching modes
+		if (mode === 'split') {
+			setMergeFiles([]);
+			setShowMergeUpload(true);
+		} else {
+			setUploadedFile(null);
+			setPageRanges([]);
+			setSliceTasks([]);
+			sliceTasksRef.current = [];
+		}
+		
+		setAppMode(mode);
+		setShowUpgradePrompt(false);
+	}, [appMode]);
 
 	// Cleanup blob URLs and blob store when component unmounts only
 	useEffect(() => {
@@ -228,7 +282,40 @@ export default function Home() {
 			/>
 
 			<div className='container mx-auto px-4 py-8'>
-				{!uploadedFile ? (
+				{/* Mode Toggle */}
+				<div className='max-w-4xl mx-auto mb-8'>
+					<div className='flex justify-center'>
+						<div className='inline-flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1.5 shadow-inner'>
+							<button
+								onClick={() => handleModeSwitch('split')}
+								className={`
+									flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200
+									${appMode === 'split'
+										? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-md'
+										: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+									}
+								`}>
+								<Scissors className='h-4 w-4' />
+								<span>Split PDF</span>
+							</button>
+							<button
+								onClick={() => handleModeSwitch('merge')}
+								className={`
+									flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200
+									${appMode === 'merge'
+										? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-md'
+										: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+									}
+								`}>
+								<Layers className='h-4 w-4' />
+								<span>Merge PDFs</span>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				{/* Split Mode */}
+				{appMode === 'split' && !uploadedFile && (
 					<div className='max-w-4xl mx-auto space-y-8'>
 						{/* Usage Banner for Free Users */}
 						{isLoaded && !isPremium && <UsageBanner />}
@@ -262,8 +349,63 @@ export default function Home() {
 							<UpgradePrompt message="Get unlimited PDFs, larger file sizes, and more with Premium for just $2/month!" />
 						)}
 					</div>
-				) : (
-					/* PDF interface */
+				)}
+
+				{/* Merge Mode */}
+				{appMode === 'merge' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{/* Usage Banner for Free Users */}
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{/* Privacy Trust Badge */}
+						<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6 shadow-lg'>
+							<div className='flex items-start gap-4'>
+								<div className='bg-green-500 rounded-full p-3 flex-shrink-0'>
+									<svg className='w-6 h-6 text-white' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z' />
+									</svg>
+								</div>
+								<div className='flex-1'>
+									<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+										🔒 Your Files Never Leave Your Device
+									</h3>
+									<p className='text-gray-700 dark:text-gray-300 mb-2'>
+										Everything happens in your browser. We never upload, store, or access your PDFs.
+									</p>
+									<p className='text-sm text-gray-600 dark:text-gray-400 italic'>
+										This isn't just a promise—it's how our technology works. Complete privacy guaranteed.
+									</p>
+								</div>
+							</div>
+						</div>
+
+						{/* File Upload for Merge */}
+						{showMergeUpload && (
+							<FileUploadMultiple
+								onFilesUpload={handleMergeFilesUpload}
+								existingFiles={mergeFiles}
+							/>
+						)}
+
+						{/* Merge Manager */}
+						{mergeFiles.length > 0 && (
+							<MergeManager
+								files={mergeFiles}
+								onUpdateFiles={setMergeFiles}
+								onAddMoreFiles={handleAddMoreMergeFiles}
+								onReset={handleMergeReset}
+							/>
+						)}
+
+						{/* Upgrade Prompt */}
+						{showUpgradePrompt && (
+							<UpgradePrompt message="Get unlimited PDFs, larger file sizes, and more with Premium for just $2/month!" />
+						)}
+					</div>
+				)}
+
+				{/* Split Mode - PDF Interface */}
+				{appMode === 'split' && uploadedFile && (
 					<div className='space-y-8'>
 						{/* Usage Banner for Free Users */}
 						{isLoaded && !isPremium && <UsageBanner />}

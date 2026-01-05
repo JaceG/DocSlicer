@@ -16,12 +16,14 @@ import { CONVERSION_WARNINGS, getQualityColorClass, getQualityText } from '@/lib
 import { convertToPdf } from '@/lib/conversion/converter';
 import { cn } from '@/lib/utils/cn';
 import Link from 'next/link';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingConversions, incrementConversionUsage } from '@/lib/subscription/usage';
 
 interface ConversionModalProps {
 	isOpen: boolean;
 	file: File;
 	fileType: ConvertibleFileType;
-	hasConversionAccess: boolean;
+	isLoggedIn: boolean;
 	onClose: () => void;
 	onConversionComplete: (pdfFile: File) => void;
 }
@@ -30,7 +32,7 @@ export function ConversionModal({
 	isOpen,
 	file,
 	fileType,
-	hasConversionAccess,
+	isLoggedIn,
 	onClose,
 	onConversionComplete,
 }: ConversionModalProps) {
@@ -38,11 +40,22 @@ export function ConversionModal({
 	const [progress, setProgress] = useState(0);
 	const [status, setStatus] = useState('');
 	const [error, setError] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	
+	// Check remaining conversions
+	const remainingConversions = getRemainingConversions(limits?.maxConversionsPerMonth || 3);
+	const hasConversionAccess = isLoggedIn && (isPremium || remainingConversions > 0);
 
 	const warning = CONVERSION_WARNINGS[fileType];
 
 	const handleConvert = useCallback(async () => {
 		if (!hasConversionAccess) return;
+
+		// Increment usage for free users
+		if (!isPremium) {
+			incrementConversionUsage();
+		}
 
 		setIsConverting(true);
 		setError(null);
@@ -61,7 +74,7 @@ export function ConversionModal({
 			);
 			setIsConverting(false);
 		}
-	}, [file, fileType, hasConversionAccess, onConversionComplete]);
+	}, [file, fileType, hasConversionAccess, isPremium, onConversionComplete]);
 
 	if (!isOpen) return null;
 
@@ -159,7 +172,16 @@ export function ConversionModal({
 
 				{/* Content */}
 				<div className='p-6 space-y-6'>
-					{/* No access message for non-registered users */}
+					{/* Usage info for logged-in users */}
+					{isLoggedIn && !isPremium && remainingConversions > 0 && (
+						<div className='p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl'>
+							<p className='text-sm text-blue-700 dark:text-blue-300'>
+								<span className='font-semibold'>{remainingConversions}</span> free conversion{remainingConversions === 1 ? '' : 's'} remaining this month
+							</p>
+						</div>
+					)}
+
+					{/* No access message */}
 					{!hasConversionAccess && (
 						<div className='p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-800 rounded-xl'>
 							<div className='flex items-start gap-3'>
@@ -168,18 +190,20 @@ export function ConversionModal({
 								</div>
 								<div>
 									<h3 className='font-bold text-purple-900 dark:text-purple-100 mb-1'>
-										Premium Feature
+										{!isLoggedIn ? 'Sign In Required' : 'Limit Reached'}
 									</h3>
 									<p className='text-sm text-purple-700 dark:text-purple-300 mb-3'>
-										File conversion is available to Premium subscribers. 
-										Convert EPUBs, Word docs, images, and more to PDF instantly.
+										{!isLoggedIn 
+											? 'Sign in to convert up to 3 files per month for free, or upgrade to Premium for unlimited conversions.'
+											: `You've used all ${limits?.maxConversionsPerMonth || 3} free conversions this month. Upgrade to Premium for unlimited conversions.`
+										}
 									</p>
 									<Link
-										href='/pricing'
+										href={isLoggedIn ? '/pricing' : '/sign-in'}
 										className='inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors'
 									>
 										<Sparkles className='h-4 w-4' />
-										Upgrade to Premium — $2/month
+										{isLoggedIn ? 'Upgrade to Premium — $2/month' : 'Sign In to Continue'}
 									</Link>
 								</div>
 							</div>

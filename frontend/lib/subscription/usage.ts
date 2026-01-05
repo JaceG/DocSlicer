@@ -8,6 +8,8 @@ const USAGE_KEY = 'pdf_slicer_usage';
 interface UsageData {
 	month: string; // Format: YYYY-MM
 	pdfsProcessed: number;
+	mergesProcessed: number;
+	conversionsProcessed: number;
 }
 
 function getCurrentMonth(): string {
@@ -15,14 +17,23 @@ function getCurrentMonth(): string {
 	return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
 }
 
+function getDefaultUsageData(): UsageData {
+	return {
+		month: getCurrentMonth(),
+		pdfsProcessed: 0,
+		mergesProcessed: 0,
+		conversionsProcessed: 0,
+	};
+}
+
 function getUsageData(): UsageData {
 	if (typeof window === 'undefined') {
-		return { month: getCurrentMonth(), pdfsProcessed: 0 };
+		return getDefaultUsageData();
 	}
 
 	const stored = localStorage.getItem(USAGE_KEY);
 	if (!stored) {
-		return { month: getCurrentMonth(), pdfsProcessed: 0 };
+		return getDefaultUsageData();
 	}
 
 	try {
@@ -30,12 +41,18 @@ function getUsageData(): UsageData {
 		
 		// Reset if it's a new month
 		if (data.month !== getCurrentMonth()) {
-			return { month: getCurrentMonth(), pdfsProcessed: 0 };
+			return getDefaultUsageData();
 		}
 		
-		return data;
+		// Ensure all fields exist (for backwards compatibility)
+		return {
+			month: data.month,
+			pdfsProcessed: data.pdfsProcessed || 0,
+			mergesProcessed: data.mergesProcessed || 0,
+			conversionsProcessed: data.conversionsProcessed || 0,
+		};
 	} catch {
-		return { month: getCurrentMonth(), pdfsProcessed: 0 };
+		return getDefaultUsageData();
 	}
 }
 
@@ -44,6 +61,7 @@ function saveUsageData(data: UsageData): void {
 	localStorage.setItem(USAGE_KEY, JSON.stringify(data));
 }
 
+// PDF Slicing usage
 export function getPdfsProcessedThisMonth(): number {
 	return getUsageData().pdfsProcessed;
 }
@@ -59,6 +77,42 @@ export function getRemainingPdfs(maxPdfs: number): number {
 	if (maxPdfs === -1) return -1; // unlimited
 	const used = getPdfsProcessedThisMonth();
 	return Math.max(0, maxPdfs - used);
+}
+
+// PDF Merging usage
+export function getMergesProcessedThisMonth(): number {
+	return getUsageData().mergesProcessed;
+}
+
+export function incrementMergeUsage(): number {
+	const data = getUsageData();
+	data.mergesProcessed += 1;
+	saveUsageData(data);
+	return data.mergesProcessed;
+}
+
+export function getRemainingMerges(maxMerges: number): number {
+	if (maxMerges === -1) return -1; // unlimited
+	const used = getMergesProcessedThisMonth();
+	return Math.max(0, maxMerges - used);
+}
+
+// File Conversion usage
+export function getConversionsProcessedThisMonth(): number {
+	return getUsageData().conversionsProcessed;
+}
+
+export function incrementConversionUsage(): number {
+	const data = getUsageData();
+	data.conversionsProcessed += 1;
+	saveUsageData(data);
+	return data.conversionsProcessed;
+}
+
+export function getRemainingConversions(maxConversions: number): number {
+	if (maxConversions === -1) return -1; // unlimited
+	const used = getConversionsProcessedThisMonth();
+	return Math.max(0, maxConversions - used);
 }
 
 export function resetUsage(): void {
