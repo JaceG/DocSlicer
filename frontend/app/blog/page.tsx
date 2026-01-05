@@ -38,6 +38,18 @@ export const metadata: Metadata = {
 // Blog posts data - easily extensible for future posts
 const blogPosts = [
 	{
+		slug: 'best-pdf-tools-privacy-security',
+		title: 'Best PDF Tools for Privacy & Security (2026)',
+		description:
+			'Protect your sensitive documents with secure PDF tools. Learn which tools keep your files private and which ones expose your data to third parties.',
+		date: '2026-01-05',
+		readTime: '10 min read',
+		category: 'Security',
+		icon: Shield,
+		featured: true,
+		tags: ['pdf security', 'privacy', 'document security', 'data protection'],
+	},
+	{
 		slug: 'pdf-compression-reduce-file-size',
 		title: 'PDF Compression: Reduce File Size Without Quality Loss',
 		description:
@@ -46,7 +58,7 @@ const blogPosts = [
 		readTime: '9 min read',
 		category: 'Tutorials',
 		icon: Zap,
-		featured: true,
+		featured: false,
 		tags: ['pdf compression', 'reduce pdf size', 'compress pdf', 'optimize pdf'],
 	},
 	{
@@ -89,11 +101,6 @@ const blogPosts = [
 
 // Upcoming topics for SEO and user engagement
 const upcomingTopics = [
-	{
-		title: 'Best PDF Tools for Privacy & Security',
-		icon: Shield,
-		description: 'Protect your sensitive documents with secure tools.',
-	},
 	{
 		title: 'How to Extract Pages from a PDF',
 		icon: FileText,
