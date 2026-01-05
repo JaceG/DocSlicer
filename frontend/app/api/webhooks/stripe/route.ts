@@ -78,14 +78,16 @@ export async function POST(req: Request) {
 
 				if (user) {
 					const isActive = subscription.status === 'active';
+					// In Stripe SDK v20, current_period_end is on SubscriptionItem, not Subscription
+					const currentPeriodEnd = subscription.items.data[0]?.current_period_end;
 					await (await clerkClient()).users.updateUserMetadata(user.id, {
 						publicMetadata: {
 							subscription: {
 								tier: isActive ? 'premium' : 'free',
 								stripeCustomerId: customerId,
 								stripeSubscriptionId: subscription.id,
-								currentPeriodEnd: subscription.currentPeriodEnd,
-								cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
+								currentPeriodEnd: currentPeriodEnd,
+								cancelAtPeriodEnd: subscription.cancel_at_period_end,
 							},
 						},
 					});
