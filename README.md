@@ -1,10 +1,20 @@
-# PDF Slicer
+# DocSlicer - PDF Slicing SaaS
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
+![Status](https://img.shields.io/badge/Status-Production%20Ready-green.svg)
 
-A modern, browser-based application for extracting page ranges from PDF documents. Split your PDFs into smaller, manageable pieces with an intuitive drag-and-drop interface and secure client-side processing.
+A modern SaaS application for extracting page ranges from PDF documents. Split your PDFs into smaller, manageable pieces with an intuitive drag-and-drop interface and **100% client-side processing** for maximum privacy.
+
+🔒 **Your files never leave your device** - Everything happens in your browser!
 
 ![PDF Slicer Screenshot](assets/screentshot.png)
+
+## 💰 Pricing
+
+- **Free**: 3 PDFs/month, 25MB files, 3 page ranges
+- **Premium**: $2/month or $20/year - Unlimited everything!
+
+[View Pricing](https://www.docslicer.com/pricing)
 
 ## ✨ Features
 
@@ -14,14 +24,23 @@ A modern, browser-based application for extracting page ranges from PDF document
 - **Visual Page Selection**: Click pages to set start/end ranges intuitively
 - **Range Management**: Add multiple page ranges with live preview
 - **Batch Processing**: Slice multiple ranges simultaneously with progress tracking
-- **Smart Downloads**: Individual PDF files or bulk ZIP archives
+- **Smart Downloads**: Individual PDF files or bulk ZIP archives (Premium)
 
-### Security & Performance
+### 🔒 Privacy & Security (Our #1 Feature!)
+- **100% Client-Side Processing**: PDFs never uploaded - everything happens in YOUR browser
+- **Zero Server Storage**: We literally cannot access your files - it's technically impossible
 - **Rate Limiting**: Upload and slicing rate limits to prevent abuse
 - **File Validation**: Size, type, and content security checks
 - **Memory Management**: Browser memory monitoring and limits
-- **Client-Side Processing**: No server storage - everything happens in your browser
-- **Error Boundaries**: Graceful error handling with auto-recovery
+- **Ohio Law Compliant**: ODPA, NIST framework, CPI protection
+
+### 💳 Subscription & Authentication
+- **User Accounts**: Secure authentication via Clerk
+- **Free Tier**: 3 PDFs/month, 25MB files, 3 page ranges
+- **Premium Tier**: Unlimited PDFs, 100MB files, unlimited ranges
+- **Stripe Payments**: Secure checkout and billing management
+- **Usage Tracking**: Real-time monthly usage display
+- **Auto-Upgrades**: Seamless tier transitions
 
 ### User Experience
 - **Responsive Design**: Modern UI that works on all devices
@@ -29,6 +48,7 @@ A modern, browser-based application for extracting page ranges from PDF document
 - **Infinite Scroll**: Smooth thumbnail loading without manual pagination
 - **Dark Mode Ready**: Clean, professional interface
 - **Accessibility**: Keyboard navigation and screen reader support
+- **User Dashboard**: Track usage and manage subscription
 
 ## 🚀 Tech Stack
 
@@ -39,23 +59,38 @@ A modern, browser-based application for extracting page ranges from PDF document
 - **pdf-lib** for PDF manipulation and slicing
 - **JSZip** for ZIP archive creation
 
+### Authentication & Payments
+- **Clerk** for user authentication and management
+- **Stripe** for subscription billing and payments
+- **Webhooks** for real-time subscription updates
+
 ### Security & Performance
-- **Client-side processing** (no server storage required)
+- **Client-side processing** (PDFs never leave your browser!)
 - **Web Workers** for non-blocking PDF rendering
 - **In-memory blob storage** for temporary file persistence
 - **Rate limiting** and validation for security
 - **Memory monitoring** to prevent browser crashes
+- **NIST Framework** security standards (Ohio ODPA compliant)
 
-## 📦 Installation
+## 📦 Quick Start
+
+### For Users
+Visit [www.docslicer.com](https://www.docslicer.com) and start slicing!
+
+### For Developers
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/JaceG/DocSlicer.git
 cd pdf-epub-slicer
 
 # Install dependencies
 cd frontend
 npm install
+
+# Set up environment variables (see documentation)
+cp .env.example .env
+# Add your Clerk and Stripe keys
 
 # Start development server
 npm run dev
@@ -63,20 +98,34 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+📚 **Full Setup Guide**: See `/markdown/QUICK_START.md` for complete setup instructions including Clerk and Stripe configuration.
+
 ## 🎯 Usage
 
 ### Simple 5-Step Process
-1. **Upload**: Drag & drop a PDF file (up to 50MB)
-2. **Preview**: Browse page thumbnails in infinite scroll grid
-3. **Select**: Click start page, then end page to create ranges
-4. **Slice**: Process selected ranges into separate PDF files
-5. **Download**: Get individual files or a complete ZIP archive
+1. **Sign Up**: Create a free account (or use without signing up for single PDFs)
+2. **Upload**: Drag & drop a PDF file (Free: 25MB, Premium: 100MB)
+3. **Preview**: Browse page thumbnails in infinite scroll grid
+4. **Select**: Click start page, then end page to create ranges
+5. **Slice**: Process selected ranges into separate PDF files
+6. **Download**: Get individual files or ZIP archive (Premium only)
 
-### Security Features
-- **File validation** ensures only valid PDFs are processed
-- **Rate limiting** prevents abuse (max 5 uploads/minute, 10 slices/minute)
-- **Memory monitoring** protects against browser crashes
-- **Client-side processing** keeps your files completely private
+### Free vs Premium
+
+| Feature | Free | Premium ($2/mo) |
+|---------|------|-----------------|
+| PDFs per month | 3 | Unlimited ♾️ |
+| File size | 25MB | 100MB |
+| Page ranges | 3 | Unlimited ♾️ |
+| ZIP downloads | ❌ | ✅ |
+| No ads | ❌ | ✅ |
+| Priority processing | ❌ | ✅ |
+
+### Privacy Guarantee
+- 🔒 **Your PDFs NEVER leave your device**
+- 🔒 **All processing happens in your browser**
+- 🔒 **We cannot access, read, or store your documents**
+- 🔒 **This is how our technology works - not just a policy!**
 
 ## 🔧 Configuration
 
@@ -117,20 +166,33 @@ Works on any Node.js hosting platform:
 ### Project Structure
 ```
 pdf-epub-slicer/
-├── frontend/                 # Next.js application
-│   ├── app/                 # App router pages
-│   ├── components/          # React components
-│   │   ├── upload/         # File upload & validation
-│   │   ├── viewer/         # PDF viewer & thumbnails
-│   │   ├── slicer/         # Page selection & slicing
-│   │   └── ui/             # Shared UI components
-│   ├── lib/                # Core libraries
-│   │   ├── pdf/            # PDF processing & rendering
-│   │   ├── security/       # Security & rate limiting
-│   │   └── utils/          # Utilities & validation
-│   └── types/              # TypeScript definitions
-├── backend/                 # Future API routes
-└── shared/                 # Shared utilities
+├── frontend/
+│   ├── app/
+│   │   ├── api/                 # API routes (Stripe, webhooks)
+│   │   ├── dashboard/           # User dashboard
+│   │   ├── pricing/             # Pricing page
+│   │   ├── terms/               # Terms of Service
+│   │   ├── privacy/             # Privacy Policy
+│   │   ├── sign-in/             # Authentication pages
+│   │   └── sign-up/
+│   ├── components/
+│   │   ├── subscription/        # Usage tracking, upgrade prompts
+│   │   ├── upload/              # File upload & validation
+│   │   ├── viewer/              # PDF viewer & thumbnails
+│   │   ├── slicer/              # Page selection & slicing
+│   │   └── ui/                  # Shared UI components
+│   ├── lib/
+│   │   ├── pdf/                 # PDF processing & rendering
+│   │   ├── subscription/        # Subscription logic & hooks
+│   │   ├── security/            # Security & rate limiting
+│   │   └── utils/               # Utilities & validation
+│   ├── middleware.ts            # Clerk auth middleware
+│   └── scripts/                 # Stripe setup scripts
+└── markdown/                     # Documentation
+    ├── QUICK_START.md           # Setup guide
+    ├── MONETIZATION.md          # Business strategy
+    ├── OHIO_LEGAL_PROTECTIONS.md
+    └── IMPLEMENTATION_SUMMARY.md
 ```
 
 ### Key Components
@@ -138,17 +200,54 @@ pdf-epub-slicer/
 - `FileUpload`: Drag & drop with security validation
 - `PageSelector`: Visual page range selection interface
 - `SliceManager`: Task management, progress tracking & downloads
-- `SecurityStatus`: Rate limiting and memory monitoring display
+- `UsageBanner`: Monthly usage warnings for free users
+- `UpgradePrompt`: Contextual upgrade suggestions
+- `Dashboard`: User account and subscription management
 
-## 🔮 Future Plans
-- **Password-Protected PDFs**: Support for encrypted PDF files
-- **OCR Integration**: Text extraction from scanned PDFs
-- **Batch Processing**: Multiple file uploads and processing
-- **Advanced Security**: Enhanced rate limiting and abuse prevention
-- **Performance Optimization**: Faster rendering and processing
+## 📚 Documentation
+
+- **[QUICK_START.md](/markdown/QUICK_START.md)** - Get started in 5 minutes
+- **[IMPLEMENTATION_SUMMARY.md](/markdown/IMPLEMENTATION_SUMMARY.md)** - Complete technical overview
+- **[MONETIZATION.md](/markdown/MONETIZATION.md)** - Business model and growth strategy
+- **[OHIO_LEGAL_PROTECTIONS.md](/markdown/OHIO_LEGAL_PROTECTIONS.md)** - Legal compliance details
+
+## ⚖️ Legal
+
+- **Terms of Service**: [/terms](https://www.docslicer.com/terms)
+- **Privacy Policy**: [/privacy](https://www.docslicer.com/privacy)
+- **Jurisdiction**: Columbus, Ohio, USA
+- **Contact**: admin@docslicer.com
+
+## 🔮 Roadmap
+
+- [ ] Password-Protected PDFs support
+- [ ] OCR Integration for scanned documents
+- [ ] Merge PDFs functionality
+- [ ] API access for developers
+- [ ] Desktop app (Electron)
+- [ ] Batch file processing
+- [ ] Team workspaces
+
+## 📊 Stats
+
+- **Revenue Model**: Freemium SaaS ($2/month)
+- **Tech Stack**: Next.js + Clerk + Stripe
+- **Privacy**: 100% client-side processing
+- **Compliance**: Ohio ODPA, NIST framework
+- **Deployment**: Render.com
 
 ## 📝 License
+
 MIT License - see LICENSE file for details.
 
 ## 🤝 Contributing
-Pull requests welcome! Please read the development guidelines in `PROJECT_PROMPT.md`.
+
+Pull requests welcome! Please read the development guidelines in `/markdown/PROJECT_PROMPT.md`.
+
+For bugs or feature requests, please open an issue on GitHub.
+
+---
+
+**Made with ❤️ in Columbus, Ohio**
+
+[Visit DocSlicer](https://www.docslicer.com) | [Report Issue](https://github.com/JaceG/DocSlicer/issues) | [Contact Us](mailto:admin@docslicer.com)

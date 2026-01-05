@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import HotjarProvider from '../components/analytics/HotjarProvider';
 import ErrorBoundary from '../components/ErrorBoundary';
+import { ClerkProvider } from '@clerk/nextjs';
 // import AdSenseProvider from '../components/analytics/AdSenseProvider';
 
 const inter = Inter({
@@ -42,16 +43,18 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en' className={inter.variable}>
-			<body className='font-sans antialiased'>
-				{/* <AdSenseProvider /> */}
-				<HotjarProvider />
-				<ErrorBoundary>
-					<main className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
-						{children}
-					</main>
-				</ErrorBoundary>
-			</body>
-		</html>
+		<ClerkProvider>
+			<html lang='en' className={inter.variable}>
+				<body className='font-sans antialiased'>
+					{/* <AdSenseProvider /> */}
+					<HotjarProvider />
+					<ErrorBoundary>
+						<main className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
+							{children}
+						</main>
+					</ErrorBoundary>
+				</body>
+			</html>
+		</ClerkProvider>
 	);
 }
