@@ -38,6 +38,18 @@ export const metadata: Metadata = {
 // Blog posts data - easily extensible for future posts
 const blogPosts = [
 	{
+		slug: 'why-convert-to-pdf-before-splitting',
+		title: 'Why You Can\'t Split EPUBs Like PDFs (And What to Do Instead)',
+		description:
+			'EPUBs and other document formats can\'t be split like PDFs due to their fundamentally different structure. Learn why conversion to PDF is necessary and how to do it properly.',
+		date: '2026-01-05',
+		readTime: '7 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: true,
+		tags: ['epub', 'convert to pdf', 'file formats'],
+	},
+	{
 		slug: 'how-to-split-pdf-on-computer',
 		title: 'How to Split a PDF on Your Computer (Complete Guide 2026)',
 		description:
@@ -46,7 +58,7 @@ const blogPosts = [
 		readTime: '8 min read',
 		category: 'Tutorials',
 		icon: FileText,
-		featured: true,
+		featured: false,
 		tags: ['split pdf', 'windows', 'mac', 'tutorial'],
 	},
 	// Add more posts here as you create them:
