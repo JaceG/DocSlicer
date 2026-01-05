@@ -38,6 +38,18 @@ export const metadata: Metadata = {
 // Blog posts data - easily extensible for future posts
 const blogPosts = [
 	{
+		slug: 'pdf-compression-reduce-file-size',
+		title: 'PDF Compression: Reduce File Size Without Quality Loss',
+		description:
+			'Make your PDFs smaller while keeping them crisp. Learn the best compression methods, understand quality vs. size trade-offs, and discover tools that work.',
+		date: '2026-01-05',
+		readTime: '9 min read',
+		category: 'Tutorials',
+		icon: Zap,
+		featured: true,
+		tags: ['pdf compression', 'reduce pdf size', 'compress pdf', 'optimize pdf'],
+	},
+	{
 		slug: 'why-convert-to-pdf-before-splitting',
 		title: 'Why You Can\'t Split EPUBs Like PDFs (And What to Do Instead)',
 		description:
@@ -46,7 +58,7 @@ const blogPosts = [
 		readTime: '7 min read',
 		category: 'Tutorials',
 		icon: FileText,
-		featured: true,
+		featured: false,
 		tags: ['epub', 'convert to pdf', 'file formats'],
 	},
 	{
@@ -83,14 +95,14 @@ const upcomingTopics = [
 		description: 'Protect your sensitive documents with secure tools.',
 	},
 	{
-		title: 'PDF Compression: Reduce File Size Without Quality Loss',
-		icon: Zap,
-		description: 'Make your PDFs smaller while keeping them crisp.',
-	},
-	{
 		title: 'How to Extract Pages from a PDF',
 		icon: FileText,
 		description: 'Pull specific pages out of PDFs without splitting the whole file.',
+	},
+	{
+		title: 'How to Convert PDFs to Other Formats',
+		icon: FileText,
+		description: 'Transform PDFs into Word, Excel, images, and more.',
 	},
 ];
 
