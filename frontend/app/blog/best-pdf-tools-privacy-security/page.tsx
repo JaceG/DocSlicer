@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { BlogLayout, BlogPost } from '@/components/blog/BlogLayout';
+import { BlogLayout, type BlogPost } from '@/components/blog/BlogLayout';
 import {
 	Shield,
 	Lock,
@@ -150,7 +150,7 @@ const privacyRisks = [
 	},
 ];
 
-export default function BlogPost() {
+export default function BlogPostPage() {
 	return (
 		<BlogLayout post={postData}>
 			{/* Introduction */}
