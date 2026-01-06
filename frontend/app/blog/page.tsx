@@ -205,6 +205,54 @@ const blogPosts = [
 		featured: false,
 		tags: ['real estate', 'realtors', 'property management', 'listings'],
 	},
+	{
+		slug: 'understanding-pdf-file-structure',
+		title: 'Understanding PDF File Structure: Why Are Some PDFs So Large?',
+		description:
+			'Deep dive into PDF file structure and discover why some PDFs are massive while others are tiny. Learn what makes PDFs large and how to optimize them.',
+		date: '2026-01-05',
+		readTime: '10 min read',
+		category: 'Technical',
+		icon: FileText,
+		featured: false,
+		tags: ['pdf structure', 'file size', 'technical', 'optimization'],
+	},
+	{
+		slug: 'what-happens-when-you-split-pdf',
+		title: 'What Happens When You Split a PDF? (Technical Breakdown)',
+		description:
+			'Behind-the-scenes look at PDF splitting. Learn exactly what happens to your document when you extract pages, and why client-side processing protects your privacy.',
+		date: '2026-01-05',
+		readTime: '8 min read',
+		category: 'Technical',
+		icon: FileText,
+		featured: false,
+		tags: ['pdf splitting', 'technical', 'privacy', 'client-side'],
+	},
+	{
+		slug: 'pdf-metadata-hidden-information',
+		title: 'PDF Metadata: What Hidden Information Are You Sharing?',
+		description:
+			'Discover what hidden data lurks in PDF metadata. Learn what information PDFs reveal about you, how to view it, and how to remove sensitive metadata before sharing.',
+		date: '2026-01-05',
+		readTime: '9 min read',
+		category: 'Privacy & Security',
+		icon: Shield,
+		featured: false,
+		tags: ['metadata', 'privacy', 'security', 'hidden data'],
+	},
+	{
+		slug: 'lossless-vs-lossy-pdf-compression',
+		title: 'Lossless vs Lossy PDF Compression Explained',
+		description:
+			'Understand the difference between lossless and lossy PDF compression. Learn when to use each method, quality trade-offs, and how to choose the right compression for your needs.',
+		date: '2026-01-05',
+		readTime: '11 min read',
+		category: 'Technical',
+		icon: Zap,
+		featured: false,
+		tags: ['compression', 'lossless', 'lossy', 'technical', 'quality'],
+	},
 ];
 
 // Upcoming topics for SEO and user engagement

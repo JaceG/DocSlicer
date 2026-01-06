@@ -215,4 +215,36 @@
     <priority>0.9</priority>
   </url>
   
+  <!-- Blog: Understanding PDF File Structure -->
+  <url>
+    <loc>https://www.docslicer.com/blog/understanding-pdf-file-structure</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: What Happens When You Split a PDF -->
+  <url>
+    <loc>https://www.docslicer.com/blog/what-happens-when-you-split-pdf</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: PDF Metadata Hidden Information -->
+  <url>
+    <loc>https://www.docslicer.com/blog/pdf-metadata-hidden-information</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: Lossless vs Lossy PDF Compression -->
+  <url>
+    <loc>https://www.docslicer.com/blog/lossless-vs-lossy-pdf-compression</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
 </urlset>
