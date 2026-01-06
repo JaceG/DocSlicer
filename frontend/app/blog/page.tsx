@@ -327,20 +327,6 @@ const blogPosts = [
 	},
 ];
 
-// Upcoming topics for SEO and user engagement
-const upcomingTopics = [
-	{
-		title: 'How to Extract Pages from a PDF',
-		icon: FileText,
-		description: 'Pull specific pages out of PDFs without splitting the whole file.',
-	},
-	{
-		title: 'How to Convert PDFs to Other Formats',
-		icon: FileText,
-		description: 'Transform PDFs into Word, Excel, images, and more.',
-	},
-];
-
 export default function BlogIndex() {
 	return (
 		<div className='min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/30 dark:from-gray-900 dark:via-blue-950/20 dark:to-indigo-950/30'>
@@ -486,33 +472,6 @@ export default function BlogIndex() {
 										</div>
 									</article>
 								</Link>
-							);
-						})}
-					</div>
-				</section>
-
-				{/* Coming Soon Section */}
-				<section className='mb-16'>
-					<h2 className='text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-6'>
-						Coming Soon
-					</h2>
-					<div className='grid md:grid-cols-3 gap-6'>
-						{upcomingTopics.map((topic) => {
-							const IconComponent = topic.icon;
-							return (
-								<div
-									key={topic.title}
-									className='p-6 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700'>
-									<div className='p-2 bg-gray-200 dark:bg-gray-700 rounded-lg w-fit mb-4'>
-										<IconComponent className='h-5 w-5 text-gray-500 dark:text-gray-400' />
-									</div>
-									<h3 className='text-base font-semibold text-gray-700 dark:text-gray-300 mb-2'>
-										{topic.title}
-									</h3>
-									<p className='text-sm text-gray-500 dark:text-gray-500'>
-										{topic.description}
-									</p>
-								</div>
 							);
 						})}
 					</div>
