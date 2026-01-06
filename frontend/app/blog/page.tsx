@@ -97,6 +97,66 @@ const blogPosts = [
 		featured: false,
 		tags: ['split pdf', 'windows', 'mac', 'tutorial'],
 	},
+	{
+		slug: 'split-large-pdfs-for-email',
+		title: 'How to Split Large PDFs for Email (Gmail & Outlook Limits)',
+		description:
+			'Learn how to split PDFs that are too large for email. Complete guide to Gmail and Outlook attachment limits, plus strategies to send large files via email.',
+		date: '2026-01-05',
+		readTime: '6 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: ['email', 'gmail', 'outlook', 'split pdf', 'file size'],
+	},
+	{
+		slug: 'extract-pages-from-pdf-contract',
+		title: 'How to Extract Specific Pages from a PDF Contract',
+		description:
+			'Learn how to extract specific pages from PDF contracts, legal documents, and business files. Secure, fast methods for lawyers, paralegals, and business professionals.',
+		date: '2026-01-05',
+		readTime: '7 min read',
+		category: 'Business',
+		icon: FileText,
+		featured: false,
+		tags: ['contracts', 'legal', 'business', 'extract pages'],
+	},
+	{
+		slug: 'merge-scanned-documents-into-pdf',
+		title: 'How to Merge Scanned Documents into One Searchable PDF',
+		description:
+			'Learn how to combine multiple scanned documents into a single PDF file. Perfect for digitizing paperwork, organizing receipts, and creating searchable document archives.',
+		date: '2026-01-05',
+		readTime: '8 min read',
+		category: 'Productivity',
+		icon: FileText,
+		featured: false,
+		tags: ['scanning', 'merge pdf', 'digitization', 'paperless'],
+	},
+	{
+		slug: 'compress-pdfs-for-web-loading',
+		title: 'How to Compress PDFs for Faster Website Loading',
+		description:
+			'Learn how to optimize PDFs for web performance. Reduce file sizes for faster page load times, better SEO, and improved user experience.',
+		date: '2026-01-05',
+		readTime: '9 min read',
+		category: 'Web Development',
+		icon: Zap,
+		featured: false,
+		tags: ['web optimization', 'performance', 'seo', 'compression'],
+	},
+	{
+		slug: 'split-pdfs-for-printing',
+		title: 'How to Split PDFs for Printing on Home Printers',
+		description:
+			'Learn how to split large PDFs into printable sections for home and office printers. Save on ink, avoid paper jams, and organize printed documents efficiently.',
+		date: '2026-01-05',
+		readTime: '8 min read',
+		category: 'Productivity',
+		icon: FileText,
+		featured: false,
+		tags: ['printing', 'home office', 'productivity', 'pdf splitting'],
+	},
 ];
 
 // Upcoming topics for SEO and user engagement
