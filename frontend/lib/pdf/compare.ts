@@ -383,5 +383,5 @@ export async function generateComparisonReport(
 	
 	onProgress?.(100);
 	
-	return new Blob([pdfBytes], { type: 'application/pdf' });
+	return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 }

@@ -10,6 +10,26 @@ const isPublicRoute = createRouteMatcher([
   '/sign-in(.*)',
   '/sign-up(.*)',
   '/api/webhooks/stripe',
+  // Tool routes (SEO landing pages)
+  '/split',
+  '/merge',
+  '/compress',
+  '/organize',
+  '/images-to-pdf',
+  '/pdf-to-images',
+  '/page-numbers',
+  '/protect',
+  '/unlock',
+  '/watermark',
+  '/split-by-bookmarks',
+  '/remove-blank-pages',
+  '/repair',
+  '/annotate',
+  '/sign',
+  '/fill-forms',
+  '/ocr',
+  '/compare',
+  '/edit-metadata',
 ]);
 
 export default clerkMiddleware(async (auth, request) => {

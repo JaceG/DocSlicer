@@ -106,7 +106,7 @@ export async function addTextWatermark(
 	onProgress?.(90);
 
 	// Create blob and URL
-	const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+	const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 	const url = URL.createObjectURL(blob);
 	const blobKey = `watermark_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -180,7 +180,7 @@ export async function addImageWatermark(
 	onProgress?.(95);
 
 	// Create blob and URL
-	const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+	const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 	const url = URL.createObjectURL(blob);
 	const blobKey = `watermark_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 

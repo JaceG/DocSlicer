@@ -113,7 +113,7 @@ export async function writeMetadata(
 	
 	onProgress?.(100);
 	
-	return new Blob([pdfBytes], { type: 'application/pdf' });
+	return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 }
 
 /**
@@ -144,7 +144,7 @@ export async function removeMetadata(
 	
 	onProgress?.(100);
 	
-	return new Blob([pdfBytes], { type: 'application/pdf' });
+	return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 }
 
 /**

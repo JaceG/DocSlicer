@@ -210,7 +210,7 @@ export async function repairPdf(
 	});
 
 	// Create blob and URL
-	const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+	const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 	const url = URL.createObjectURL(blob);
 	const blobKey = `repaired_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 

@@ -151,7 +151,7 @@ export async function fillFormFields(
 	
 	onProgress?.(100);
 	
-	return new Blob([pdfBytes], { type: 'application/pdf' });
+	return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 }
 
 /**
@@ -192,7 +192,7 @@ export async function flattenForm(
 	
 	onProgress?.(100);
 	
-	return new Blob([pdfBytes], { type: 'application/pdf' });
+	return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 }
 
 /**

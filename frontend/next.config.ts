@@ -36,14 +36,14 @@ const nextConfig: NextConfig = {
 	// Headers for caching - disable in development to avoid stale assets
 	async headers() {
 		const isDev = process.env.NODE_ENV === 'development';
-		
+
 		return [
 			{
 				source: '/_next/static/(.*)',
 				headers: [
 					{
 						key: 'Cache-Control',
-						value: isDev 
+						value: isDev
 							? 'no-store, no-cache, must-revalidate, proxy-revalidate'
 							: 'public, max-age=31536000, immutable',
 					},

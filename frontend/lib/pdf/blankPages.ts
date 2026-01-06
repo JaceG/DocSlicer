@@ -151,7 +151,7 @@ export async function removePages(
 	onProgress?.(70);
 
 	const pdfBytes = await newPdf.save();
-	const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+	const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 	const url = URL.createObjectURL(blob);
 	const blobKey = `blank_removed_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 

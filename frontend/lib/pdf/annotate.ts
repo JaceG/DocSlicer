@@ -295,7 +295,8 @@ export async function applyAnnotations(
 	
 	onProgress?.(100);
 	
-	return new Blob([pdfBytes], { type: 'application/pdf' });
+	// Create a new Uint8Array to ensure Blob compatibility
+	return new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 }
 
 /**

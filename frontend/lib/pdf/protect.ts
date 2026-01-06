@@ -34,7 +34,7 @@ export async function protectPdf(
 	onProgress?.(80);
 
 	// Create blob and URL
-	const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+	const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 	const url = URL.createObjectURL(blob);
 	const blobKey = `protect_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 

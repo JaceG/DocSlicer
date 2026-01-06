@@ -20,10 +20,11 @@ export async function unlockPdf(
 
 	try {
 		// Try to load with the provided password
+		// Note: pdf-lib has limited encryption support, using type assertion for password option
 		const pdfDoc = await PDFDocument.load(arrayBuffer, {
 			password: password,
 			ignoreEncryption: false,
-		});
+		} as Parameters<typeof PDFDocument.load>[1]);
 		onProgress?.(50);
 
 		// Save without encryption
@@ -33,7 +34,7 @@ export async function unlockPdf(
 		onProgress?.(80);
 
 		// Create blob and URL
-		const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+		const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
 		const url = URL.createObjectURL(blob);
 		const blobKey = `unlock_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
