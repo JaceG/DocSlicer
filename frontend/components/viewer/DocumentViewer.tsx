@@ -474,3 +474,6 @@ export function DocumentViewer({
 		</div>
 	);
 }
+
+// Default export for dynamic import compatibility
+export default DocumentViewer;

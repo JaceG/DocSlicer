@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef, lazy, Suspense } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { FileUpload } from '@/components/upload/FileUpload';
-// DocumentViewer is lazily imported because it uses pdfjs-dist which has ESM issues in dev mode
-const DocumentViewer = lazy(() => import('@/components/viewer/DocumentViewer').then(mod => ({ default: mod.DocumentViewer })));
+import { DocumentViewer } from '@/components/viewer/DocumentViewer';
 import { PageSelector } from '@/components/slicer/PageSelector';
 import { SliceManager } from '@/components/slicer/SliceManager';
 import { MergeManager } from '@/components/merger/MergeManager';
@@ -13,7 +12,22 @@ import { Footer } from '@/components/ui/Footer';
 import { SecurityStatus } from '@/components/ui/SecurityStatus';
 import { UsageBanner } from '@/components/subscription/UsageBanner';
 import { UpgradePrompt } from '@/components/subscription/UpgradePrompt';
-import { UploadedFile, PageRange, SliceTask, MergeFile, AppMode, CompressFile } from '@/types';
+import { FileUploadOrganize } from '@/components/organizer/FileUploadOrganize';
+import { PageOrganizer } from '@/components/organizer/PageOrganizer';
+import { ImageUpload } from '@/components/imagesToPdf/ImageUpload';
+import { ImagesToPdfManager } from '@/components/imagesToPdf/ImagesToPdfManager';
+import { PdfToImagesManager } from '@/components/pdfToImages/PdfToImagesManager';
+import { PageNumbersManager } from '@/components/pageNumbers/PageNumbersManager';
+import { 
+	UploadedFile, 
+	PageRange, 
+	SliceTask, 
+	MergeFile, 
+	AppMode, 
+	CompressFile,
+	OrganizeFile,
+	ImageFile,
+} from '@/types';
 import {
 	processSliceTasks,
 	cleanupBlobUrl,
@@ -26,10 +40,30 @@ import { validateSliceRate } from '@/lib/utils/file';
 import { useSubscription } from '@/lib/subscription/hooks';
 import { getPdfsProcessedThisMonth, incrementPdfUsage, getRemainingPdfs } from '@/lib/subscription/usage';
 import { useRouter } from 'next/navigation';
-import { Scissors, Layers, FileDown } from 'lucide-react';
+import { 
+	Scissors, 
+	Layers, 
+	FileDown, 
+	RotateCw, 
+	Image as ImageIcon, 
+	FileImage, 
+	Hash,
+} from 'lucide-react';
 import { FileUploadCompress } from '@/components/compressor/FileUploadCompress';
 import { CompressionManager } from '@/components/compressor/CompressionManager';
 import { cleanupCompressBlobUrl, cleanupCompressBlobStoreEntry } from '@/lib/pdf/compressor';
+import { cn } from '@/lib/utils/cn';
+
+// All tools - displayed prominently with explicit Tailwind classes
+const ALL_TOOLS = [
+	{ id: 'split' as AppMode, label: 'Split', icon: Scissors, activeClasses: 'bg-blue-500 hover:bg-blue-600 ring-blue-400' },
+	{ id: 'merge' as AppMode, label: 'Merge', icon: Layers, activeClasses: 'bg-indigo-500 hover:bg-indigo-600 ring-indigo-400' },
+	{ id: 'compress' as AppMode, label: 'Compress', icon: FileDown, activeClasses: 'bg-emerald-500 hover:bg-emerald-600 ring-emerald-400' },
+	{ id: 'organize' as AppMode, label: 'Organize', icon: RotateCw, activeClasses: 'bg-purple-500 hover:bg-purple-600 ring-purple-400' },
+	{ id: 'images-to-pdf' as AppMode, label: 'IMG→PDF', icon: ImageIcon, activeClasses: 'bg-orange-500 hover:bg-orange-600 ring-orange-400' },
+	{ id: 'pdf-to-images' as AppMode, label: 'PDF→IMG', icon: FileImage, activeClasses: 'bg-cyan-500 hover:bg-cyan-600 ring-cyan-400' },
+	{ id: 'page-numbers' as AppMode, label: 'Numbers', icon: Hash, activeClasses: 'bg-rose-500 hover:bg-rose-600 ring-rose-400' },
+];
 
 export default function Home() {
 	// App mode state
@@ -47,6 +81,15 @@ export default function Home() {
 	
 	// Compress mode state
 	const [compressFile, setCompressFile] = useState<CompressFile | null>(null);
+	
+	// Organize mode state
+	const [organizeFile, setOrganizeFile] = useState<OrganizeFile | null>(null);
+	
+	// Images to PDF mode state
+	const [imagesToPdfFiles, setImagesToPdfFiles] = useState<ImageFile[]>([]);
+	const [showImageUpload, setShowImageUpload] = useState(true);
+	
+	// PDF to Images / Page Numbers mode state (uses uploadedFile)
 	
 	// Shared state
 	const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
@@ -222,15 +265,18 @@ export default function Home() {
 		// Reset security session tracking
 		SecurityValidator.resetSession();
 
+		// Reset all states
 		setUploadedFile(null);
 		setPageRanges([]);
 		setSliceTasks([]);
-		sliceTasksRef.current = []; // Reset ref
-		
-		// Reset merge state too
+		sliceTasksRef.current = [];
 		setMergeFiles([]);
 		setShowMergeUpload(true);
-	}, [uploadedFile?.type]);
+		setCompressFile(null);
+		setOrganizeFile(null);
+		setImagesToPdfFiles([]);
+		setShowImageUpload(true);
+	}, []);
 
 	// Merge mode handlers
 	const handleMergeFilesUpload = useCallback((files: MergeFile[]) => {
@@ -258,6 +304,37 @@ export default function Home() {
 		setCompressFile(null);
 	}, []);
 
+	// Organize mode handlers
+	const handleOrganizeFileUpload = useCallback((file: OrganizeFile) => {
+		setOrganizeFile(file);
+	}, []);
+
+	const handleOrganizeReset = useCallback(() => {
+		setOrganizeFile(null);
+	}, []);
+
+	// Images to PDF handlers
+	const handleImagesToPdfUpload = useCallback((files: ImageFile[]) => {
+		setImagesToPdfFiles(files);
+		if (files.length > 0) {
+			setShowImageUpload(false);
+		}
+	}, []);
+
+	const handleAddMoreImages = useCallback(() => {
+		setShowImageUpload(true);
+	}, []);
+
+	const handleImagesToPdfReset = useCallback(() => {
+		setImagesToPdfFiles([]);
+		setShowImageUpload(true);
+	}, []);
+
+	// PDF to Images / Page Numbers handlers (reuse uploadedFile)
+	const handlePdfToolReset = useCallback(() => {
+		setUploadedFile(null);
+	}, []);
+
 	// Mode switch handler
 	const handleModeSwitch = useCallback((mode: AppMode) => {
 		if (mode === appMode) return;
@@ -270,10 +347,14 @@ export default function Home() {
 		setMergeFiles([]);
 		setShowMergeUpload(true);
 		setCompressFile(null);
+		setOrganizeFile(null);
+		setImagesToPdfFiles([]);
+		setShowImageUpload(true);
 		
 		setAppMode(mode);
 		setShowUpgradePrompt(false);
 	}, [appMode]);
+
 
 	// Cleanup blob URLs and blob store when component unmounts only
 	useEffect(() => {
@@ -289,54 +370,53 @@ export default function Home() {
 		};
 	}, []); // Empty dependency array - only run on mount/unmount
 
+	// Get current tool info
+	const getCurrentToolInfo = () => {
+		return ALL_TOOLS.find(t => t.id === appMode);
+	};
+
+	const currentTool = getCurrentToolInfo();
+
 	return (
 		<div className='min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/30 dark:from-gray-900 dark:via-blue-950/20 dark:to-indigo-950/30'>
 			<Header
-				onNewDocument={uploadedFile ? handleNewDocument : undefined}
+				onNewDocument={uploadedFile || mergeFiles.length > 0 || compressFile || organizeFile || imagesToPdfFiles.length > 0 ? handleNewDocument : undefined}
 			/>
 
 			<div className='container mx-auto px-4 py-8'>
-				{/* Mode Toggle */}
+				{/* Tool Selection Grid - All tools visible */}
 				<div className='max-w-4xl mx-auto mb-8'>
-					<div className='flex justify-center'>
-						<div className='inline-flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1.5 shadow-inner'>
+					<div className='flex flex-wrap justify-center gap-2 sm:gap-3'>
+						{ALL_TOOLS.map((tool) => (
 							<button
-								onClick={() => handleModeSwitch('split')}
-								className={`
-									flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200
-									${appMode === 'split'
-										? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-md'
-										: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-									}
-								`}>
-								<Scissors className='h-4 w-4' />
-								<span>Split PDF</span>
+								key={tool.id}
+								onClick={() => handleModeSwitch(tool.id)}
+								className={cn(
+									'group flex flex-col items-center justify-center px-4 py-3 sm:px-5 sm:py-4 rounded-xl transition-all duration-200 min-w-[80px] sm:min-w-[90px]',
+									appMode === tool.id
+										? `${tool.activeClasses} text-white shadow-lg scale-105 ring-2 ring-offset-2`
+										: 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-md hover:shadow-lg hover:scale-105 border border-gray-200 dark:border-gray-700'
+								)}
+							>
+								<tool.icon className='h-5 w-5 sm:h-6 sm:w-6 mb-1.5 transition-transform group-hover:scale-110' />
+								<span className='text-xs sm:text-sm font-medium text-center leading-tight whitespace-nowrap'>
+									{tool.label}
+								</span>
 							</button>
-							<button
-								onClick={() => handleModeSwitch('merge')}
-								className={`
-									flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200
-									${appMode === 'merge'
-										? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-md'
-										: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-									}
-								`}>
-								<Layers className='h-4 w-4' />
-								<span>Merge PDFs</span>
-							</button>
-							<button
-								onClick={() => handleModeSwitch('compress')}
-								className={`
-									flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold text-sm transition-all duration-200
-									${appMode === 'compress'
-										? 'bg-white dark:bg-gray-700 text-green-600 dark:text-green-400 shadow-md'
-										: 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-									}
-								`}>
-								<FileDown className='h-4 w-4' />
-								<span>Compress PDF</span>
-							</button>
-						</div>
+						))}
+					</div>
+					
+					{/* Current tool description */}
+					<div className='mt-4 text-center'>
+						<p className='text-sm text-gray-600 dark:text-gray-400'>
+							{appMode === 'split' && 'Extract specific pages from your PDF'}
+							{appMode === 'merge' && 'Combine multiple PDFs into one document'}
+							{appMode === 'compress' && 'Reduce PDF file size while maintaining quality'}
+							{appMode === 'organize' && 'Rotate, delete, and reorder pages'}
+							{appMode === 'images-to-pdf' && 'Convert JPG, PNG images to PDF'}
+							{appMode === 'pdf-to-images' && 'Export PDF pages as images'}
+							{appMode === 'page-numbers' && 'Add page numbers to your PDF'}
+						</p>
 					</div>
 				</div>
 
@@ -380,10 +460,8 @@ export default function Home() {
 				{/* Merge Mode */}
 				{appMode === 'merge' && (
 					<div className='max-w-4xl mx-auto space-y-8'>
-						{/* Usage Banner for Free Users */}
 						{isLoaded && !isPremium && <UsageBanner />}
 
-						{/* Privacy Trust Badge */}
 						<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6 shadow-lg'>
 							<div className='flex items-start gap-4'>
 								<div className='bg-green-500 rounded-full p-3 flex-shrink-0'>
@@ -398,14 +476,10 @@ export default function Home() {
 									<p className='text-gray-700 dark:text-gray-300 mb-2'>
 										Everything happens in your browser. We never upload, store, or access your PDFs.
 									</p>
-									<p className='text-sm text-gray-600 dark:text-gray-400 italic'>
-										This isn't just a promise—it's how our technology works. Complete privacy guaranteed.
-									</p>
 								</div>
 							</div>
 						</div>
 
-						{/* File Upload for Merge */}
 						{showMergeUpload && (
 							<FileUploadMultiple
 								onFilesUpload={handleMergeFilesUpload}
@@ -413,7 +487,6 @@ export default function Home() {
 							/>
 						)}
 
-						{/* Merge Manager */}
 						{mergeFiles.length > 0 && (
 							<MergeManager
 								files={mergeFiles}
@@ -423,7 +496,6 @@ export default function Home() {
 							/>
 						)}
 
-						{/* Upgrade Prompt */}
 						{showUpgradePrompt && (
 							<UpgradePrompt message="Get unlimited PDFs, larger file sizes, and more with Premium for just $2/month!" />
 						)}
@@ -433,10 +505,8 @@ export default function Home() {
 				{/* Compress Mode */}
 				{appMode === 'compress' && (
 					<div className='max-w-4xl mx-auto space-y-8'>
-						{/* Usage Banner for Free Users */}
 						{isLoaded && !isPremium && <UsageBanner />}
 
-						{/* File Upload or Compression Manager */}
 						{!compressFile ? (
 							<FileUploadCompress onFileUpload={handleCompressFileUpload} />
 						) : (
@@ -446,9 +516,123 @@ export default function Home() {
 							/>
 						)}
 
-						{/* Upgrade Prompt */}
 						{showUpgradePrompt && (
 							<UpgradePrompt message="Get unlimited compressions and larger files with Premium for just $2/month!" />
+						)}
+					</div>
+				)}
+
+				{/* Organize Mode (Rotate, Delete, Reorder) */}
+				{appMode === 'organize' && (
+					<div className='max-w-6xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!organizeFile ? (
+							<FileUploadOrganize onFileUpload={handleOrganizeFileUpload} />
+						) : (
+							<PageOrganizer
+								file={organizeFile}
+								onReset={handleOrganizeReset}
+							/>
+						)}
+					</div>
+				)}
+
+				{/* Images to PDF Mode */}
+				{appMode === 'images-to-pdf' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{showImageUpload && (
+							<ImageUpload
+								onImagesUpload={handleImagesToPdfUpload}
+								existingImages={imagesToPdfFiles}
+							/>
+						)}
+
+						{imagesToPdfFiles.length > 0 && (
+							<ImagesToPdfManager
+								images={imagesToPdfFiles}
+								onUpdateImages={setImagesToPdfFiles}
+								onAddMoreImages={handleAddMoreImages}
+								onReset={handleImagesToPdfReset}
+							/>
+						)}
+					</div>
+				)}
+
+				{/* PDF to Images Mode */}
+				{appMode === 'pdf-to-images' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20 border-2 border-cyan-200 dark:border-cyan-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-cyan-500 rounded-full p-3 flex-shrink-0'>
+											<FileImage className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												📸 PDF to Images
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Convert each page of your PDF into high-quality JPG, PNG, or WebP images.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Export all pages or select specific ones</li>
+												<li>• Choose resolution and image quality</li>
+												<li>• Download as individual files or ZIP</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<PdfToImagesManager
+								file={uploadedFile}
+								onReset={handlePdfToolReset}
+							/>
+						)}
+					</div>
+				)}
+
+				{/* Page Numbers Mode */}
+				{appMode === 'page-numbers' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-rose-50 to-pink-50 dark:from-rose-900/20 dark:to-pink-900/20 border-2 border-rose-200 dark:border-rose-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-rose-500 rounded-full p-3 flex-shrink-0'>
+											<Hash className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												🔢 Add Page Numbers
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Add professional page numbering to your PDF documents.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Multiple formats: 1, 2, 3 or i, ii, iii or A, B, C</li>
+												<li>• Customize position, size, and color</li>
+												<li>• Add prefix/suffix like "Page 1 of 10"</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<PageNumbersManager
+								file={uploadedFile}
+								onReset={handlePdfToolReset}
+							/>
 						)}
 					</div>
 				)}
@@ -456,27 +640,15 @@ export default function Home() {
 				{/* Split Mode - PDF Interface */}
 				{appMode === 'split' && uploadedFile && (
 					<div className='space-y-8'>
-						{/* Usage Banner for Free Users */}
 						{isLoaded && !isPremium && <UsageBanner />}
 
-					{/* Document Viewer */}
 					<div className='w-full'>
-						<Suspense fallback={
-							<div className="flex items-center justify-center min-h-[400px] bg-gray-50 dark:bg-gray-800/50 rounded-lg">
-								<div className="text-center">
-									<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-									<p className="text-sm text-gray-600 dark:text-gray-400">Loading document viewer...</p>
-								</div>
-							</div>
-						}>
-							<DocumentViewer
-								file={uploadedFile}
-								onPageCountLoaded={handlePageCountLoaded}
-							/>
-						</Suspense>
+						<DocumentViewer
+							file={uploadedFile}
+							onPageCountLoaded={handlePageCountLoaded}
+						/>
 					</div>
 
-						{/* Tools Section */}
 						<div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
 							<div className='lg:col-span-2'>
 								<PageSelector
@@ -486,7 +658,6 @@ export default function Home() {
 									onRemoveRange={handleRemovePageRange}
 								/>
 
-								{/* Upgrade Prompt */}
 								{showUpgradePrompt && !isPremium && (
 									<div className='mt-6'>
 										<UpgradePrompt message="Unlock unlimited page ranges and larger files with Premium!" />
@@ -509,10 +680,9 @@ export default function Home() {
 				)}
 			</div>
 
-			{/* Security Status Monitor (only show when file is uploaded) */}
-			<SecurityStatus show={!!uploadedFile || mergeFiles.length > 0 || !!compressFile} />
+			{/* Security Status Monitor */}
+			<SecurityStatus show={!!uploadedFile || mergeFiles.length > 0 || !!compressFile || !!organizeFile || imagesToPdfFiles.length > 0} />
 
-			{/* Footer */}
 			<Footer />
 		</div>
 	);
