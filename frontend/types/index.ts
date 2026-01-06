@@ -110,7 +110,13 @@ export type AppMode =
 	| 'watermark'
 	| 'split-bookmarks'
 	| 'remove-blanks'
-	| 'repair';
+	| 'repair'
+	| 'annotate'
+	| 'sign'
+	| 'forms'
+	| 'ocr'
+	| 'compare'
+	| 'metadata';
 
 // Compression functionality types
 export type CompressionLevel = 'screen' | 'ebook' | 'printer' | 'prepress';
@@ -474,4 +480,262 @@ export interface RepairTask {
 	error?: string;
 	originalSize: number;
 	repairedSize?: number;
+}
+
+// ===== PDF ANNOTATION TYPES =====
+
+export type AnnotationType = 'highlight' | 'underline' | 'strikethrough' | 'textbox' | 'arrow' | 'rectangle' | 'circle' | 'freehand';
+
+export interface AnnotationBase {
+	id: string;
+	type: AnnotationType;
+	pageNumber: number;
+	color: string;
+	opacity: number;
+}
+
+export interface HighlightAnnotation extends AnnotationBase {
+	type: 'highlight' | 'underline' | 'strikethrough';
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+}
+
+export interface TextBoxAnnotation extends AnnotationBase {
+	type: 'textbox';
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	text: string;
+	fontSize: number;
+	fontColor: string;
+	backgroundColor?: string;
+	borderColor?: string;
+}
+
+export interface ArrowAnnotation extends AnnotationBase {
+	type: 'arrow';
+	startX: number;
+	startY: number;
+	endX: number;
+	endY: number;
+	strokeWidth: number;
+}
+
+export interface ShapeAnnotation extends AnnotationBase {
+	type: 'rectangle' | 'circle';
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	strokeWidth: number;
+	filled: boolean;
+}
+
+export interface FreehandAnnotation extends AnnotationBase {
+	type: 'freehand';
+	points: Array<{ x: number; y: number }>;
+	strokeWidth: number;
+}
+
+export type Annotation = 
+	| HighlightAnnotation 
+	| TextBoxAnnotation 
+	| ArrowAnnotation 
+	| ShapeAnnotation 
+	| FreehandAnnotation;
+
+export interface AnnotateTask {
+	id: string;
+	file: UploadedFile;
+	annotations: Annotation[];
+	outputFileName: string;
+	status: 'pending' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+}
+
+// ===== DIGITAL SIGNATURE TYPES =====
+
+export type SignatureType = 'draw' | 'type' | 'upload';
+
+export interface SignatureData {
+	type: SignatureType;
+	dataUrl: string; // Base64 image of the signature
+	width: number;
+	height: number;
+}
+
+export interface SignaturePlacement {
+	pageNumber: number;
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+}
+
+export interface SignSettings {
+	signature: SignatureData;
+	placements: SignaturePlacement[];
+	addDate: boolean;
+	dateFormat: string;
+	datePosition: 'below' | 'right' | 'none';
+}
+
+export interface SignTask {
+	id: string;
+	file: UploadedFile;
+	settings: SignSettings;
+	outputFileName: string;
+	status: 'pending' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+}
+
+// ===== PDF FORMS FILLER TYPES =====
+
+export type FormFieldType = 'text' | 'checkbox' | 'radio' | 'dropdown' | 'signature' | 'date';
+
+export interface FormField {
+	id: string;
+	name: string;
+	type: FormFieldType;
+	pageNumber: number;
+	x: number;
+	y: number;
+	width: number;
+	height: number;
+	value: string | boolean;
+	options?: string[]; // For dropdown/radio
+	required: boolean;
+	readonly: boolean;
+}
+
+export interface FormsTask {
+	id: string;
+	file: UploadedFile;
+	fields: FormField[];
+	filledFields: Map<string, string | boolean>;
+	outputFileName: string;
+	status: 'pending' | 'loading' | 'filling' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+}
+
+// ===== OCR TYPES =====
+
+export type OcrLanguage = 'eng' | 'spa' | 'fra' | 'deu' | 'ita' | 'por' | 'chi_sim' | 'chi_tra' | 'jpn' | 'kor' | 'ara' | 'rus';
+
+export interface OcrSettings {
+	languages: OcrLanguage[];
+	pageSelection: 'all' | 'range' | 'specific';
+	pageRange?: { start: number; end: number };
+	specificPages?: number[];
+	preserveLayout: boolean;
+	deskew: boolean;
+	enhanceScans: boolean;
+}
+
+export interface OcrPageResult {
+	pageNumber: number;
+	text: string;
+	confidence: number; // 0-100
+	wordCount: number;
+}
+
+export interface OcrTask {
+	id: string;
+	file: UploadedFile;
+	settings: OcrSettings;
+	results: OcrPageResult[];
+	outputFileName: string;
+	status: 'pending' | 'loading-engine' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	currentPage?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+	totalCharacters?: number;
+	averageConfidence?: number;
+}
+
+// ===== PDF COMPARISON/DIFF TYPES =====
+
+export type ComparisonMode = 'visual' | 'text' | 'overlay';
+
+export interface ComparisonSettings {
+	mode: ComparisonMode;
+	highlightAdditions: boolean;
+	highlightDeletions: boolean;
+	highlightModifications: boolean;
+	colorAdditions: string;
+	colorDeletions: string;
+	colorModifications: string;
+	sensitivity: number; // 0-100
+}
+
+export interface PageDifference {
+	pageNumber: number;
+	hasChanges: boolean;
+	changePercentage: number;
+	additions: number;
+	deletions: number;
+	modifications: number;
+	diffImageUrl?: string;
+}
+
+export interface CompareTask {
+	id: string;
+	file1: UploadedFile;
+	file2: UploadedFile;
+	settings: ComparisonSettings;
+	differences: PageDifference[];
+	outputFileName: string;
+	status: 'pending' | 'analyzing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+	summary: {
+		totalPages: number;
+		pagesWithChanges: number;
+		totalAdditions: number;
+		totalDeletions: number;
+	};
+}
+
+// ===== METADATA EDITOR TYPES =====
+
+export interface PdfMetadata {
+	title: string;
+	author: string;
+	subject: string;
+	keywords: string[];
+	creator: string;
+	producer: string;
+	creationDate?: Date;
+	modificationDate?: Date;
+	// Custom metadata fields
+	customFields: Array<{ key: string; value: string }>;
+}
+
+export interface MetadataTask {
+	id: string;
+	file: UploadedFile;
+	originalMetadata: PdfMetadata;
+	newMetadata: PdfMetadata;
+	outputFileName: string;
+	status: 'pending' | 'loading' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
 }

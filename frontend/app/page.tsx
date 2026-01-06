@@ -24,6 +24,12 @@ import { WatermarkManager } from '@/components/watermark/WatermarkManager';
 import { BookmarkSplitManager } from '@/components/bookmarkSplit/BookmarkSplitManager';
 import { BlankPagesManager } from '@/components/blankPages/BlankPagesManager';
 import { RepairManager } from '@/components/repair/RepairManager';
+import { AnnotateManager } from '@/components/annotate/AnnotateManager';
+import { SignManager } from '@/components/sign/SignManager';
+import { FormsManager } from '@/components/forms/FormsManager';
+import { OcrManager } from '@/components/ocr/OcrManager';
+import { CompareManager } from '@/components/compare/CompareManager';
+import { MetadataManager } from '@/components/metadata/MetadataManager';
 import { 
 	UploadedFile, 
 	PageRange, 
@@ -60,6 +66,12 @@ import {
 	BookOpen,
 	FileX,
 	Wrench,
+	Highlighter,
+	PenTool,
+	FileText,
+	Scan,
+	GitCompare,
+	Info,
 } from 'lucide-react';
 import { FileUploadCompress } from '@/components/compressor/FileUploadCompress';
 import { CompressionManager } from '@/components/compressor/CompressionManager';
@@ -81,6 +93,12 @@ const ALL_TOOLS = [
 	{ id: 'split-bookmarks' as AppMode, label: 'Chapters', icon: BookOpen, activeClasses: 'bg-teal-500 hover:bg-teal-600 ring-teal-400' },
 	{ id: 'remove-blanks' as AppMode, label: 'Blanks', icon: FileX, activeClasses: 'bg-red-500 hover:bg-red-600 ring-red-400' },
 	{ id: 'repair' as AppMode, label: 'Repair', icon: Wrench, activeClasses: 'bg-stone-500 hover:bg-stone-600 ring-stone-400' },
+	{ id: 'annotate' as AppMode, label: 'Annotate', icon: Highlighter, activeClasses: 'bg-pink-500 hover:bg-pink-600 ring-pink-400' },
+	{ id: 'sign' as AppMode, label: 'Sign', icon: PenTool, activeClasses: 'bg-lime-500 hover:bg-lime-600 ring-lime-400' },
+	{ id: 'forms' as AppMode, label: 'Forms', icon: FileText, activeClasses: 'bg-fuchsia-500 hover:bg-fuchsia-600 ring-fuchsia-400' },
+	{ id: 'ocr' as AppMode, label: 'OCR', icon: Scan, activeClasses: 'bg-yellow-500 hover:bg-yellow-600 ring-yellow-400' },
+	{ id: 'compare' as AppMode, label: 'Compare', icon: GitCompare, activeClasses: 'bg-slate-500 hover:bg-slate-600 ring-slate-400' },
+	{ id: 'metadata' as AppMode, label: 'Metadata', icon: Info, activeClasses: 'bg-zinc-500 hover:bg-zinc-600 ring-zinc-400' },
 ];
 
 export default function Home() {
@@ -440,6 +458,12 @@ export default function Home() {
 							{appMode === 'split-bookmarks' && 'Split PDF by chapters/bookmarks'}
 							{appMode === 'remove-blanks' && 'Detect and remove blank pages'}
 							{appMode === 'repair' && 'Fix corrupted or damaged PDFs'}
+							{appMode === 'annotate' && 'Add highlights, text boxes, and shapes'}
+							{appMode === 'sign' && 'Add digital signature to your PDF'}
+							{appMode === 'forms' && 'Fill interactive PDF forms'}
+							{appMode === 'ocr' && 'Make scanned PDFs searchable with OCR'}
+							{appMode === 'compare' && 'Compare two PDFs side by side'}
+							{appMode === 'metadata' && 'Edit title, author, and keywords'}
 						</p>
 					</div>
 				</div>
@@ -867,6 +891,222 @@ export default function Home() {
 							</>
 						) : (
 							<RepairManager file={uploadedFile} onComplete={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Annotate Mode */}
+				{appMode === 'annotate' && (
+					<div className='max-w-6xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 border-2 border-pink-200 dark:border-pink-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-pink-500 rounded-full p-3 flex-shrink-0'>
+											<Highlighter className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												✏️ Annotate PDF
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Add annotations, highlights, and shapes to your PDF.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Highlight, underline, and strikethrough text</li>
+												<li>• Add text boxes and comments</li>
+												<li>• Draw arrows, rectangles, and circles</li>
+												<li>• Freehand drawing tool</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<AnnotateManager file={uploadedFile} onReset={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Sign Mode */}
+				{appMode === 'sign' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-lime-50 to-green-50 dark:from-lime-900/20 dark:to-green-900/20 border-2 border-lime-200 dark:border-lime-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-lime-500 rounded-full p-3 flex-shrink-0'>
+											<PenTool className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												✍️ Sign PDF
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Add your digital signature to PDF documents.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Draw your signature with mouse or touch</li>
+												<li>• Type your name in signature fonts</li>
+												<li>• Upload an image of your signature</li>
+												<li>• Add date automatically</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<SignManager file={uploadedFile} onReset={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Forms Mode */}
+				{appMode === 'forms' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-fuchsia-50 to-purple-50 dark:from-fuchsia-900/20 dark:to-purple-900/20 border-2 border-fuchsia-200 dark:border-fuchsia-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-fuchsia-500 rounded-full p-3 flex-shrink-0'>
+											<FileText className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												📝 Fill PDF Forms
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Fill out interactive PDF forms online.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Auto-detect form fields</li>
+												<li>• Fill text fields and checkboxes</li>
+												<li>• Select from dropdowns and radio buttons</li>
+												<li>• Download filled form</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<FormsManager file={uploadedFile} onReset={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* OCR Mode */}
+				{appMode === 'ocr' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 border-2 border-yellow-200 dark:border-yellow-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-yellow-500 rounded-full p-3 flex-shrink-0'>
+											<Scan className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												🔍 OCR - Make PDF Searchable
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Extract text from scanned PDFs using OCR technology.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Support for 12+ languages</li>
+												<li>• Make scanned documents searchable</li>
+												<li>• Copy text from image-based PDFs</li>
+												<li>• Automatic image enhancement</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<OcrManager file={uploadedFile} onReset={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Compare Mode */}
+				{appMode === 'compare' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20 border-2 border-slate-200 dark:border-slate-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-slate-500 rounded-full p-3 flex-shrink-0'>
+											<GitCompare className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												📊 Compare PDFs
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Find differences between two PDF documents.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Visual comparison with highlighted differences</li>
+												<li>• Text comparison for content changes</li>
+												<li>• Page-by-page analysis</li>
+												<li>• Generate comparison report</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<CompareManager file={uploadedFile} onReset={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Metadata Mode */}
+				{appMode === 'metadata' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-zinc-50 to-gray-50 dark:from-zinc-900/20 dark:to-gray-900/20 border-2 border-zinc-200 dark:border-zinc-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-zinc-500 rounded-full p-3 flex-shrink-0'>
+											<Info className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												ℹ️ Edit Metadata
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												View and edit PDF document properties.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Edit title, author, and subject</li>
+												<li>• Add keywords for search</li>
+												<li>• View creation and modification dates</li>
+												<li>• Clear all metadata for privacy</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<MetadataManager file={uploadedFile} onReset={handlePdfToolReset} />
 						)}
 					</div>
 				)}
