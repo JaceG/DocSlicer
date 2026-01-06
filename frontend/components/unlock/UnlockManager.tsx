@@ -5,6 +5,9 @@ import { Unlock, Download, Eye, EyeOff, CheckCircle, AlertCircle, KeyRound } fro
 import { UploadedFile } from '@/types';
 import { unlockPdf, downloadUnlockedPdf, cleanupUnlockedBlobStoreEntry, isPdfPasswordProtected } from '@/lib/pdf/unlock';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingUnlock, incrementUnlockUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface UnlockManagerProps {
 	file: UploadedFile;
@@ -20,6 +23,9 @@ export function UnlockManager({ file, onComplete }: UnlockManagerProps) {
 	const [progress, setProgress] = useState(0);
 	const [result, setResult] = useState<{ url: string; blobKey: string } | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	// Check if PDF is protected on mount
 	const checkProtection = useCallback(async () => {
@@ -43,6 +49,18 @@ export function UnlockManager({ file, onComplete }: UnlockManagerProps) {
 	});
 
 	const handleUnlock = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingUnlock(limits.maxUnlockPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxUnlockPerMonth} PDF unlock operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		if (!password) {
 			setError('Please enter the password');
 			return;
@@ -54,13 +72,17 @@ export function UnlockManager({ file, onComplete }: UnlockManagerProps) {
 
 		try {
 			const unlockedResult = await unlockPdf(file.file, password, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementUnlockUsage();
+			}
 			setResult(unlockedResult);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : 'Failed to unlock PDF');
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, password]);
+	}, [file, password, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (result) {

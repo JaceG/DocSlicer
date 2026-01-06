@@ -23,6 +23,9 @@ import {
 	DATE_FORMATS,
 } from '@/lib/pdf/sign';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingSign, incrementSignUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface SignManagerProps {
 	file: UploadedFile;
@@ -48,6 +51,9 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 	const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 	
 	const [isDrawing, setIsDrawing] = useState(false);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 	
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -167,6 +173,18 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 	}, []);
 
 	const handleApplySignature = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingSign(limits.maxSignPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxSignPerMonth} signature operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		if (!signature || placements.length === 0) {
 			setError('Please create a signature and add at least one placement');
 			return;
@@ -186,6 +204,10 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 			};
 			
 			const blob = await applySignature(file.file, settings, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementSignUsage();
+			}
 			const url = URL.createObjectURL(blob);
 			setDownloadUrl(url);
 		} catch (err) {

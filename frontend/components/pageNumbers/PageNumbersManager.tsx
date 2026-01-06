@@ -16,6 +16,12 @@ import {
 	downloadFile,
 	DEFAULT_PAGE_NUMBER_SETTINGS,
 } from '@/lib/pdf/pageNumbers';
+import { useSubscription } from '@/lib/subscription/hooks';
+import {
+	getRemainingPageNumbers,
+	incrementPageNumbersUsage,
+} from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface PageNumbersManagerProps {
 	file: UploadedFile;
@@ -47,8 +53,23 @@ export function PageNumbersManager({ file, onReset }: PageNumbersManagerProps) {
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const [result, setResult] = useState<{ success: boolean; url?: string; error?: string } | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	const handleApply = async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingPageNumbers(limits.maxPageNumbersPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxPageNumbersPerMonth} page numbering operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		setIsProcessing(true);
 		setProgress(0);
 		setResult(null);
@@ -62,6 +83,10 @@ export function PageNumbersManager({ file, onReset }: PageNumbersManagerProps) {
 			);
 
 			if (applyResult.success && applyResult.downloadUrl) {
+				// Increment usage counter on success
+				if (!isPremium) {
+					incrementPageNumbersUsage();
+				}
 				setResult({
 					success: true,
 					url: applyResult.downloadUrl,

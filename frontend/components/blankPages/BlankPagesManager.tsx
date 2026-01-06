@@ -11,6 +11,9 @@ import {
 	cleanupBlankRemovalBlobStoreEntry 
 } from '@/lib/pdf/blankPages';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingBlankRemoval, incrementBlankRemovalUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface BlankPagesManagerProps {
 	file: UploadedFile;
@@ -27,6 +30,9 @@ export function BlankPagesManager({ file, onComplete }: BlankPagesManagerProps) 
 	const [progress, setProgress] = useState(0);
 	const [result, setResult] = useState<{ url: string; blobKey: string; removedCount: number } | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	const handleAnalyze = useCallback(async () => {
 		setIsAnalyzing(true);
@@ -62,6 +68,18 @@ export function BlankPagesManager({ file, onComplete }: BlankPagesManagerProps) 
 	}, []);
 
 	const handleRemovePages = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingBlankRemoval(limits.maxBlankRemovalPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxBlankRemovalPerMonth} blank page removal operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		if (selectedForRemoval.size === 0) {
 			setError('No pages selected for removal');
 			return;
@@ -78,13 +96,17 @@ export function BlankPagesManager({ file, onComplete }: BlankPagesManagerProps) 
 
 		try {
 			const removeResult = await removePages(file.file, selectedForRemoval, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementBlankRemovalUsage();
+			}
 			setResult(removeResult);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : 'Failed to remove pages');
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, selectedForRemoval, pageInfos.length]);
+	}, [file, selectedForRemoval, pageInfos.length, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (result) {

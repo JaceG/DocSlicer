@@ -14,6 +14,9 @@ import {
 import { UploadedFile, FormField } from '@/types';
 import { detectFormFields, fillFormFields, getFormStats, hasFormFields } from '@/lib/pdf/forms';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingForms, incrementFormsUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface FormsManagerProps {
 	file: UploadedFile;
@@ -37,6 +40,9 @@ export function FormsManager({ file, onReset }: FormsManagerProps) {
 		radioGroups: number;
 		filledFields: number;
 	} | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	// Detect form fields on mount
 	useEffect(() => {
@@ -81,6 +87,18 @@ export function FormsManager({ file, onReset }: FormsManagerProps) {
 	}, []);
 
 	const handleFillForm = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingForms(limits.maxFormsPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxFormsPerMonth} form filling operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		if (fieldValues.size === 0) {
 			setError('No fields to fill');
 			return;
@@ -92,6 +110,10 @@ export function FormsManager({ file, onReset }: FormsManagerProps) {
 
 		try {
 			const blob = await fillFormFields(file.file, fieldValues, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementFormsUsage();
+			}
 			const url = URL.createObjectURL(blob);
 			setDownloadUrl(url);
 		} catch (err) {
@@ -99,7 +121,7 @@ export function FormsManager({ file, onReset }: FormsManagerProps) {
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, fieldValues]);
+	}, [file, fieldValues, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (!downloadUrl) return;

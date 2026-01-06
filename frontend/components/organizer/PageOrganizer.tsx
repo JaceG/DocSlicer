@@ -24,6 +24,12 @@ import {
 	downloadFile,
 	cleanupOrganizeBlobUrl,
 } from '@/lib/pdf/organizer';
+import { useSubscription } from '@/lib/subscription/hooks';
+import {
+	getRemainingOrganize,
+	incrementOrganizeUsage,
+} from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface PageOrganizerProps {
 	file: OrganizeFile;
@@ -42,6 +48,9 @@ export function PageOrganizer({ file, onReset }: PageOrganizerProps) {
 	const [draggedPage, setDraggedPage] = useState<number | null>(null);
 	const [thumbnails, setThumbnails] = useState<Map<number, string>>(new Map());
 	const [loadingThumbnails, setLoadingThumbnails] = useState(true);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	// Load thumbnails
 	useEffect(() => {
@@ -151,6 +160,18 @@ export function PageOrganizer({ file, onReset }: PageOrganizerProps) {
 	}, []);
 
 	const handleApplyChanges = async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingOrganize(limits.maxOrganizePerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxOrganizePerMonth} organize operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		setIsProcessing(true);
 		setProgress(0);
 		setResult(null);
@@ -164,6 +185,10 @@ export function PageOrganizer({ file, onReset }: PageOrganizerProps) {
 			);
 
 			if (organizeResult.success && organizeResult.downloadUrl) {
+				// Increment usage counter on success
+				if (!isPremium) {
+					incrementOrganizeUsage();
+				}
 				setResult({
 					success: true,
 					url: organizeResult.downloadUrl,

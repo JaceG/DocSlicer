@@ -20,6 +20,9 @@ import {
 import { UploadedFile, Annotation, AnnotationType } from '@/types';
 import { applyAnnotations, getPageDimensions } from '@/lib/pdf/annotate';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingAnnotate, incrementAnnotateUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface AnnotateManagerProps {
 	file: UploadedFile;
@@ -63,6 +66,9 @@ export function AnnotateManager({ file, onReset }: AnnotateManagerProps) {
 	const [isDrawing, setIsDrawing] = useState(false);
 	const [drawStart, setDrawStart] = useState<{ x: number; y: number } | null>(null);
 	const [freehandPoints, setFreehandPoints] = useState<Array<{ x: number; y: number }>>([]);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 	
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -221,6 +227,18 @@ export function AnnotateManager({ file, onReset }: AnnotateManagerProps) {
 	}, []);
 
 	const handleApplyAnnotations = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingAnnotate(limits.maxAnnotatePerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxAnnotatePerMonth} annotation operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		if (annotations.length === 0) {
 			setError('No annotations to apply');
 			return;
@@ -232,6 +250,10 @@ export function AnnotateManager({ file, onReset }: AnnotateManagerProps) {
 
 		try {
 			const blob = await applyAnnotations(file.file, annotations, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementAnnotateUsage();
+			}
 			const url = URL.createObjectURL(blob);
 			setDownloadUrl(url);
 		} catch (err) {
@@ -239,7 +261,7 @@ export function AnnotateManager({ file, onReset }: AnnotateManagerProps) {
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, annotations]);
+	}, [file, annotations, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (!downloadUrl) return;

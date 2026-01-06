@@ -5,6 +5,9 @@ import { Lock, Download, Eye, EyeOff, Shield, CheckCircle, AlertCircle } from 'l
 import { UploadedFile, ProtectionSettings } from '@/types';
 import { protectPdf, downloadProtectedPdf, cleanupProtectedBlobStoreEntry } from '@/lib/pdf/protect';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingProtect, incrementProtectUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface ProtectManagerProps {
 	file: UploadedFile;
@@ -30,8 +33,23 @@ export function ProtectManager({ file, onComplete }: ProtectManagerProps) {
 	const [progress, setProgress] = useState(0);
 	const [result, setResult] = useState<{ url: string; blobKey: string } | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	const handleProtect = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingProtect(limits.maxProtectPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxProtectPerMonth} PDF protection operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		if (!settings.userPassword) {
 			setError('Please enter a password');
 			return;
@@ -48,13 +66,17 @@ export function ProtectManager({ file, onComplete }: ProtectManagerProps) {
 
 		try {
 			const protectedResult = await protectPdf(file.file, settings, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementProtectUsage();
+			}
 			setResult(protectedResult);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : 'Failed to protect PDF');
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, settings]);
+	}, [file, settings, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (result) {

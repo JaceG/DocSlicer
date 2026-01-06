@@ -18,6 +18,12 @@ import {
 	downloadFile,
 	DEFAULT_PDF_TO_IMAGES_SETTINGS,
 } from '@/lib/pdf/pdfToImages';
+import { useSubscription } from '@/lib/subscription/hooks';
+import {
+	getRemainingConversions,
+	incrementConversionUsage,
+} from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface PdfToImagesManagerProps {
 	file: UploadedFile;
@@ -38,8 +44,23 @@ export function PdfToImagesManager({ file, onReset }: PdfToImagesManagerProps) {
 	const [pageRangeStart, setPageRangeStart] = useState('1');
 	const [pageRangeEnd, setPageRangeEnd] = useState(file.pageCount?.toString() || '1');
 	const [specificPages, setSpecificPages] = useState('');
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	const handleExport = async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingConversions(limits.maxConversionsPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxConversionsPerMonth} conversions. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		setIsProcessing(true);
 		setProgress(0);
 		setResult(null);
@@ -67,6 +88,13 @@ export function PdfToImagesManager({ file, onReset }: PdfToImagesManagerProps) {
 				exportSettings,
 				(p) => setProgress(p)
 			);
+
+			if (exportResult.success) {
+				// Increment usage counter on success
+				if (!isPremium) {
+					incrementConversionUsage();
+				}
+			}
 
 			setResult({
 				success: exportResult.success,

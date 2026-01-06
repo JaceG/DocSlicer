@@ -12,6 +12,9 @@ import {
 	cleanupAllBookmarkSplitBlobs 
 } from '@/lib/pdf/bookmarkSplit';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingBookmarkSplit, incrementBookmarkSplitUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface BookmarkSplitManagerProps {
 	file: UploadedFile;
@@ -34,6 +37,9 @@ export function BookmarkSplitManager({ file, onComplete }: BookmarkSplitManagerP
 	const [result, setResult] = useState<Array<{ name: string; url: string; pageRange: { start: number; end: number } }> | null>(null);
 	const [zipUrl, setZipUrl] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	// Extract bookmarks on mount
 	useEffect(() => {
@@ -70,6 +76,18 @@ export function BookmarkSplitManager({ file, onComplete }: BookmarkSplitManagerP
 	const maxLevel = getMaxLevel(bookmarks);
 
 	const handleSplit = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingBookmarkSplit(limits.maxBookmarkSplitPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxBookmarkSplitPerMonth} bookmark split operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		setIsProcessing(true);
 		setError(null);
 		setProgress(0);
@@ -83,6 +101,10 @@ export function BookmarkSplitManager({ file, onComplete }: BookmarkSplitManagerP
 				totalPages,
 				setProgress
 			);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementBookmarkSplitUsage();
+			}
 			setResult(outputFiles);
 
 			// Create ZIP file
@@ -93,7 +115,7 @@ export function BookmarkSplitManager({ file, onComplete }: BookmarkSplitManagerP
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, bookmarks, settings]);
+	}, [file, bookmarks, settings, isPremium, limits, router]);
 
 	const handleDownloadAll = useCallback(() => {
 		if (zipUrl) {

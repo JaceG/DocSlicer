@@ -15,6 +15,9 @@ import {
 import { UploadedFile, OcrSettings, OcrPageResult, OcrLanguage } from '@/types';
 import { performOcr, createSearchablePdf, getOcrStats, cancelOcr, LANGUAGE_NAMES } from '@/lib/pdf/ocr';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingOcr, incrementOcrUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface OcrManagerProps {
 	file: UploadedFile;
@@ -41,6 +44,9 @@ export function OcrManager({ file, onReset }: OcrManagerProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 	const [showSettings, setShowSettings] = useState(true);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	const handleLanguageToggle = useCallback((lang: OcrLanguage) => {
 		setSettings(prev => ({
@@ -52,6 +58,18 @@ export function OcrManager({ file, onReset }: OcrManagerProps) {
 	}, []);
 
 	const handleStartOcr = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingOcr(limits.maxOcrPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxOcrPerMonth} OCR operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		if (settings.languages.length === 0) {
 			setError('Please select at least one language');
 			return;
@@ -73,6 +91,11 @@ export function OcrManager({ file, onReset }: OcrManagerProps) {
 				}
 			);
 			
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementOcrUsage();
+			}
+			
 			setResults(ocrResults);
 			
 			// Create searchable PDF
@@ -85,7 +108,7 @@ export function OcrManager({ file, onReset }: OcrManagerProps) {
 			setIsProcessing(false);
 			setCurrentPage(undefined);
 		}
-	}, [file, settings]);
+	}, [file, settings, isPremium, limits, router]);
 
 	const handleCancel = useCallback(async () => {
 		await cancelOcr();

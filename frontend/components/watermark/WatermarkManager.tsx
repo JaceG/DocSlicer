@@ -5,6 +5,9 @@ import { Droplet, Download, Type, Image as ImageIcon, CheckCircle, AlertCircle, 
 import { UploadedFile, WatermarkSettings, WatermarkPosition } from '@/types';
 import { addWatermark, downloadWatermarkedPdf, cleanupWatermarkedBlobStoreEntry } from '@/lib/pdf/watermark';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingWatermark, incrementWatermarkUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface WatermarkManagerProps {
 	file: UploadedFile;
@@ -42,6 +45,9 @@ export function WatermarkManager({ file, onComplete }: WatermarkManagerProps) {
 	const [progress, setProgress] = useState(0);
 	const [result, setResult] = useState<{ url: string; blobKey: string } | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	const imageInputRef = useRef<HTMLInputElement>(null);
 
@@ -62,6 +68,18 @@ export function WatermarkManager({ file, onComplete }: WatermarkManagerProps) {
 	}, [imageSettings]);
 
 	const handleAddWatermark = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingWatermark(limits.maxWatermarkPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxWatermarkPerMonth} watermark operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		setIsProcessing(true);
 		setError(null);
 		setProgress(0);
@@ -91,13 +109,17 @@ export function WatermarkManager({ file, onComplete }: WatermarkManagerProps) {
 			}
 
 			const watermarkedResult = await addWatermark(file.file, settings, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementWatermarkUsage();
+			}
 			setResult(watermarkedResult);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : 'Failed to add watermark');
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, watermarkType, textSettings, imageSettings]);
+	}, [file, watermarkType, textSettings, imageSettings, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (result) {

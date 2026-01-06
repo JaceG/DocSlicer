@@ -17,6 +17,9 @@ import { useDropzone } from 'react-dropzone';
 import { UploadedFile, ComparisonSettings, PageDifference, ComparisonMode } from '@/types';
 import { comparePdfs, generateComparisonReport } from '@/lib/pdf/compare';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingCompare, incrementCompareUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface CompareManagerProps {
 	file: UploadedFile;
@@ -47,6 +50,9 @@ export function CompareManager({ file, onReset }: CompareManagerProps) {
 	} | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	const onDrop = useCallback((acceptedFiles: File[]) => {
 		const pdfFile = acceptedFiles.find(f => f.type === 'application/pdf');
@@ -62,6 +68,18 @@ export function CompareManager({ file, onReset }: CompareManagerProps) {
 	});
 
 	const handleCompare = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingCompare(limits.maxComparePerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxComparePerMonth} PDF comparison operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		if (!secondFile) {
 			setError('Please upload a second PDF to compare');
 			return;
@@ -74,6 +92,10 @@ export function CompareManager({ file, onReset }: CompareManagerProps) {
 
 		try {
 			const result = await comparePdfs(file.file, secondFile, settings, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementCompareUsage();
+			}
 			setDifferences(result.differences);
 			setSummary(result.summary);
 			
@@ -91,7 +113,7 @@ export function CompareManager({ file, onReset }: CompareManagerProps) {
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, secondFile, settings]);
+	}, [file, secondFile, settings, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (!downloadUrl) return;

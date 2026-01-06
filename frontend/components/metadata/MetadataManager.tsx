@@ -16,6 +16,9 @@ import {
 import { UploadedFile, PdfMetadata } from '@/types';
 import { readMetadata, writeMetadata, removeMetadata, validateMetadata } from '@/lib/pdf/metadata';
 import { cn } from '@/lib/utils/cn';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingMetadata, incrementMetadataUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface MetadataManagerProps {
 	file: UploadedFile;
@@ -42,6 +45,9 @@ export function MetadataManager({ file, onReset }: MetadataManagerProps) {
 	const [progress, setProgress] = useState(0);
 	const [error, setError] = useState<string | null>(null);
 	const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	// Load metadata on mount
 	useEffect(() => {
@@ -96,6 +102,18 @@ export function MetadataManager({ file, onReset }: MetadataManagerProps) {
 	}, []);
 
 	const handleSaveMetadata = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingMetadata(limits.maxMetadataPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxMetadataPerMonth} metadata editing operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		const validation = validateMetadata(metadata);
 		if (!validation.valid) {
 			setError(validation.errors.join(', '));
@@ -108,6 +126,10 @@ export function MetadataManager({ file, onReset }: MetadataManagerProps) {
 
 		try {
 			const blob = await writeMetadata(file.file, metadata, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementMetadataUsage();
+			}
 			const url = URL.createObjectURL(blob);
 			setDownloadUrl(url);
 		} catch (err) {
@@ -115,15 +137,31 @@ export function MetadataManager({ file, onReset }: MetadataManagerProps) {
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file, metadata]);
+	}, [file, metadata, isPremium, limits, router]);
 
 	const handleClearMetadata = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingMetadata(limits.maxMetadataPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxMetadataPerMonth} metadata editing operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		setIsProcessing(true);
 		setProgress(0);
 		setError(null);
 
 		try {
 			const blob = await removeMetadata(file.file, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementMetadataUsage();
+			}
 			const url = URL.createObjectURL(blob);
 			setDownloadUrl(url);
 		} catch (err) {
@@ -131,7 +169,7 @@ export function MetadataManager({ file, onReset }: MetadataManagerProps) {
 		} finally {
 			setIsProcessing(false);
 		}
-	}, [file]);
+	}, [file, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (!downloadUrl) return;

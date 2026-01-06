@@ -20,6 +20,12 @@ import {
 	downloadFile,
 	DEFAULT_IMAGES_TO_PDF_SETTINGS,
 } from '@/lib/pdf/imagesToPdf';
+import { useSubscription } from '@/lib/subscription/hooks';
+import {
+	getRemainingConversions,
+	incrementConversionUsage,
+} from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface ImagesToPdfManagerProps {
 	images: ImageFile[];
@@ -41,6 +47,9 @@ export function ImagesToPdfManager({
 	const [result, setResult] = useState<{ success: boolean; url?: string; error?: string } | null>(null);
 	const [showSettings, setShowSettings] = useState(false);
 	const [draggedImage, setDraggedImage] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	const handleRemoveImage = useCallback((imageId: string) => {
 		const newImages = images
@@ -88,6 +97,18 @@ export function ImagesToPdfManager({
 	const handleConvert = async () => {
 		if (images.length === 0) return;
 
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingConversions(limits.maxConversionsPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxConversionsPerMonth} conversions. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		setIsProcessing(true);
 		setProgress(0);
 		setResult(null);
@@ -101,6 +122,10 @@ export function ImagesToPdfManager({
 			);
 
 			if (convertResult.success && convertResult.downloadUrl) {
+				// Increment usage counter on success
+				if (!isPremium) {
+					incrementConversionUsage();
+				}
 				setResult({
 					success: true,
 					url: convertResult.downloadUrl,

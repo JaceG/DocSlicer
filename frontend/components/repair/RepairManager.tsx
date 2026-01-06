@@ -12,6 +12,9 @@ import {
 } from '@/lib/pdf/repair';
 import { cn } from '@/lib/utils/cn';
 import { formatFileSize } from '@/lib/utils/file';
+import { useSubscription } from '@/lib/subscription/hooks';
+import { getRemainingRepair, incrementRepairUsage } from '@/lib/subscription/usage';
+import { useRouter } from 'next/navigation';
 
 interface RepairManagerProps {
 	file: UploadedFile;
@@ -26,6 +29,9 @@ export function RepairManager({ file, onComplete }: RepairManagerProps) {
 	const [progress, setProgress] = useState(0);
 	const [result, setResult] = useState<{ url: string; blobKey: string; diagnostics: RepairDiagnostic[] } | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	
+	const { isPremium, limits } = useSubscription();
+	const router = useRouter();
 
 	// Auto-diagnose on mount
 	useEffect(() => {
@@ -48,19 +54,35 @@ export function RepairManager({ file, onComplete }: RepairManagerProps) {
 	}, [file]);
 
 	const handleRepair = useCallback(async () => {
+		// Check usage limit for free users
+		if (!isPremium) {
+			const remaining = getRemainingRepair(limits.maxRepairPerMonth);
+			if (remaining <= 0) {
+				alert(
+					`You've reached your monthly limit of ${limits.maxRepairPerMonth} PDF repair operations. Please upgrade to Premium for unlimited access.`
+				);
+				router.push('/pricing');
+				return;
+			}
+		}
+
 		setIsRepairing(true);
 		setError(null);
 		setProgress(0);
 
 		try {
 			const repairResult = await repairPdf(file.file, settings, setProgress);
+			// Increment usage counter on success
+			if (!isPremium) {
+				incrementRepairUsage();
+			}
 			setResult(repairResult);
 		} catch (err) {
 			setError(err instanceof Error ? err.message : 'Failed to repair PDF');
 		} finally {
 			setIsRepairing(false);
 		}
-	}, [file, settings]);
+	}, [file, settings, isPremium, limits, router]);
 
 	const handleDownload = useCallback(() => {
 		if (result) {
