@@ -17,7 +17,16 @@ import {
 import { UploadedFile } from '@/types';
 import { formatFileSize } from '@/lib/utils/file';
 import { cn } from '@/lib/utils/cn';
-import { PDFViewer } from '@/lib/pdf/viewer';
+
+// PDFViewer interface - matches the class in lib/pdf/viewer.ts
+// Defined inline to avoid webpack processing pdfjs-dist at compile time
+interface PDFViewerInterface {
+	loadDocument(file: File): Promise<void>;
+	getPageCount(): number;
+	renderPage(pageNumber: number, scale: number): Promise<HTMLCanvasElement>;
+	generateThumbnail(pageNumber: number, maxWidth: number): Promise<string>;
+	destroy(): void;
+}
 
 interface DocumentViewerProps {
 	file: UploadedFile;
@@ -58,7 +67,7 @@ export function DocumentViewer({
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const pdfViewerRef = useRef<PDFViewer | null>(null);
+	const pdfViewerRef = useRef<PDFViewerInterface | null>(null);
 	const thumbnailRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
 	useEffect(() => {
@@ -84,6 +93,8 @@ export function DocumentViewer({
 			setError(null);
 			setLoadingProgress('Initializing PDF viewer...');
 
+			// Dynamically import PDFViewer to avoid webpack ESM issues
+			const { PDFViewer } = await import('@/lib/pdf/viewer');
 			const pdfViewer = new PDFViewer();
 			setLoadingProgress('Loading document...');
 
@@ -133,11 +144,11 @@ export function DocumentViewer({
 					thumbnailPromises.push(
 						pdfViewerRef.current
 							.generateThumbnail(i, 150)
-							.then((thumbnail) => ({
+							.then((thumbnail: string) => ({
 								pageNumber: i,
 								thumbnail,
 							}))
-							.catch((error) => {
+							.catch((error: Error) => {
 								console.warn(
 									`Failed to generate thumbnail for page ${i}:`,
 									error

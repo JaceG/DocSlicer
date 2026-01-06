@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, lazy, Suspense } from 'react';
 import { FileUpload } from '@/components/upload/FileUpload';
-import { DocumentViewer } from '@/components/viewer/DocumentViewer';
+// DocumentViewer is lazily imported because it uses pdfjs-dist which has ESM issues in dev mode
+const DocumentViewer = lazy(() => import('@/components/viewer/DocumentViewer').then(mod => ({ default: mod.DocumentViewer })));
 import { PageSelector } from '@/components/slicer/PageSelector';
 import { SliceManager } from '@/components/slicer/SliceManager';
 import { MergeManager } from '@/components/merger/MergeManager';
@@ -460,10 +461,19 @@ export default function Home() {
 
 					{/* Document Viewer */}
 					<div className='w-full'>
-						<DocumentViewer
-							file={uploadedFile}
-							onPageCountLoaded={handlePageCountLoaded}
-						/>
+						<Suspense fallback={
+							<div className="flex items-center justify-center min-h-[400px] bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+								<div className="text-center">
+									<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+									<p className="text-sm text-gray-600 dark:text-gray-400">Loading document viewer...</p>
+								</div>
+							</div>
+						}>
+							<DocumentViewer
+								file={uploadedFile}
+								onPageCountLoaded={handlePageCountLoaded}
+							/>
+						</Suspense>
 					</div>
 
 						{/* Tools Section */}

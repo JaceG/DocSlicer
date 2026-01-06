@@ -1,5 +1,5 @@
 import { PageRange, SliceTask } from '@/types';
-import JSZip from 'jszip';
+// JSZip is dynamically imported to avoid webpack ESM issues
 
 // Store PDF blobs in memory to prevent them from being garbage collected
 const blobStore = new Map<string, Blob>();
@@ -112,6 +112,8 @@ export async function createZipFromTasks(
 	tasks: SliceTask[],
 	zipFileName: string
 ): Promise<string> {
+	// Dynamically import JSZip to avoid webpack ESM issues
+	const JSZip = (await import('jszip')).default;
 	const zip = new JSZip();
 
 	for (const task of tasks) {

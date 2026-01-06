@@ -310,7 +310,7 @@ const blogPosts = [
 		readTime: '10 min read',
 		category: 'Productivity',
 		icon: FileText,
-		featured: true,
+		featured: false,
 		tags: ['remote work', 'pdf organization', 'work from home', 'document management'],
 	},
 	{
