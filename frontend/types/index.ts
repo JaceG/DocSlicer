@@ -97,7 +97,20 @@ export interface MergeTask {
 }
 
 // App mode type - expanded for new features
-export type AppMode = 'split' | 'merge' | 'compress' | 'organize' | 'images-to-pdf' | 'pdf-to-images' | 'page-numbers';
+export type AppMode = 
+	| 'split' 
+	| 'merge' 
+	| 'compress' 
+	| 'organize' 
+	| 'images-to-pdf' 
+	| 'pdf-to-images' 
+	| 'page-numbers'
+	| 'protect'
+	| 'unlock'
+	| 'watermark'
+	| 'split-bookmarks'
+	| 'remove-blanks'
+	| 'repair';
 
 // Compression functionality types
 export type CompressionLevel = 'screen' | 'ebook' | 'printer' | 'prepress';
@@ -279,4 +292,186 @@ export interface PageNumberTask {
 	outputUrl?: string;
 	blobKey?: string;
 	error?: string;
+}
+
+// ===== PASSWORD PROTECTION TYPES =====
+
+export type EncryptionLevel = 'aes-128' | 'aes-256';
+
+export interface ProtectionSettings {
+	userPassword: string;        // Password to open the PDF
+	ownerPassword?: string;      // Password for full access (optional)
+	encryptionLevel: EncryptionLevel;
+	permissions: {
+		printing: boolean;
+		copying: boolean;
+		modifying: boolean;
+		annotating: boolean;
+	};
+}
+
+export interface ProtectTask {
+	id: string;
+	file: UploadedFile;
+	settings: ProtectionSettings;
+	outputFileName: string;
+	status: 'pending' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+}
+
+// ===== PASSWORD REMOVAL TYPES =====
+
+export interface UnlockTask {
+	id: string;
+	file: UploadedFile;
+	password: string;
+	outputFileName: string;
+	status: 'pending' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+}
+
+// ===== WATERMARK TYPES =====
+
+export type WatermarkType = 'text' | 'image';
+export type WatermarkPosition = 
+	| 'center' 
+	| 'top-left' 
+	| 'top-right' 
+	| 'bottom-left' 
+	| 'bottom-right'
+	| 'diagonal';
+
+export interface TextWatermarkSettings {
+	type: 'text';
+	text: string;
+	fontSize: number;
+	fontColor: string;
+	opacity: number; // 0-100
+	rotation: number; // degrees
+	position: WatermarkPosition;
+}
+
+export interface ImageWatermarkSettings {
+	type: 'image';
+	imageFile: File;
+	imageDataUrl?: string;
+	width: number;  // percentage of page width
+	opacity: number; // 0-100
+	position: WatermarkPosition;
+}
+
+export type WatermarkSettings = TextWatermarkSettings | ImageWatermarkSettings;
+
+export interface WatermarkTask {
+	id: string;
+	file: UploadedFile;
+	settings: WatermarkSettings;
+	outputFileName: string;
+	status: 'pending' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+}
+
+// ===== SPLIT BY BOOKMARKS TYPES =====
+
+export interface PdfBookmark {
+	title: string;
+	pageNumber: number;
+	level: number; // nesting level (0 = top level)
+	children?: PdfBookmark[];
+}
+
+export interface BookmarkSplitSettings {
+	splitLevel: number; // 0 = top level only, 1 = include sub-chapters, etc.
+	includeSubBookmarks: boolean;
+	namingPattern: 'title' | 'number-title' | 'custom';
+	customPrefix?: string;
+}
+
+export interface BookmarkSplitTask {
+	id: string;
+	file: UploadedFile;
+	bookmarks: PdfBookmark[];
+	settings: BookmarkSplitSettings;
+	status: 'pending' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputFiles: Array<{
+		name: string;
+		url: string;
+		pageRange: { start: number; end: number };
+	}>;
+	zipUrl?: string;
+	blobKey?: string;
+	error?: string;
+}
+
+// ===== BLANK PAGE DETECTION TYPES =====
+
+export interface BlankPageSettings {
+	threshold: number; // 0-100, percentage of page that must be blank
+	detectWhitePages: boolean;
+	detectSolidColorPages: boolean;
+	minContentArea: number; // percentage of page that must have content
+}
+
+export interface BlankPageInfo {
+	pageNumber: number;
+	isBlank: boolean;
+	blankScore: number; // 0-100, how blank the page is
+	thumbnail?: string;
+}
+
+export interface RemoveBlanksTask {
+	id: string;
+	file: UploadedFile;
+	settings: BlankPageSettings;
+	detectedBlanks: BlankPageInfo[];
+	selectedForRemoval: Set<number>;
+	outputFileName: string;
+	status: 'pending' | 'analyzing' | 'ready' | 'processing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+}
+
+// ===== PDF REPAIR TYPES =====
+
+export type RepairLevel = 'light' | 'moderate' | 'aggressive';
+
+export interface RepairSettings {
+	level: RepairLevel;
+	rebuildCrossReference: boolean;
+	fixStreams: boolean;
+	removeCorruptedObjects: boolean;
+}
+
+export interface RepairDiagnostic {
+	issue: string;
+	severity: 'warning' | 'error' | 'critical';
+	fixed: boolean;
+	details?: string;
+}
+
+export interface RepairTask {
+	id: string;
+	file: UploadedFile;
+	settings: RepairSettings;
+	diagnostics: RepairDiagnostic[];
+	outputFileName: string;
+	status: 'pending' | 'diagnosing' | 'repairing' | 'completed' | 'error';
+	progress?: number;
+	outputUrl?: string;
+	blobKey?: string;
+	error?: string;
+	originalSize: number;
+	repairedSize?: number;
 }

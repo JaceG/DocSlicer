@@ -18,6 +18,12 @@ import { ImageUpload } from '@/components/imagesToPdf/ImageUpload';
 import { ImagesToPdfManager } from '@/components/imagesToPdf/ImagesToPdfManager';
 import { PdfToImagesManager } from '@/components/pdfToImages/PdfToImagesManager';
 import { PageNumbersManager } from '@/components/pageNumbers/PageNumbersManager';
+import { ProtectManager } from '@/components/protect/ProtectManager';
+import { UnlockManager } from '@/components/unlock/UnlockManager';
+import { WatermarkManager } from '@/components/watermark/WatermarkManager';
+import { BookmarkSplitManager } from '@/components/bookmarkSplit/BookmarkSplitManager';
+import { BlankPagesManager } from '@/components/blankPages/BlankPagesManager';
+import { RepairManager } from '@/components/repair/RepairManager';
 import { 
 	UploadedFile, 
 	PageRange, 
@@ -48,6 +54,12 @@ import {
 	Image as ImageIcon, 
 	FileImage, 
 	Hash,
+	Lock,
+	Unlock,
+	Droplet,
+	BookOpen,
+	FileX,
+	Wrench,
 } from 'lucide-react';
 import { FileUploadCompress } from '@/components/compressor/FileUploadCompress';
 import { CompressionManager } from '@/components/compressor/CompressionManager';
@@ -63,6 +75,12 @@ const ALL_TOOLS = [
 	{ id: 'images-to-pdf' as AppMode, label: 'IMG→PDF', icon: ImageIcon, activeClasses: 'bg-orange-500 hover:bg-orange-600 ring-orange-400' },
 	{ id: 'pdf-to-images' as AppMode, label: 'PDF→IMG', icon: FileImage, activeClasses: 'bg-cyan-500 hover:bg-cyan-600 ring-cyan-400' },
 	{ id: 'page-numbers' as AppMode, label: 'Numbers', icon: Hash, activeClasses: 'bg-rose-500 hover:bg-rose-600 ring-rose-400' },
+	{ id: 'protect' as AppMode, label: 'Protect', icon: Lock, activeClasses: 'bg-amber-500 hover:bg-amber-600 ring-amber-400' },
+	{ id: 'unlock' as AppMode, label: 'Unlock', icon: Unlock, activeClasses: 'bg-sky-500 hover:bg-sky-600 ring-sky-400' },
+	{ id: 'watermark' as AppMode, label: 'Watermark', icon: Droplet, activeClasses: 'bg-violet-500 hover:bg-violet-600 ring-violet-400' },
+	{ id: 'split-bookmarks' as AppMode, label: 'Chapters', icon: BookOpen, activeClasses: 'bg-teal-500 hover:bg-teal-600 ring-teal-400' },
+	{ id: 'remove-blanks' as AppMode, label: 'Blanks', icon: FileX, activeClasses: 'bg-red-500 hover:bg-red-600 ring-red-400' },
+	{ id: 'repair' as AppMode, label: 'Repair', icon: Wrench, activeClasses: 'bg-stone-500 hover:bg-stone-600 ring-stone-400' },
 ];
 
 export default function Home() {
@@ -416,6 +434,12 @@ export default function Home() {
 							{appMode === 'images-to-pdf' && 'Convert JPG, PNG images to PDF'}
 							{appMode === 'pdf-to-images' && 'Export PDF pages as images'}
 							{appMode === 'page-numbers' && 'Add page numbers to your PDF'}
+							{appMode === 'protect' && 'Add password protection to your PDF'}
+							{appMode === 'unlock' && 'Remove password from protected PDF'}
+							{appMode === 'watermark' && 'Add text or image watermark to PDF'}
+							{appMode === 'split-bookmarks' && 'Split PDF by chapters/bookmarks'}
+							{appMode === 'remove-blanks' && 'Detect and remove blank pages'}
+							{appMode === 'repair' && 'Fix corrupted or damaged PDFs'}
 						</p>
 					</div>
 				</div>
@@ -633,6 +657,216 @@ export default function Home() {
 								file={uploadedFile}
 								onReset={handlePdfToolReset}
 							/>
+						)}
+					</div>
+				)}
+
+				{/* Protect Mode */}
+				{appMode === 'protect' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 border-2 border-amber-200 dark:border-amber-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-amber-500 rounded-full p-3 flex-shrink-0'>
+											<Lock className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												🔒 Password Protect PDF
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Add encryption and password protection to your PDF.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Set password to open the document</li>
+												<li>• Control printing, copying, and editing permissions</li>
+												<li>• AES-256 encryption for maximum security</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<ProtectManager file={uploadedFile} onComplete={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Unlock Mode */}
+				{appMode === 'unlock' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20 border-2 border-sky-200 dark:border-sky-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-sky-500 rounded-full p-3 flex-shrink-0'>
+											<Unlock className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												🔓 Remove PDF Password
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Unlock password-protected PDFs you own.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Enter the current password to unlock</li>
+												<li>• Create an unprotected copy</li>
+												<li>• Only for PDFs you have permission to unlock</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<UnlockManager file={uploadedFile} onComplete={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Watermark Mode */}
+				{appMode === 'watermark' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 border-2 border-violet-200 dark:border-violet-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-violet-500 rounded-full p-3 flex-shrink-0'>
+											<Droplet className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												💧 Add Watermark
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Add text or image watermarks to all pages.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Text watermarks with custom font and color</li>
+												<li>• Image watermarks (logo, stamp)</li>
+												<li>• Adjust position, rotation, and opacity</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<WatermarkManager file={uploadedFile} onComplete={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Split by Bookmarks Mode */}
+				{appMode === 'split-bookmarks' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-teal-900/20 dark:to-emerald-900/20 border-2 border-teal-200 dark:border-teal-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-teal-500 rounded-full p-3 flex-shrink-0'>
+											<BookOpen className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												📖 Split by Chapters
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Automatically split PDF by bookmarks or table of contents.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Auto-detect PDF bookmarks/TOC</li>
+												<li>• Split at each chapter automatically</li>
+												<li>• Download as individual files or ZIP</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<BookmarkSplitManager file={uploadedFile} onComplete={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Remove Blanks Mode */}
+				{appMode === 'remove-blanks' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/20 dark:to-orange-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-red-500 rounded-full p-3 flex-shrink-0'>
+											<FileX className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												🗑️ Remove Blank Pages
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Detect and remove blank or near-empty pages from your PDF.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Automatic blank page detection</li>
+												<li>• Preview before removing</li>
+												<li>• Common fix for scanned documents</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<BlankPagesManager file={uploadedFile} onComplete={handlePdfToolReset} />
+						)}
+					</div>
+				)}
+
+				{/* Repair Mode */}
+				{appMode === 'repair' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-stone-50 to-gray-50 dark:from-stone-900/20 dark:to-gray-900/20 border-2 border-stone-200 dark:border-stone-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-stone-500 rounded-full p-3 flex-shrink-0'>
+											<Wrench className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												🔧 Repair PDF
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Fix corrupted or damaged PDF files.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>• Diagnose PDF issues automatically</li>
+												<li>• Rebuild damaged file structure</li>
+												<li>• Multiple repair levels available</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<FileUpload onFileUpload={handleFileUpload} />
+							</>
+						) : (
+							<RepairManager file={uploadedFile} onComplete={handlePdfToolReset} />
 						)}
 					</div>
 				)}

@@ -33,15 +33,19 @@ const nextConfig: NextConfig = {
 		ignoreDuringBuilds: false,
 	},
 
-	// Headers for better caching
+	// Headers for caching - disable in development to avoid stale assets
 	async headers() {
+		const isDev = process.env.NODE_ENV === 'development';
+		
 		return [
 			{
 				source: '/_next/static/(.*)',
 				headers: [
 					{
 						key: 'Cache-Control',
-						value: 'public, max-age=31536000, immutable',
+						value: isDev 
+							? 'no-store, no-cache, must-revalidate, proxy-revalidate'
+							: 'public, max-age=31536000, immutable',
 					},
 				],
 			},
@@ -50,7 +54,7 @@ const nextConfig: NextConfig = {
 				headers: [
 					{
 						key: 'Cache-Control',
-						value: 'public, max-age=86400',
+						value: isDev ? 'no-cache' : 'public, max-age=86400',
 					},
 				],
 			},
