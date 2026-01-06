@@ -94,7 +94,7 @@ export default function CompressPDFsForWebPage() {
 							<ul className='text-sm mb-0 space-y-1'>
 								<li>
 									<strong>40% of users abandon</strong> sites
-									that take >3 seconds to load
+									that take &gt;3 seconds to load
 								</li>
 								<li>
 									Mobile users on slow networks wait minutes

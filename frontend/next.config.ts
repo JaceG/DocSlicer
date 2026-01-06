@@ -21,29 +21,11 @@ const nextConfig: NextConfig = {
 				'pdfjs-dist/build/pdf.worker.min.mjs',
 		};
 
-		// Optimize chunks for better loading
-		config.optimization = {
-			...config.optimization,
-			splitChunks: {
-				...config.optimization.splitChunks,
-				cacheGroups: {
-					...config.optimization.splitChunks?.cacheGroups,
-					default: {
-						minChunks: 2,
-						priority: -20,
-						reuseExistingChunk: true,
-					},
-				},
-			},
-		};
-
 		return config;
 	},
 
-	// Experimental features for better compatibility
-	experimental: {
-		esmExternals: 'loose',
-	},
+	// Server external packages for better module resolution
+	serverExternalPackages: ['pdfjs-dist'],
 
 	// Build configuration
 	typescript: {

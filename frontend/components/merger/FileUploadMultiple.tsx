@@ -5,7 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { Upload, FileText, AlertCircle, CheckCircle2, Layers } from 'lucide-react';
 import { MergeFile } from '@/types';
 import { useSubscription } from '@/lib/subscription/hooks';
-import { getDocument } from 'pdfjs-dist';
+import { PDFDocument } from 'pdf-lib';
 
 interface FileUploadMultipleProps {
 	onFilesUpload: (files: MergeFile[]) => void;
@@ -39,8 +39,8 @@ export function FileUploadMultiple({
 			let pageCount: number | undefined;
 			try {
 				const arrayBuffer = await file.arrayBuffer();
-				const pdf = await getDocument({ data: arrayBuffer }).promise;
-				pageCount = pdf.numPages;
+				const pdf = await PDFDocument.load(arrayBuffer);
+				pageCount = pdf.getPageCount();
 			} catch (err) {
 				console.warn(`Could not get page count for ${file.name}:`, err);
 			}
