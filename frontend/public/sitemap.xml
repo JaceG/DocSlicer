@@ -247,4 +247,52 @@
     <priority>0.9</priority>
   </url>
   
+  <!-- Blog: Online PDF Tools vs Desktop Software Security -->
+  <url>
+    <loc>https://www.docslicer.com/blog/online-vs-desktop-pdf-tools-security</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: Free vs Paid PDF Tools -->
+  <url>
+    <loc>https://www.docslicer.com/blog/free-vs-paid-pdf-tools</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: Browser-Based vs Installed PDF Software -->
+  <url>
+    <loc>https://www.docslicer.com/blog/browser-based-vs-installed-pdf-software</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: 5-Minute PDF Workflow -->
+  <url>
+    <loc>https://www.docslicer.com/blog/5-minute-pdf-workflow-split-organize-share</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: PDF Organization for Remote Workers -->
+  <url>
+    <loc>https://www.docslicer.com/blog/pdf-organization-remote-workers</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: Batch Process Multiple PDFs -->
+  <url>
+    <loc>https://www.docslicer.com/blog/batch-process-multiple-pdfs</loc>
+    <lastmod>2026-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
 </urlset>
