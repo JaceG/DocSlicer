@@ -25,10 +25,9 @@ import {
 	checkBrowserSupport,
 } from '@/lib/security/config';
 import { cn } from '@/lib/utils/cn';
-import { PDFViewer } from '@/lib/pdf/viewer';
 import { ConversionModal } from '@/components/conversion/ConversionModal';
 import { useSubscription } from '@/lib/subscription/hooks';
-import { detectFileType, requiresConversion } from '@/lib/conversion/converter';
+import { detectFileType, requiresConversion } from '@/lib/conversion/utils';
 
 interface FileUploadProps {
 	onFileUpload: (file: UploadedFile) => void;
@@ -77,11 +76,12 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 					convertedFrom: fileTypeToConvert || undefined,
 				};
 
-				// Extract page count from converted PDF
-				const pdfViewer = new PDFViewer();
-				await pdfViewer.loadDocument(pdfFile);
-				uploadedFile.pageCount = pdfViewer.getPageCount();
-				pdfViewer.destroy();
+			// Extract page count from converted PDF
+			const { PDFViewer } = await import('@/lib/pdf/viewer');
+			const pdfViewer = new PDFViewer();
+			await pdfViewer.loadDocument(pdfFile);
+			uploadedFile.pageCount = pdfViewer.getPageCount();
+			pdfViewer.destroy();
 
 				onFileUpload(uploadedFile);
 			} catch (err) {
@@ -168,14 +168,15 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 					)
 				);
 
-				if (fileType === 'pdf') {
-					try {
-						const pdfViewer = new PDFViewer();
-						await Promise.race([
-							pdfViewer.loadDocument(file),
-							timeoutPromise,
-						]);
-						uploadedFile.pageCount = pdfViewer.getPageCount();
+			if (fileType === 'pdf') {
+				try {
+					const { PDFViewer } = await import('@/lib/pdf/viewer');
+					const pdfViewer = new PDFViewer();
+					await Promise.race([
+						pdfViewer.loadDocument(file),
+						timeoutPromise,
+					]);
+					uploadedFile.pageCount = pdfViewer.getPageCount();
 
 						// Validate document limits
 						const limitsCheck =

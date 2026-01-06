@@ -458,13 +458,13 @@ export default function Home() {
 						{/* Usage Banner for Free Users */}
 						{isLoaded && !isPremium && <UsageBanner />}
 
-						{/* Document Viewer */}
-						<div className='w-full'>
-							<DocumentViewer
-								file={uploadedFile}
-								onPageCountLoaded={handlePageCountLoaded}
-							/>
-						</div>
+					{/* Document Viewer */}
+					<div className='w-full'>
+						<DocumentViewer
+							file={uploadedFile}
+							onPageCountLoaded={handlePageCountLoaded}
+						/>
+					</div>
 
 						{/* Tools Section */}
 						<div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>

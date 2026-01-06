@@ -24,9 +24,6 @@ const nextConfig: NextConfig = {
 		return config;
 	},
 
-	// Server external packages for better module resolution
-	serverExternalPackages: ['pdfjs-dist'],
-
 	// Build configuration
 	typescript: {
 		ignoreBuildErrors: false,

@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import { ConvertibleFileType, ConversionQuality } from '@/types';
 import { CONVERSION_WARNINGS, getQualityColorClass, getQualityText } from '@/lib/conversion/types';
-import { convertToPdf } from '@/lib/conversion/converter';
 import { cn } from '@/lib/utils/cn';
 import Link from 'next/link';
 import { useSubscription } from '@/lib/subscription/hooks';
@@ -62,6 +61,8 @@ export function ConversionModal({
 		setProgress(0);
 
 		try {
+			// Dynamically import convertToPdf to avoid bundling it at the top level
+			const { convertToPdf } = await import('@/lib/conversion/converter');
 			const pdfFile = await convertToPdf(file, fileType, (prog, stat) => {
 				setProgress(prog);
 				setStatus(stat);
