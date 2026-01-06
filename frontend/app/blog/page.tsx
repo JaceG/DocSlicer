@@ -157,6 +157,54 @@ const blogPosts = [
 		featured: false,
 		tags: ['printing', 'home office', 'productivity', 'pdf splitting'],
 	},
+	{
+		slug: 'hipaa-compliant-pdf-management-healthcare',
+		title: 'HIPAA-Compliant PDF Management: Secure Tools for Healthcare',
+		description:
+			'Learn how to handle patient PDFs securely and maintain HIPAA compliance. Essential guide for healthcare professionals, medical offices, and hospitals on secure PDF management.',
+		date: '2026-01-05',
+		readTime: '11 min read',
+		category: 'Healthcare',
+		icon: Shield,
+		featured: false,
+		tags: ['healthcare', 'HIPAA', 'medical documents', 'patient privacy'],
+	},
+	{
+		slug: 'teachers-split-merge-pdfs-student-assignments',
+		title: 'How Teachers Can Split and Merge PDFs for Student Assignments',
+		description:
+			'Save hours on grading and assignment prep. Learn how teachers can use PDF tools to efficiently manage student work, create custom packets, and organize classroom documents.',
+		date: '2026-01-05',
+		readTime: '10 min read',
+		category: 'Education',
+		icon: FileText,
+		featured: false,
+		tags: ['teachers', 'education', 'grading', 'classroom management'],
+	},
+	{
+		slug: 'legal-document-management-split-organize-case-files',
+		title: 'Legal Document Management: Splitting and Organizing Case Files',
+		description:
+			'Essential guide for law firms and paralegals on managing PDF case files. Learn to split exhibits, organize discovery, and maintain attorney-client privilege securely.',
+		date: '2026-01-05',
+		readTime: '12 min read',
+		category: 'Legal',
+		icon: Shield,
+		featured: false,
+		tags: ['legal', 'law firms', 'paralegals', 'case management'],
+	},
+	{
+		slug: 'real-estate-organize-property-pdfs-efficiently',
+		title: 'Real Estate: How to Organize Property PDFs Efficiently',
+		description:
+			'Essential guide for realtors and real estate agents on managing listing documents, contracts, disclosures, and inspection reports. Streamline your property files and close deals faster.',
+		date: '2026-01-05',
+		readTime: '10 min read',
+		category: 'Real Estate',
+		icon: FileText,
+		featured: false,
+		tags: ['real estate', 'realtors', 'property management', 'listings'],
+	},
 ];
 
 // Upcoming topics for SEO and user engagement
