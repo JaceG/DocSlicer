@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, FileText, AlertTriangle, Loader2 } from 'lucide-react';
+import { Upload, FileText, AlertTriangle, Loader2, RotateCw, Trash2, GripVertical, CheckCircle2 } from 'lucide-react';
 import { OrganizeFile, PageInfo } from '@/types';
 import { cn } from '@/lib/utils/cn';
 
@@ -136,9 +136,34 @@ export function FileUploadOrganize({ onFileUpload }: FileUploadOrganizeProps) {
 						<p className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
 							Drop your PDF here or click to browse
 						</p>
-						<p className="text-sm text-gray-500 dark:text-gray-400">
+						<p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
 							Supports PDF files up to 100MB
 						</p>
+
+						{/* Features Grid */}
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-2xl">
+							<div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+								<RotateCw className="h-5 w-5 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+								<div className="text-left">
+									<p className="text-sm font-medium text-gray-900 dark:text-gray-100">Rotate Pages</p>
+									<p className="text-xs text-gray-600 dark:text-gray-400">90°, 180°, 270°</p>
+								</div>
+							</div>
+							<div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+								<Trash2 className="h-5 w-5 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+								<div className="text-left">
+									<p className="text-sm font-medium text-gray-900 dark:text-gray-100">Delete Pages</p>
+									<p className="text-xs text-gray-600 dark:text-gray-400">Remove unwanted</p>
+								</div>
+							</div>
+							<div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+								<GripVertical className="h-5 w-5 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+								<div className="text-left">
+									<p className="text-sm font-medium text-gray-900 dark:text-gray-100">Reorder</p>
+									<p className="text-xs text-gray-600 dark:text-gray-400">Drag and drop</p>
+								</div>
+							</div>
+						</div>
 					</div>
 				)}
 			</div>

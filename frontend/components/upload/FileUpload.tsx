@@ -8,6 +8,12 @@ import {
 	AlertCircle,
 	CheckCircle2,
 	Sparkles,
+	Shield,
+	Zap,
+	Lock,
+	Image,
+	File,
+	Clock,
 } from 'lucide-react';
 import { UploadedFile, ConvertibleFileType } from '@/types';
 import {
@@ -29,11 +35,100 @@ import { ConversionModal } from '@/components/conversion/ConversionModal';
 import { useSubscription } from '@/lib/subscription/hooks';
 import { detectFileType, requiresConversion } from '@/lib/conversion/utils';
 
-interface FileUploadProps {
-	onFileUpload: (file: UploadedFile) => void;
+export interface DropzoneFeature {
+	icon: 'check' | 'sparkle' | 'shield' | 'zap' | 'lock' | 'image' | 'file' | 'clock';
+	title: string;
+	subtitle: string;
+	highlight?: boolean;
 }
 
-export function FileUpload({ onFileUpload }: FileUploadProps) {
+interface FileUploadProps {
+	onFileUpload: (file: UploadedFile) => void;
+	/** When true, hides the hero section (title, description) - useful when tool has its own description */
+	minimal?: boolean;
+	/** Custom accent color for the dropzone (e.g., 'pink', 'lime', 'yellow') */
+	accentColor?: 'blue' | 'pink' | 'lime' | 'fuchsia' | 'yellow' | 'slate' | 'zinc' | 'cyan' | 'rose' | 'amber' | 'sky' | 'violet' | 'teal' | 'red' | 'stone';
+	/** Custom title for the dropzone */
+	dropzoneTitle?: string;
+	/** Custom subtitle for the dropzone */
+	dropzoneSubtitle?: string;
+	/** Custom features to display in the dropzone grid */
+	features?: DropzoneFeature[];
+}
+
+const ACCENT_COLORS = {
+	blue: 'hover:border-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-950/20',
+	pink: 'hover:border-pink-400 hover:bg-pink-50/50 dark:hover:bg-pink-950/20',
+	lime: 'hover:border-lime-400 hover:bg-lime-50/50 dark:hover:bg-lime-950/20',
+	fuchsia: 'hover:border-fuchsia-400 hover:bg-fuchsia-50/50 dark:hover:bg-fuchsia-950/20',
+	yellow: 'hover:border-yellow-400 hover:bg-yellow-50/50 dark:hover:bg-yellow-950/20',
+	slate: 'hover:border-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-950/20',
+	zinc: 'hover:border-zinc-400 hover:bg-zinc-50/50 dark:hover:bg-zinc-950/20',
+	cyan: 'hover:border-cyan-400 hover:bg-cyan-50/50 dark:hover:bg-cyan-950/20',
+	rose: 'hover:border-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-950/20',
+	amber: 'hover:border-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-950/20',
+	sky: 'hover:border-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/20',
+	violet: 'hover:border-violet-400 hover:bg-violet-50/50 dark:hover:bg-violet-950/20',
+	teal: 'hover:border-teal-400 hover:bg-teal-50/50 dark:hover:bg-teal-950/20',
+	red: 'hover:border-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20',
+	stone: 'hover:border-stone-400 hover:bg-stone-50/50 dark:hover:bg-stone-950/20',
+};
+
+const ACCENT_ICON_COLORS = {
+	blue: 'from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30',
+	pink: 'from-pink-100 to-pink-200 dark:from-pink-900/30 dark:to-pink-800/30',
+	lime: 'from-lime-100 to-lime-200 dark:from-lime-900/30 dark:to-lime-800/30',
+	fuchsia: 'from-fuchsia-100 to-fuchsia-200 dark:from-fuchsia-900/30 dark:to-fuchsia-800/30',
+	yellow: 'from-yellow-100 to-yellow-200 dark:from-yellow-900/30 dark:to-yellow-800/30',
+	slate: 'from-slate-100 to-slate-200 dark:from-slate-900/30 dark:to-slate-800/30',
+	zinc: 'from-zinc-100 to-zinc-200 dark:from-zinc-900/30 dark:to-zinc-800/30',
+	cyan: 'from-cyan-100 to-cyan-200 dark:from-cyan-900/30 dark:to-cyan-800/30',
+	rose: 'from-rose-100 to-rose-200 dark:from-rose-900/30 dark:to-rose-800/30',
+	amber: 'from-amber-100 to-amber-200 dark:from-amber-900/30 dark:to-amber-800/30',
+	sky: 'from-sky-100 to-sky-200 dark:from-sky-900/30 dark:to-sky-800/30',
+	violet: 'from-violet-100 to-violet-200 dark:from-violet-900/30 dark:to-violet-800/30',
+	teal: 'from-teal-100 to-teal-200 dark:from-teal-900/30 dark:to-teal-800/30',
+	red: 'from-red-100 to-red-200 dark:from-red-900/30 dark:to-red-800/30',
+	stone: 'from-stone-100 to-stone-200 dark:from-stone-900/30 dark:to-stone-800/30',
+};
+
+const ACCENT_TEXT_COLORS = {
+	blue: 'text-blue-600 dark:text-blue-400',
+	pink: 'text-pink-600 dark:text-pink-400',
+	lime: 'text-lime-600 dark:text-lime-400',
+	fuchsia: 'text-fuchsia-600 dark:text-fuchsia-400',
+	yellow: 'text-yellow-600 dark:text-yellow-400',
+	slate: 'text-slate-600 dark:text-slate-400',
+	zinc: 'text-zinc-600 dark:text-zinc-400',
+	cyan: 'text-cyan-600 dark:text-cyan-400',
+	rose: 'text-rose-600 dark:text-rose-400',
+	amber: 'text-amber-600 dark:text-amber-400',
+	sky: 'text-sky-600 dark:text-sky-400',
+	violet: 'text-violet-600 dark:text-violet-400',
+	teal: 'text-teal-600 dark:text-teal-400',
+	red: 'text-red-600 dark:text-red-400',
+	stone: 'text-stone-600 dark:text-stone-400',
+};
+
+const FEATURE_ICONS = {
+	check: CheckCircle2,
+	sparkle: Sparkles,
+	shield: Shield,
+	zap: Zap,
+	lock: Lock,
+	image: Image,
+	file: File,
+	clock: Clock,
+};
+
+const DEFAULT_FEATURES: DropzoneFeature[] = [
+	{ icon: 'check', title: 'PDF Support', subtitle: 'All versions' },
+	{ icon: 'sparkle', title: 'Auto-Convert', subtitle: 'EPUB, DOCX, etc', highlight: true },
+	{ icon: 'check', title: 'Previews', subtitle: 'Visual selection' },
+	{ icon: 'check', title: 'Up to 25MB', subtitle: '100MB with Premium' },
+];
+
+export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue', dropzoneTitle, dropzoneSubtitle, features }: FileUploadProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [securityWarning, setSecurityWarning] = useState<string | null>(null);
@@ -255,36 +350,39 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 
 	return (
 		<div className='w-full max-w-4xl mx-auto'>
-			{/* Hero Section */}
-			<div className='text-center mb-8'>
-				<div className='flex items-center justify-center mb-6'>
-					<div className='relative'>
-						<div className='w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg'>
-							<FileText className='h-10 w-10 text-white' />
-						</div>
-						<div className='absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg'>
-							<Upload className='h-4 w-4 text-white' />
+			{/* Hero Section - only shown when not in minimal mode */}
+			{!minimal && (
+				<div className='text-center mb-8'>
+					<div className='flex items-center justify-center mb-6'>
+						<div className='relative'>
+							<div className='w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg'>
+								<FileText className='h-10 w-10 text-white' />
+							</div>
+							<div className='absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg'>
+								<Upload className='h-4 w-4 text-white' />
+							</div>
 						</div>
 					</div>
+					<h1 className='text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4'>
+						PDF Document Slicer
+					</h1>
+					<p className='text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto'>
+						Upload your PDF document to split it into separate files by
+						page ranges. Perfect for extracting chapters, sections, or
+						specific pages.
+					</p>
 				</div>
-				<h1 className='text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4'>
-					PDF Document Slicer
-				</h1>
-				<p className='text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto'>
-					Upload your PDF document to split it into separate files by
-					page ranges. Perfect for extracting chapters, sections, or
-					specific pages.
-				</p>
-			</div>
+			)}
 
 			{/* Upload Area */}
 			<div
 				{...getRootProps()}
 				className={cn(
 					'relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300',
-					'hover:border-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-950/20 hover:shadow-lg',
+					ACCENT_COLORS[accentColor],
+					'hover:shadow-lg',
 					isDragActive &&
-						'border-blue-500 bg-blue-50/50 dark:bg-blue-950/20 shadow-lg transform scale-[1.02]',
+						'border-current bg-opacity-50 shadow-lg transform scale-[1.02]',
 					!isDragActive && 'border-gray-300 dark:border-gray-700',
 					isProcessing && 'opacity-50 cursor-not-allowed'
 				)}>
@@ -292,8 +390,8 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 
 				<div className='flex flex-col items-center justify-center space-y-6'>
 					<div className='relative'>
-						<div className='w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30 flex items-center justify-center'>
-							<Upload className='h-12 w-12 text-blue-600 dark:text-blue-400' />
+						<div className={cn('w-24 h-24 rounded-2xl bg-gradient-to-br flex items-center justify-center', ACCENT_ICON_COLORS[accentColor])}>
+							<Upload className={cn('h-12 w-12', ACCENT_TEXT_COLORS[accentColor])} />
 						</div>
 					</div>
 
@@ -301,68 +399,67 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 						<p className='text-xl font-semibold text-gray-900 dark:text-gray-100'>
 							{isDragActive
 								? 'Drop your file here'
-								: 'Drag & drop your document'}
+								: (dropzoneTitle || 'Drag & drop your document')}
 						</p>
 						<p className='text-gray-600 dark:text-gray-400'>
-							or{' '}
-							<span className='text-blue-600 dark:text-blue-400 font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors'>
-								browse files
-							</span>{' '}
-							to upload
+							{dropzoneSubtitle || (
+								<>
+									or{' '}
+									<span className={cn('font-semibold transition-colors', ACCENT_TEXT_COLORS[accentColor])}>
+										browse files
+									</span>{' '}
+									to upload
+								</>
+							)}
 						</p>
-						<p className='text-sm text-gray-500 dark:text-gray-500'>
-							PDF, EPUB, DOCX, TXT, images, and more
-						</p>
+						{!dropzoneSubtitle && (
+							<p className='text-sm text-gray-500 dark:text-gray-500'>
+								PDF, EPUB, DOCX, TXT, images, and more
+							</p>
+						)}
 					</div>
 
 					{/* Features Grid */}
-					<div className='grid grid-cols-1 md:grid-cols-4 gap-4 mt-8 w-full max-w-3xl'>
-						<div className='flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl'>
-							<CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0' />
-							<div className='text-left'>
-								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-									PDF Support
-								</p>
-								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									All versions
-								</p>
-							</div>
-						</div>
-						<div className='flex items-center space-x-3 p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl border border-purple-200 dark:border-purple-800'>
-							<Sparkles className='h-5 w-5 text-purple-600 dark:text-purple-400 flex-shrink-0' />
-							<div className='text-left'>
-								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-									Auto-Convert
-								</p>
-								<p className='text-xs text-purple-600 dark:text-purple-400'>
-									EPUB, DOCX, etc
-								</p>
-							</div>
-						</div>
-						<div className='flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl'>
-							<CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0' />
-							<div className='text-left'>
-								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-									Previews
-								</p>
-								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									Visual selection
-								</p>
-							</div>
-						</div>
-						<div className='flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl'>
-							<CheckCircle2 className='h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0' />
-							<div className='text-left'>
-								<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-									Up to {limits?.maxFileSizeMB || 25}MB
-								</p>
-								<p className='text-xs text-gray-600 dark:text-gray-400'>
-									{isPremium
-										? 'Secure file processing'
-										: '100MB with Premium'}
-								</p>
-							</div>
-						</div>
+					<div className={cn(
+						'grid grid-cols-1 gap-4 mt-8 w-full',
+						(features || DEFAULT_FEATURES).length === 3 ? 'md:grid-cols-3 max-w-2xl' : 'md:grid-cols-4 max-w-3xl'
+					)}>
+						{(features || DEFAULT_FEATURES).map((feature, index) => {
+							const IconComponent = FEATURE_ICONS[feature.icon];
+							return (
+								<div
+									key={index}
+									className={cn(
+										'flex items-center space-x-3 p-4 rounded-xl',
+										feature.highlight
+											? 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-800'
+											: 'bg-gray-50 dark:bg-gray-800/50'
+									)}>
+									<IconComponent
+										className={cn(
+											'h-5 w-5 flex-shrink-0',
+											feature.highlight
+												? 'text-purple-600 dark:text-purple-400'
+												: 'text-green-600 dark:text-green-400'
+										)}
+									/>
+									<div className='text-left'>
+										<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
+											{feature.title}
+										</p>
+										<p
+											className={cn(
+												'text-xs',
+												feature.highlight
+													? 'text-purple-600 dark:text-purple-400'
+													: 'text-gray-600 dark:text-gray-400'
+											)}>
+											{feature.subtitle}
+										</p>
+									</div>
+								</div>
+							);
+						})}
 					</div>
 				</div>
 

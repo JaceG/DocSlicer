@@ -99,23 +99,24 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 
 	return (
 		<div className='w-full max-w-4xl mx-auto space-y-8'>
-			{/* Privacy Trust Badge */}
-			<div className='bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6 shadow-lg'>
+			{/* Tool Description */}
+			<div className='bg-gradient-to-r from-lime-50 to-green-50 dark:from-lime-900/20 dark:to-green-900/20 border-2 border-lime-200 dark:border-lime-800 rounded-xl p-6'>
 				<div className='flex items-start gap-4'>
-					<div className='bg-green-500 rounded-full p-3 flex-shrink-0'>
-						<Shield className='w-6 h-6 text-white' />
+					<div className='bg-lime-500 rounded-full p-3 flex-shrink-0'>
+						<FileDown className='w-6 h-6 text-white' />
 					</div>
-					<div className='flex-1'>
+					<div>
 						<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
-							🔒 100% Private Compression
+							📦 Compress PDF
 						</h3>
 						<p className='text-gray-700 dark:text-gray-300 mb-2'>
-							Your PDF never leaves your device. All compression happens
-							locally in your browser.
+							Reduce PDF file size while maintaining quality. Perfect for email attachments, web uploads, or saving storage space.
 						</p>
-						<p className='text-sm text-gray-600 dark:text-gray-400 italic'>
-							No uploads, no servers, no tracking. Complete privacy guaranteed.
-						</p>
+						<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+							<li>• <strong>Multiple levels</strong> – Screen, ebook, or print quality</li>
+							<li>• <strong>100% private</strong> – Compression happens locally in your browser</li>
+							<li>• <strong>Fast processing</strong> – Results in seconds, not minutes</li>
+						</ul>
 					</div>
 				</div>
 			</div>

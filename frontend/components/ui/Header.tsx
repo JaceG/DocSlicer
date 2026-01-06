@@ -1,15 +1,25 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { FileText, Scissors, Plus, Sparkles, LayoutDashboard, Menu, X } from 'lucide-react';
+import {
+	FileText,
+	Plus,
+	Sparkles,
+	LayoutDashboard,
+	Menu,
+	X,
+} from 'lucide-react';
 import { UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
+import { ToolConfig } from '@/lib/tools/config';
 
 interface HeaderProps {
 	onNewDocument?: () => void;
+	currentTool?: ToolConfig;
 }
 
-export function Header({ onNewDocument }: HeaderProps) {
+export function Header({ onNewDocument, currentTool }: HeaderProps) {
+	const ToolIcon = currentTool?.icon || FileText;
 	const { isSignedIn, isLoaded } = useUser();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const menuRef = useRef<HTMLDivElement>(null);
@@ -17,14 +27,18 @@ export function Header({ onNewDocument }: HeaderProps) {
 	// Close menu when clicking outside
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
-			if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+			if (
+				menuRef.current &&
+				!menuRef.current.contains(event.target as Node)
+			) {
 				setMobileMenuOpen(false);
 			}
 		}
 		if (mobileMenuOpen) {
 			document.addEventListener('mousedown', handleClickOutside);
 		}
-		return () => document.removeEventListener('mousedown', handleClickOutside);
+		return () =>
+			document.removeEventListener('mousedown', handleClickOutside);
 	}, [mobileMenuOpen]);
 
 	// Close menu on route change / escape key
@@ -53,25 +67,29 @@ export function Header({ onNewDocument }: HeaderProps) {
 			<div className='container mx-auto px-4 py-3 md:py-4'>
 				<div className='flex items-center justify-between'>
 					{/* Logo */}
-					<Link 
-						href='/' 
+					<Link
+						href='/'
 						className='flex items-center space-x-2 sm:space-x-4 hover:opacity-80 transition-opacity'
-						onClick={() => setMobileMenuOpen(false)}
-					>
-						<div className='relative flex-shrink-0'>
-							<div className='w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg'>
-								<FileText className='h-4 w-4 sm:h-5 sm:w-5 text-white' />
-							</div>
-							<div className='absolute -bottom-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center shadow-lg'>
-								<Scissors className='h-2 w-2 sm:h-2.5 sm:w-2.5 text-white' />
+						onClick={() => setMobileMenuOpen(false)}>
+						<div className='shrink-0'>
+							<div
+								className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-lg transition-colors ${
+									currentTool?.colorClass ||
+									'bg-gradient-to-br from-blue-500 to-blue-600'
+								}`}>
+								<ToolIcon className='h-4 w-4 sm:h-5 sm:w-5 text-white' />
 							</div>
 						</div>
 						<div className='min-w-0'>
 							<h1 className='text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent truncate'>
-								PDF Slicer
+								{currentTool
+									? currentTool.label
+									: 'PDF Splitter'}
 							</h1>
 							<p className='hidden md:block text-sm text-gray-600 dark:text-gray-400'>
-								Split PDF documents into pages with ease
+								{currentTool
+									? currentTool.description
+									: 'Split PDF documents into pages with ease'}
 							</p>
 						</div>
 					</Link>
@@ -84,16 +102,14 @@ export function Header({ onNewDocument }: HeaderProps) {
 									<>
 										<Link
 											href='/dashboard'
-											className='flex items-center space-x-2 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors'
-										>
+											className='flex items-center space-x-2 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors'>
 											<LayoutDashboard className='h-4 w-4' />
 											<span>Dashboard</span>
 										</Link>
 										{onNewDocument && (
 											<button
 												onClick={onNewDocument}
-												className='flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm'
-											>
+												className='flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm'>
 												<Plus className='h-4 w-4' />
 												<span>New Document</span>
 											</button>
@@ -110,21 +126,18 @@ export function Header({ onNewDocument }: HeaderProps) {
 									<>
 										<Link
 											href='/pricing'
-											className='flex items-center space-x-2 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors'
-										>
+											className='flex items-center space-x-2 px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors'>
 											<Sparkles className='h-4 w-4' />
 											<span>Pricing</span>
 										</Link>
 										<Link
 											href='/sign-in'
-											className='px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium'
-										>
+											className='px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors font-medium'>
 											Sign In
 										</Link>
 										<Link
 											href='/sign-up'
-											className='px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm'
-										>
+											className='px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm'>
 											Sign Up
 										</Link>
 									</>
@@ -147,9 +160,10 @@ export function Header({ onNewDocument }: HeaderProps) {
 						<button
 							onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
 							className='p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors'
-							aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-							aria-expanded={mobileMenuOpen}
-						>
+							aria-label={
+								mobileMenuOpen ? 'Close menu' : 'Open menu'
+							}
+							aria-expanded={mobileMenuOpen}>
 							{mobileMenuOpen ? (
 								<X className='h-6 w-6' />
 							) : (
@@ -163,15 +177,14 @@ export function Header({ onNewDocument }: HeaderProps) {
 				{mobileMenuOpen && (
 					<>
 						{/* Backdrop */}
-						<div 
+						<div
 							className='fixed inset-0 top-[57px] bg-black/20 dark:bg-black/40 backdrop-blur-sm md:hidden z-40'
 							onClick={() => setMobileMenuOpen(false)}
 						/>
 						{/* Menu Panel */}
-						<div 
+						<div
 							ref={menuRef}
-							className='absolute left-0 right-0 top-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-lg md:hidden z-50 animate-in slide-in-from-top-2 duration-200'
-						>
+							className='absolute left-0 right-0 top-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-lg md:hidden z-50 animate-in slide-in-from-top-2 duration-200'>
 							<nav className='container mx-auto px-4 py-4 space-y-2'>
 								{isLoaded && (
 									<>
@@ -179,56 +192,74 @@ export function Header({ onNewDocument }: HeaderProps) {
 											<>
 												<Link
 													href='/dashboard'
-													onClick={() => setMobileMenuOpen(false)}
-													className='flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors'
-												>
+													onClick={() =>
+														setMobileMenuOpen(false)
+													}
+													className='flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors'>
 													<LayoutDashboard className='h-5 w-5' />
-													<span className='font-medium'>Dashboard</span>
+													<span className='font-medium'>
+														Dashboard
+													</span>
 												</Link>
 												{onNewDocument && (
 													<button
 														onClick={() => {
 															onNewDocument();
-															setMobileMenuOpen(false);
+															setMobileMenuOpen(
+																false
+															);
 														}}
-														className='flex items-center space-x-3 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors shadow-sm'
-													>
+														className='flex items-center space-x-3 w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors shadow-sm'>
 														<Plus className='h-5 w-5' />
-														<span>New Document</span>
+														<span>
+															New Document
+														</span>
 													</button>
 												)}
 												<Link
 													href='/pricing'
-													onClick={() => setMobileMenuOpen(false)}
-													className='flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors'
-												>
+													onClick={() =>
+														setMobileMenuOpen(false)
+													}
+													className='flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors'>
 													<Sparkles className='h-5 w-5' />
-													<span className='font-medium'>Pricing</span>
+													<span className='font-medium'>
+														Pricing
+													</span>
 												</Link>
 											</>
 										) : (
 											<>
 												<Link
 													href='/pricing'
-													onClick={() => setMobileMenuOpen(false)}
-													className='flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors'
-												>
+													onClick={() =>
+														setMobileMenuOpen(false)
+													}
+													className='flex items-center space-x-3 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors'>
 													<Sparkles className='h-5 w-5' />
-													<span className='font-medium'>Pricing</span>
+													<span className='font-medium'>
+														Pricing
+													</span>
 												</Link>
 												<div className='pt-2 border-t border-gray-200 dark:border-gray-800 mt-2 space-y-2'>
 													<Link
 														href='/sign-in'
-														onClick={() => setMobileMenuOpen(false)}
-														className='block w-full px-4 py-3 text-center text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors font-medium'
-													>
+														onClick={() =>
+															setMobileMenuOpen(
+																false
+															)
+														}
+														className='block w-full px-4 py-3 text-center text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors font-medium'>
 														Sign In
 													</Link>
 													<Link
 														href='/sign-up'
-														onClick={() => setMobileMenuOpen(false)}
-														className='block w-full px-4 py-3 text-center bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors shadow-sm'
-													>
+														onClick={() =>
+															setMobileMenuOpen(
+																false
+															)
+														}
+														className='block w-full px-4 py-3 text-center bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors shadow-sm'>
 														Sign Up
 													</Link>
 												</div>

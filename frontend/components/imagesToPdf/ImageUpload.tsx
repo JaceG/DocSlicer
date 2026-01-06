@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, Image as ImageIcon, AlertTriangle } from 'lucide-react';
+import { Upload, Image as ImageIcon, AlertTriangle, FileStack, GripVertical, Settings2, CheckCircle2 } from 'lucide-react';
 import { ImageFile } from '@/types';
 import { cn } from '@/lib/utils/cn';
 import { createImageThumbnail } from '@/lib/pdf/imagesToPdf';
@@ -144,9 +144,34 @@ export function ImageUpload({ onImagesUpload, existingImages = [] }: ImageUpload
 								? 'Add more images or click to browse'
 								: 'Drop images here or click to browse'}
 						</p>
-						<p className="text-sm text-gray-500 dark:text-gray-400">
+						<p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
 							JPG, PNG, GIF, WebP, BMP • Multiple files supported
 						</p>
+
+						{/* Features Grid */}
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-2xl">
+							<div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+								<FileStack className="h-5 w-5 text-orange-600 dark:text-orange-400 flex-shrink-0" />
+								<div className="text-left">
+									<p className="text-sm font-medium text-gray-900 dark:text-gray-100">Batch Upload</p>
+									<p className="text-xs text-gray-600 dark:text-gray-400">Multiple at once</p>
+								</div>
+							</div>
+							<div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+								<GripVertical className="h-5 w-5 text-orange-600 dark:text-orange-400 flex-shrink-0" />
+								<div className="text-left">
+									<p className="text-sm font-medium text-gray-900 dark:text-gray-100">Reorder</p>
+									<p className="text-xs text-gray-600 dark:text-gray-400">Drag and drop</p>
+								</div>
+							</div>
+							<div className="flex items-center space-x-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+								<Settings2 className="h-5 w-5 text-orange-600 dark:text-orange-400 flex-shrink-0" />
+								<div className="text-left">
+									<p className="text-sm font-medium text-gray-900 dark:text-gray-100">Page Settings</p>
+									<p className="text-xs text-gray-600 dark:text-gray-400">Size & orientation</p>
+								</div>
+							</div>
+						</div>
 					</div>
 				)}
 			</div>
