@@ -5,6 +5,7 @@ import {
 	FileX,
 	AlertTriangle,
 	CheckCircle2,
+	XCircle,
 	Wrench,
 	Download,
 	RefreshCw,
