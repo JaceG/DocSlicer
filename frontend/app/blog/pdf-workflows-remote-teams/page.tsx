@@ -55,15 +55,6 @@ const blogPost: BlogPost = {
 	category: 'Productivity',
 	author: 'PDF WonderKit Team',
 	tags: ['Remote Work', 'Collaboration', 'Productivity', 'Teams'],
-	author: 'PDF Wonder Kit Team',
-	tags: [
-		'workflow',
-		'remote-work',
-		'collaboration',
-		'productivity',
-		'document-management',
-		'e-signatures',
-	],
 };
 
 const workflows = [
