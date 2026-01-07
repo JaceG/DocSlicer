@@ -1,8 +1,8 @@
-# 💰 PDF Slicer - Now a SaaS!
+# 💰 PDF Wonder Kit - Now a SaaS!
 
 ## What Just Happened?
 
-Your PDF Slicer app has been transformed into a complete SaaS application with:
+Your PDF Wonder Kit app has been transformed into a complete SaaS application with:
 
 ### 🎯 Simple Pricing
 - **Free**: 3 PDFs/month, 25MB limit, 3 page ranges

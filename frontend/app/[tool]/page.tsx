@@ -29,17 +29,17 @@ export async function generateMetadata({
 		};
 	}
 
-	const baseUrl = 'https://www.docslicer.com';
+	const baseUrl = 'https://www.pdfwonderkit.com';
 
 	return {
-		title: `${tool.label} - Free Online PDF Tool | DocSlicer`,
+		title: `${tool.label} - Free Online PDF Tool | PDF Wonder Kit`,
 		description: tool.longDescription,
 		keywords: tool.keywords,
 		openGraph: {
 			title: `${tool.label} - Free Online PDF Tool`,
 			description: tool.longDescription,
 			url: `${baseUrl}/${tool.slug}`,
-			siteName: 'DocSlicer',
+			siteName: 'PDF Wonder Kit',
 			type: 'website',
 			images: [
 				{

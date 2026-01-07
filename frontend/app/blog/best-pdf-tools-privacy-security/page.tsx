@@ -27,15 +27,18 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '10 min read',
 	category: 'Security',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'pdf security',
+		'pdf-security',
 		'privacy',
-		'document security',
-		'data protection',
-		'confidential files',
+		'protect',
+		'encrypt',
+		'password-protection',
 	],
 	featured: true,
+	toolSlug: 'protect',
+	ctaTitle: 'Ready to Protect Your Sensitive PDFs?',
+	ctaDescription: 'Add password protection to your PDFs with 256-bit AES encryption. 100% browser-based processing means your files never leave your device.',
 };
 
 export const metadata: Metadata = {
@@ -61,7 +64,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -69,14 +72,14 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
 // Security comparison data
 const securityComparison = [
 	{
-		tool: 'DocSlicer',
+		tool: 'PDF Wonder Kit',
 		processing: 'Local (Browser)',
 		dataStorage: 'None',
 		encryption: 'N/A - Never uploaded',
@@ -372,7 +375,7 @@ export default function BlogPostPage() {
 								<p className='text-green-800 dark:text-green-200'>
 									Choose tools that process files entirely on
 									your device. Browser-based tools like
-									DocSlicer never upload your files to
+									PDF Wonder Kit never upload your files to
 									servers.
 								</p>
 							</div>
@@ -440,7 +443,7 @@ export default function BlogPostPage() {
 						<div className='flex items-start justify-between mb-4'>
 							<div>
 								<h3 className='text-xl font-bold text-gray-900 dark:text-white mb-2'>
-									1. DocSlicer (Browser-Based)
+									1. PDF Wonder Kit (Browser-Based)
 								</h3>
 								<span className='px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 rounded-full text-sm font-medium'>
 									Best for Privacy
@@ -476,7 +479,7 @@ export default function BlogPostPage() {
 						<Link
 							href='/'
 							className='inline-block mt-4 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors'>
-							Try DocSlicer Free →
+							Try PDF Wonder Kit Free →
 						</Link>
 					</div>
 
@@ -613,7 +616,7 @@ export default function BlogPostPage() {
 					</p>
 					<p className='text-lg text-gray-800 dark:text-gray-200'>
 						For maximum privacy, choose tools that process files
-						locally—either in your browser (like DocSlicer) or on
+						locally—either in your browser (like PDF Wonder Kit) or on
 						your desktop (like Adobe Acrobat Pro or Mac Preview).
 						Your documents are too important to trust to unknown
 						servers.
@@ -621,25 +624,6 @@ export default function BlogPostPage() {
 				</div>
 			</section>
 
-			{/* CTA */}
-			<section className='my-12'>
-				<div className='bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-center text-white'>
-					<Shield className='h-12 w-12 mx-auto mb-4' />
-					<h2 className='text-2xl font-bold mb-4'>
-						Ready to protect your sensitive PDFs?
-					</h2>
-					<p className='text-blue-100 mb-6 max-w-2xl mx-auto'>
-						Try DocSlicer - the PDF tool that never uploads your
-						files. 100% browser-based processing means complete
-						privacy guaranteed.
-					</p>
-					<Link
-						href='/'
-						className='inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-lg'>
-						Start Using DocSlicer Free →
-					</Link>
-				</div>
-			</section>
 		</BlogLayout>
 	);
 }

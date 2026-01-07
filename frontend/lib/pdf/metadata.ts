@@ -263,7 +263,7 @@ export const METADATA_PRESETS = {
 		customFields: [] as Array<{ key: string; value: string }>,
 	},
 	minimal: {
-		creator: 'PDF Slicer',
-		producer: 'PDF Slicer',
+		creator: 'PDF Wonder Kit',
+		producer: 'PDF Wonder Kit',
 	},
 };

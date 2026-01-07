@@ -1,6 +1,6 @@
-# PDF Slicer SaaS Setup Guide
+# PDF Wonder Kit SaaS Setup Guide
 
-Congratulations! Your PDF Slicer app now has a complete SaaS monetization system with Stripe subscriptions and Clerk authentication. Follow this guide to complete the setup.
+Congratulations! Your PDF Wonder Kit app now has a complete SaaS monetization system with Stripe subscriptions and Clerk authentication. Follow this guide to complete the setup.
 
 ## ✅ What's Been Set Up
 

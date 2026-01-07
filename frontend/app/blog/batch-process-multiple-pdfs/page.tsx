@@ -26,15 +26,17 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '11 min read',
 	category: 'Advanced',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'batch processing',
-		'pdf automation',
-		'power user',
+		'merge-pdf',
+		'split-pdf',
 		'productivity',
-		'bulk operations',
+		'batch-processing',
 	],
 	featured: false,
+	toolSlug: 'merge',
+	ctaTitle: 'Start Batch Processing Today',
+	ctaDescription: 'PDF Wonder Kit supports batch operations for splitting and merging PDFs. Upload multiple files at once and process them all with a single click.',
 };
 
 export const metadata: Metadata = {
@@ -60,7 +62,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -68,7 +70,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -111,7 +113,7 @@ const batchMethods = [
 		icon: Zap,
 		description: 'Use web tools that support multiple file uploads',
 		bestFor: 'Most users, quick tasks, no technical knowledge needed',
-		tools: ['DocSlicer (for split/merge)', 'PDF24', 'Sejda'],
+		tools: ['PDF Wonder Kit (for split/merge)', 'PDF24', 'Sejda'],
 		pros: [
 			'No installation required',
 			'Works on any device',
@@ -193,7 +195,7 @@ const commonOperations = [
 		description: 'Split multiple PDFs using same page ranges',
 		example: 'Extract pages 1-3 from 50 different invoices',
 		browserMethod: {
-			tool: 'DocSlicer',
+			tool: 'PDF Wonder Kit',
 			steps: [
 				'Upload all PDFs at once',
 				'Set split ranges (e.g., pages 1-3)',
@@ -216,7 +218,7 @@ const commonOperations = [
 		description: 'Combine multiple PDFs into one or multiple outputs',
 		example: 'Merge 30 monthly reports into quarterly summaries',
 		browserMethod: {
-			tool: 'DocSlicer',
+			tool: 'PDF Wonder Kit',
 			steps: [
 				'Select all files to merge',
 				'Arrange in correct order',
@@ -239,7 +241,7 @@ const commonOperations = [
 		description: 'Reduce file size of multiple PDFs',
 		example: 'Compress 100 PDFs for email distribution',
 		browserMethod: {
-			tool: 'DocSlicer or PDF24',
+			tool: 'PDF Wonder Kit or PDF24',
 			steps: [
 				'Upload all PDFs',
 				'Select compression level',
@@ -739,7 +741,7 @@ export default function BlogPostPage() {
 										Start with browser tools
 									</strong>
 									<p className='text-sm text-gray-600 dark:text-gray-400'>
-										Master DocSlicer and similar tools for
+										Master PDF Wonder Kit and similar tools for
 										10-50 file batches
 									</p>
 								</div>
@@ -777,28 +779,6 @@ export default function BlogPostPage() {
 				</div>
 			</section>
 
-			{/* CTA */}
-			<section className='my-12'>
-				<div className='bg-gradient-to-r from-purple-600 to-indigo-600 rounded-xl p-8 text-center text-white'>
-					<Zap className='h-12 w-12 mx-auto mb-4' />
-					<h2 className='text-2xl font-bold mb-4'>
-						Start Batch Processing Today
-					</h2>
-					<p className='text-purple-100 mb-6 max-w-2xl mx-auto'>
-						DocSlicer supports batch operations for splitting and
-						merging PDFs. Upload multiple files at once and process
-						them all with a single click.
-					</p>
-					<Link
-						href='/'
-						className='inline-block px-8 py-4 bg-white text-purple-600 font-bold rounded-lg hover:bg-purple-50 transition-colors shadow-lg'>
-						Try Batch Processing →
-					</Link>
-					<p className='text-purple-100 text-sm mt-4'>
-						Free forever • No limits • Process dozens at once
-					</p>
-				</div>
-			</section>
 		</BlogLayout>
 	);
 }

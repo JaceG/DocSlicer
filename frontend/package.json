@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "pdf-wonder-kit",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,7 +14,7 @@
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "lucide-react": "^0.542.0",
-    "next": "^15.4.10",
+    "next": "~15.5.9",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^4.0.379",
     "react": "19.1.4",

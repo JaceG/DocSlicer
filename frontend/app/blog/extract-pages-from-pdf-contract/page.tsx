@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 		title: 'How to Extract Specific Pages from a PDF Contract',
 		description:
 			'Professional guide to extracting pages from PDF contracts and legal documents. Secure, confidential methods.',
-		url: 'https://www.docslicer.com/blog/extract-pages-from-pdf-contract',
+		url: 'https://www.pdfwonderkit.com/blog/extract-pages-from-pdf-contract',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/extract-pages-from-pdf-contract',
+		canonical: 'https://www.pdfwonderkit.com/blog/extract-pages-from-pdf-contract',
 	},
 };
 
@@ -35,15 +35,17 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '7 min read',
 	category: 'Business',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
+		'split-pdf',
 		'contracts',
 		'legal',
 		'business',
-		'extract pages',
-		'pdf security',
 	],
 	featured: false,
+	toolSlug: 'split',
+	ctaTitle: 'Extract Contract Pages Securely',
+	ctaDescription: 'Pull specific pages from contracts and legal documents without uploading to third-party servers. 100% browser-based processing for complete confidentiality.',
 };
 
 export default function ExtractPDFContractPagesPage() {
@@ -202,7 +204,7 @@ export default function ExtractPDFContractPagesPage() {
 									legal documents, confidential business files
 								</p>
 								<p className='text-green-800 dark:text-green-200 text-sm mb-0'>
-									Tools like <strong>DocSlicer</strong> process
+									Tools like <strong>PDF Wonder Kit</strong> process
 									files entirely in your browser. Your PDF never
 									leaves your computer—no uploads, no servers, no
 									data retention.
@@ -263,7 +265,7 @@ export default function ExtractPDFContractPagesPage() {
 					How to Extract Pages from a PDF Contract
 				</h2>
 
-				<h3>Method 1: DocSlicer (Recommended for Confidential Documents)</h3>
+				<h3>Method 1: PDF Wonder Kit (Recommended for Confidential Documents)</h3>
 
 				<div className='bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800 mb-6'>
 					<div className='flex items-center gap-3 mb-4'>
@@ -290,7 +292,7 @@ export default function ExtractPDFContractPagesPage() {
 								<Link
 									href='/'
 									className='text-blue-600 hover:underline'>
-									DocSlicer.com
+									PDF Wonder Kit.com
 								</Link>
 							</strong>
 						</li>
@@ -345,7 +347,7 @@ export default function ExtractPDFContractPagesPage() {
 
 				<div className='bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-lg'>
 					<h4 className='text-green-900 dark:text-green-100 mt-0'>
-						✅ Why DocSlicer is Ideal for Contracts:
+						✅ Why PDF Wonder Kit is Ideal for Contracts:
 					</h4>
 					<ul className='text-green-800 dark:text-green-200 mb-0'>
 						<li>
@@ -390,7 +392,7 @@ export default function ExtractPDFContractPagesPage() {
 								contents → Exhibit C is pages 75-95
 							</p>
 							<p className='text-sm mb-2'>
-								<strong>Step 2:</strong> Upload to DocSlicer
+								<strong>Step 2:</strong> Upload to PDF Wonder Kit
 							</p>
 							<p className='text-sm mb-2'>
 								<strong>Step 3:</strong> Enter range: "75-95"
@@ -616,7 +618,7 @@ export default function ExtractPDFContractPagesPage() {
 							Can I extract non-consecutive pages?
 						</h3>
 						<p className='mb-0'>
-							Yes! With DocSlicer, you can create multiple
+							Yes! With PDF Wonder Kit, you can create multiple
 							extraction ranges. For example, extract pages 1-2,
 							15-20, and 45 all at once. Each range becomes a
 							separate PDF file.
@@ -642,7 +644,7 @@ export default function ExtractPDFContractPagesPage() {
 						<p className='mb-0'>
 							Yes, if you have the password. You'll need to unlock
 							the PDF first (using the password), then you can
-							extract pages normally. DocSlicer supports opening
+							extract pages normally. PDF Wonder Kit supports opening
 							password-protected files in your browser.
 						</p>
 					</div>
@@ -668,7 +670,7 @@ export default function ExtractPDFContractPagesPage() {
 						</h3>
 						<p className='mb-0'>
 							For batch processing, you'll need to extract from
-							each contract individually. However, DocSlicer is
+							each contract individually. However, PDF Wonder Kit is
 							fast—extracting a signature page takes about 10
 							seconds per contract. Premium users can process
 							unlimited contracts per month.
@@ -676,28 +678,6 @@ export default function ExtractPDFContractPagesPage() {
 					</div>
 				</div>
 
-				{/* Conclusion */}
-				<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800'>
-					<h2 className='mt-0'>Ready to Extract Contract Pages Securely?</h2>
-					<p className='text-gray-700 dark:text-gray-300 mb-4'>
-						DocSlicer makes it easy to extract specific pages from
-						contracts, legal documents, and business files—all while
-						keeping your documents completely private.
-					</p>
-					<div className='flex flex-wrap gap-3'>
-						<Link
-							href='/'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'>
-							<Scissors className='h-5 w-5' />
-							Try DocSlicer Free
-						</Link>
-						<Link
-							href='/pricing'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border-2 border-gray-300 dark:border-gray-600'>
-							View Pricing
-						</Link>
-					</div>
-				</div>
 			</div>
 		</BlogLayout>
 	);

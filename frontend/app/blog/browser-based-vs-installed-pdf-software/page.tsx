@@ -30,15 +30,15 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '8 min read',
 	category: 'Guides',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'browser pdf tools',
-		'desktop pdf software',
-		'pdf comparison',
-		'web apps',
-		'software comparison',
+		'browser-tools',
+		'comparison',
+		'privacy',
 	],
 	featured: false,
+	ctaTitle: 'Experience Browser-Based PDF Tools',
+	ctaDescription: 'Try PDF Wonder Kit and see why browser-based tools have become the go-to choice for millions. No installation, no learning curve, no compromises on privacy.',
 };
 
 export const metadata: Metadata = {
@@ -64,7 +64,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -162,7 +162,7 @@ const useCases = [
 		winner: 'both',
 		icon: Shield,
 		explanation: 'Both can be secure—choose local-processing browser tools or trusted desktop software.',
-		example: 'Medical or legal files need privacy. Use DocSlicer (browser, local processing) or Adobe (desktop).',
+		example: 'Medical or legal files need privacy. Use PDF Wonder Kit (browser, local processing) or Adobe (desktop).',
 	},
 	{
 		scenario: 'Offline Environment',
@@ -293,7 +293,7 @@ export default function BlogPostPage() {
 							</div>
 						</div>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mt-4'>
-							<strong>Examples:</strong> DocSlicer, Smallpdf,
+							<strong>Examples:</strong> PDF Wonder Kit, Smallpdf,
 							PDF24
 						</p>
 					</div>
@@ -603,7 +603,7 @@ export default function BlogPostPage() {
 						</p>
 						<p className='text-red-800 dark:text-red-200'>
 							<strong>REALITY:</strong> It depends on
-							implementation. Tools like DocSlicer process files
+							implementation. Tools like PDF Wonder Kit process files
 							entirely in your browser—your files never leave your
 							device. That's just as secure as desktop software.
 						</p>
@@ -615,7 +615,7 @@ export default function BlogPostPage() {
 						</p>
 						<p className='text-red-800 dark:text-red-200'>
 							<strong>REALITY:</strong> Many browser tools (like
-							DocSlicer) work offline after the initial page load.
+							PDF Wonder Kit) work offline after the initial page load.
 							Modern web technologies enable full offline
 							functionality.
 						</p>
@@ -652,7 +652,7 @@ export default function BlogPostPage() {
 								<strong>80% of PDF tasks</strong> (splitting,
 								merging, basic compression) work perfectly in
 								browser tools. Try a quality browser-based tool
-								like DocSlicer first.
+								like PDF Wonder Kit first.
 							</p>
 							<div className='bg-white dark:bg-gray-800 rounded-lg p-5'>
 								<p className='font-medium text-gray-900 dark:text-white mb-2'>
@@ -733,7 +733,7 @@ export default function BlogPostPage() {
 
 					<p className='text-lg text-gray-800 dark:text-gray-200 mb-4'>
 						For most everyday PDF tasks,{' '}
-						<strong>browser-based tools like DocSlicer</strong>{' '}
+						<strong>browser-based tools like PDF Wonder Kit</strong>{' '}
 						offer the best combination of convenience, accessibility,
 						and capability. You can always supplement with installed
 						software for specialized needs.
@@ -746,28 +746,6 @@ export default function BlogPostPage() {
 				</div>
 			</section>
 
-			{/* CTA */}
-			<section className='my-12'>
-				<div className='bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-center text-white'>
-					<Globe className='h-12 w-12 mx-auto mb-4' />
-					<h2 className='text-2xl font-bold mb-4'>
-						Experience Browser-Based PDF Tools
-					</h2>
-					<p className='text-blue-100 mb-6 max-w-2xl mx-auto'>
-						Try DocSlicer and see why browser-based tools have become
-						the go-to choice for millions. No installation, no
-						learning curve, no compromises on privacy.
-					</p>
-					<Link
-						href='/'
-						className='inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-lg'>
-						Try DocSlicer Free →
-					</Link>
-					<p className='text-blue-100 text-sm mt-4'>
-						Works instantly • All devices • 100% private • No sign-up
-					</p>
-				</div>
-			</section>
 		</BlogLayout>
 	);
 }

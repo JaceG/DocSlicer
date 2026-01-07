@@ -29,10 +29,6 @@ const nextConfig: NextConfig = {
 		ignoreBuildErrors: false,
 	},
 
-	eslint: {
-		ignoreDuringBuilds: false,
-	},
-
 	// Headers for caching - disable in development to avoid stale assets
 	async headers() {
 		const isDev = process.env.NODE_ENV === 'development';

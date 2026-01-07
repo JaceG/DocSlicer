@@ -29,15 +29,16 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '10 min read',
 	category: 'Productivity',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'remote work',
-		'pdf organization',
-		'work from home',
-		'document management',
+		'remote-work',
+		'organize-pdf',
 		'productivity',
 	],
 	featured: true,
+	toolSlug: 'organize',
+	ctaTitle: 'Perfect Tool for Remote Workers',
+	ctaDescription: 'PDF Wonder Kit works in your browser on any device — laptop, tablet, or phone. Split and organize PDFs from anywhere, with complete privacy guaranteed.',
 };
 
 export const metadata: Metadata = {
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -71,7 +72,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -180,7 +181,7 @@ const organizationPrinciples = [
 		description: 'Protect sensitive documents in your home office',
 		strategies: [
 			'Use encrypted cloud storage for sensitive files',
-			'Process confidential PDFs locally (use DocSlicer)',
+			'Process confidential PDFs locally (use PDF Wonder Kit)',
 			'Set up password protection for financial/medical docs',
 			'Enable two-factor authentication on all cloud accounts',
 		],
@@ -222,7 +223,7 @@ const toolRecommendations = [
 		category: 'PDF Processing',
 		tools: [
 			{
-				name: 'DocSlicer',
+				name: 'PDF Wonder Kit',
 				use: 'Split, merge, compress PDFs',
 				why: 'Browser-based, works on all devices, no upload required',
 				price: 'Free',
@@ -639,29 +640,6 @@ export default function BlogPostPage() {
 				</div>
 			</section>
 
-			{/* CTA */}
-			<section className='my-12'>
-				<div className='bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl p-8 text-center text-white'>
-					<Home className='h-12 w-12 mx-auto mb-4' />
-					<h2 className='text-2xl font-bold mb-4'>
-						Perfect Tool for Remote Workers
-					</h2>
-					<p className='text-blue-100 mb-6 max-w-2xl mx-auto'>
-						DocSlicer works in your browser on any device—laptop,
-						tablet, or phone. Split and organize PDFs from anywhere,
-						with complete privacy guaranteed.
-					</p>
-					<Link
-						href='/'
-						className='inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-lg'>
-						Start Organizing Your PDFs →
-					</Link>
-					<p className='text-blue-100 text-sm mt-4'>
-						Works everywhere • No installation • 100% private • Free
-						forever
-					</p>
-				</div>
-			</section>
 		</BlogLayout>
 	);
 }

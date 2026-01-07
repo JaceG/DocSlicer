@@ -25,15 +25,17 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '6 min read',
 	category: 'Tutorials',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'pdf workflow',
+		'split-pdf',
 		'productivity',
+		'workflow',
 		'tutorial',
-		'document management',
-		'quick guide',
 	],
 	featured: false,
+	toolSlug: 'split',
+	ctaTitle: 'Ready to Try This Workflow?',
+	ctaDescription: 'Start with PDF Wonder Kit — the fast, free PDF splitter that makes Step 1 take just 1 minute. No installation, no uploads, no hassle.',
 };
 
 export const metadata: Metadata = {
@@ -59,7 +61,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -67,7 +69,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -79,7 +81,7 @@ const workflowSteps = [
 		icon: Scissors,
 		description: 'Extract the pages you need from large documents',
 		actions: [
-			'Open your PDF in DocSlicer',
+			'Open your PDF in PDF Wonder Kit',
 			'Select the specific pages or ranges you need',
 			'Click "Split" to create separate documents',
 			'Download your extracted pages',
@@ -114,7 +116,7 @@ const workflowSteps = [
 		description: 'Get your documents to the right people quickly',
 		actions: [
 			'Choose the right sharing method for your needs',
-			'Compress large files if needed (use DocSlicer)',
+			'Compress large files if needed (use PDF Wonder Kit)',
 			'Send via email, cloud storage, or secure file transfer',
 			'Confirm recipient received and can open the file',
 		],
@@ -572,29 +574,6 @@ export default function BlogPostPage() {
 				</div>
 			</section>
 
-			{/* CTA */}
-			<section className='my-12'>
-				<div className='bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-center text-white'>
-					<Zap className='h-12 w-12 mx-auto mb-4' />
-					<h2 className='text-2xl font-bold mb-4'>
-						Ready to Try This Workflow?
-					</h2>
-					<p className='text-blue-100 mb-6 max-w-2xl mx-auto'>
-						Start with DocSlicer—the fast, free PDF splitter that
-						makes Step 1 take just 1 minute. No installation, no
-						uploads, no hassle.
-					</p>
-					<Link
-						href='/'
-						className='inline-block px-8 py-4 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-lg'>
-						Split Your First PDF Now →
-					</Link>
-					<p className='text-blue-100 text-sm mt-4'>
-						Free forever • Works in your browser • Start organizing
-						in 60 seconds
-					</p>
-				</div>
-			</section>
 		</BlogLayout>
 	);
 }

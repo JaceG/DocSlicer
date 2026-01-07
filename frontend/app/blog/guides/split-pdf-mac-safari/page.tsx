@@ -19,11 +19,11 @@ export const metadata: Metadata = {
 		title: 'How to Split PDF on Mac with Safari (2026 Guide)',
 		description:
 			'Learn how to split PDF files on Mac using Safari. Free and secure browser-based solution.',
-		url: 'https://www.docslicer.com/blog/guides/split-pdf-mac-safari',
+		url: 'https://www.pdfwonderkit.com/blog/guides/split-pdf-mac-safari',
 	},
 	alternates: {
 		canonical:
-			'https://www.docslicer.com/blog/guides/split-pdf-mac-safari',
+			'https://www.pdfwonderkit.com/blog/guides/split-pdf-mac-safari',
 	},
 };
 
@@ -35,7 +35,7 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '4 min read',
 	category: 'Platform Guides',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: ['mac', 'safari', 'split pdf', 'browser tools', 'pdf tutorial'],
 	featured: false,
 };
@@ -91,7 +91,7 @@ export default function MacSafariPage() {
 					Need to split a PDF on your Mac using Safari? Mac users have
 					a unique advantage: macOS includes powerful PDF tools
 					built-in to Preview. However, for more advanced features,
-					browser-based tools like DocSlicer offer even more
+					browser-based tools like PDF Wonder Kit offer even more
 					flexibility.
 				</p>
 
@@ -178,23 +178,23 @@ export default function MacSafariPage() {
 					</ul>
 				</div>
 
-				{/* Method 2: DocSlicer in Safari */}
+				{/* Method 2: PDF Wonder Kit in Safari */}
 				<h2 className='flex items-center gap-2'>
 					<Scissors className='h-6 w-6 text-blue-600' />
-					Method 2: DocSlicer in Safari (Recommended for Advanced
+					Method 2: PDF Wonder Kit in Safari (Recommended for Advanced
 					Splitting)
 				</h2>
 
 				<p>
 					For more powerful features—especially when you need to create
-					multiple split ranges at once—DocSlicer works perfectly in
+					multiple split ranges at once—PDF Wonder Kit works perfectly in
 					Safari on your Mac.
 				</p>
 
 				<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6'>
 					<h3 className='mt-0 flex items-center gap-2 text-green-900 dark:text-green-100'>
 						<span className='text-2xl'>🔒</span>
-						Why Use DocSlicer in Safari on Mac?
+						Why Use PDF Wonder Kit in Safari on Mac?
 					</h3>
 					<ul className='text-gray-800 dark:text-gray-200 mb-0'>
 						<li>
@@ -254,7 +254,7 @@ export default function MacSafariPage() {
 								</linearGradient>
 							</defs>
 						</svg>
-						How to Split PDFs in Safari with DocSlicer:
+						How to Split PDFs in Safari with PDF Wonder Kit:
 					</h3>
 					<ol className='space-y-3'>
 						<li>
@@ -263,7 +263,7 @@ export default function MacSafariPage() {
 							<Link
 								href='/'
 								className='text-blue-600 hover:underline'>
-								DocSlicer.com
+								PDF Wonder Kit.com
 							</Link>
 						</li>
 						<li>
@@ -343,7 +343,7 @@ export default function MacSafariPage() {
 				</div>
 
 				{/* Comparison Table */}
-				<h2>Comparison: Mac Preview vs DocSlicer in Safari</h2>
+				<h2>Comparison: Mac Preview vs PDF Wonder Kit in Safari</h2>
 
 				<div className='overflow-x-auto'>
 					<table className='min-w-full border-collapse'>
@@ -356,7 +356,7 @@ export default function MacSafariPage() {
 									Mac Preview
 								</th>
 								<th className='border border-gray-300 dark:border-gray-700 px-4 py-2 text-left'>
-									DocSlicer in Safari
+									PDF Wonder Kit in Safari
 								</th>
 							</tr>
 						</thead>
@@ -437,10 +437,10 @@ export default function MacSafariPage() {
 				<div className='space-y-6'>
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold text-gray-900 dark:text-white mt-0'>
-							Does DocSlicer work on iPhone and iPad with Safari?
+							Does PDF Wonder Kit work on iPhone and iPad with Safari?
 						</h3>
 						<p className='text-gray-700 dark:text-gray-300 mb-0'>
-							Yes! DocSlicer works perfectly in Safari on iOS and
+							Yes! PDF Wonder Kit works perfectly in Safari on iOS and
 							iPadOS. You can split PDFs on your iPhone or iPad
 							just as easily as on your Mac.
 						</p>
@@ -448,13 +448,13 @@ export default function MacSafariPage() {
 
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold text-gray-900 dark:text-white mt-0'>
-							Should I use Preview or DocSlicer on my Mac?
+							Should I use Preview or PDF Wonder Kit on my Mac?
 						</h3>
 						<p className='text-gray-700 dark:text-gray-300 mb-0'>
 							For simple, one-off splits, Preview is fantastic and
 							completely free. For complex tasks with multiple
 							page ranges, batch processing, or when you need a
-							ZIP download, DocSlicer in Safari is the better
+							ZIP download, PDF Wonder Kit in Safari is the better
 							choice.
 						</p>
 					</div>
@@ -468,7 +468,7 @@ export default function MacSafariPage() {
 							Safari is optimized for macOS and tends to be more
 							energy-efficient, which means better battery life on
 							MacBooks. Both Safari and Chrome work identically
-							with DocSlicer, so choose whichever you prefer.
+							with PDF Wonder Kit, so choose whichever you prefer.
 						</p>
 					</div>
 				</div>

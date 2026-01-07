@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { BlogLayout } from '@/components/blog/BlogLayout';
 
 export const metadata: Metadata = {
-	title: 'PDF Metadata: What Hidden Information Are You Sharing? | DocSlicer',
+	title: 'PDF Metadata: What Hidden Information Are You Sharing? | PDF Wonder Kit',
 	description:
 		'Discover what hidden data lurks in PDF metadata. Learn what information PDFs reveal about you, how to view it, and how to remove sensitive metadata before sharing.',
 	keywords: [
@@ -23,10 +23,10 @@ export const metadata: Metadata = {
 			'Discover what hidden data lurks in PDF metadata and how to protect your privacy.',
 		type: 'article',
 		publishedTime: '2025-01-05T00:00:00Z',
-		authors: ['DocSlicer Team'],
+		authors: ['PDF Wonder Kit Team'],
 	},
 	alternates: {
-		canonical: 'https://docslicer.com/blog/pdf-metadata-hidden-information',
+		canonical: 'https://pdfwonderkit.com/blog/pdf-metadata-hidden-information',
 	},
 };
 
@@ -34,7 +34,7 @@ const postData = {
 	title: 'PDF Metadata: What Hidden Information Are You Sharing?',
 	description:
 		'Discover what hidden data lurks in PDF metadata. Learn what information PDFs reveal about you, how to view it, and how to remove sensitive metadata before sharing.',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	date: 'January 5, 2025',
 	readTime: '9 min read',
 	category: 'Privacy & Security',
@@ -676,7 +676,7 @@ export default function BlogPost() {
 						</h4>
 						<ul className='text-sm space-y-1 mb-0'>
 							<li>
-								Use PDF tools that process files locally (like DocSlicer) rather
+								Use PDF tools that process files locally (like PDF Wonder Kit) rather
 								than uploading to servers
 							</li>
 							<li>Strip all metadata before sharing</li>
@@ -727,14 +727,14 @@ export default function BlogPost() {
 						Process PDFs Without Uploading
 					</h3>
 					<p className='mb-4'>
-						DocSlicer processes all PDFs directly in your browser. No uploads
+						PDF Wonder Kit processes all PDFs directly in your browser. No uploads
 						means no metadata ever leaves your device — true privacy by design.
 					</p>
 					<a
 						href='/'
 						className='inline-block bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors'
 					>
-						Try DocSlicer Free →
+						Try PDF Wonder Kit Free →
 					</a>
 				</div>
 			</section>

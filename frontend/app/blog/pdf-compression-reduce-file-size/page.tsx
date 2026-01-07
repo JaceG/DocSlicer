@@ -24,9 +24,16 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '9 min read',
 	category: 'Tutorials',
-	author: 'DocSlicer Team',
-	tags: ['pdf compression', 'reduce pdf size', 'compress pdf', 'optimize pdf', 'file size'],
+	author: 'PDF Wonder Kit Team',
+	tags: [
+		'compress-pdf',
+		'reduce-file-size',
+		'optimization',
+	],
 	featured: true,
+	toolSlug: 'compress',
+	ctaTitle: 'Ready to Compress Your PDFs?',
+	ctaDescription: 'Reduce PDF file sizes by up to 90% while maintaining quality. Choose your compression level and download instantly. 100% private — your files never leave your device.',
 };
 
 export const metadata: Metadata = {
@@ -51,7 +58,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -59,7 +66,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -136,11 +143,18 @@ export default function PDFCompressionBlog() {
 			{/* Introduction */}
 			<div className='prose prose-lg dark:prose-invert max-w-none'>
 				<p className='lead text-xl text-gray-700 dark:text-gray-300 font-medium'>
-					PDF files can get surprisingly large—especially when they contain high-resolution images, embedded fonts, or scanned documents. A 50MB PDF won't fit in most email attachments, takes forever to download, and eats up storage space.
+					PDF files can get surprisingly large—especially when they
+					contain high-resolution images, embedded fonts, or scanned
+					documents. A 50MB PDF won't fit in most email attachments,
+					takes forever to download, and eats up storage space.
 				</p>
 
 				<p>
-					The good news? You can often reduce PDF file size by 70-90% without noticeable quality loss. This guide shows you how to compress PDFs effectively, explains what's happening under the hood, and helps you choose the right tool for your needs.
+					The good news? You can often reduce PDF file size by 70-90%
+					without noticeable quality loss. This guide shows you how to
+					compress PDFs effectively, explains what's happening under
+					the hood, and helps you choose the right tool for your
+					needs.
 				</p>
 
 				<div className='bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl p-6 my-8'>
@@ -153,16 +167,24 @@ export default function PDFCompressionBlog() {
 								Quick Answer
 							</h3>
 							<p className='text-gray-700 dark:text-gray-300 mb-0'>
-								The best way to compress a PDF depends on its content. For image-heavy PDFs, use Adobe Acrobat or Ghostscript to downsample images. For general compression on Mac, use Preview's "Reduce File Size" export option. Always keep a backup before compressing.
+								The best way to compress a PDF depends on its
+								content. For image-heavy PDFs, use Adobe Acrobat
+								or Ghostscript to downsample images. For general
+								compression on Mac, use Preview's "Reduce File
+								Size" export option. Always keep a backup before
+								compressing.
 							</p>
 						</div>
 					</div>
 				</div>
 
-				<h2 className='text-3xl font-bold mt-12 mb-6'>Why PDFs Get So Large</h2>
+				<h2 className='text-3xl font-bold mt-12 mb-6'>
+					Why PDFs Get So Large
+				</h2>
 
 				<p>
-					Understanding what makes PDFs large helps you compress them more effectively. Here are the main culprits:
+					Understanding what makes PDFs large helps you compress them
+					more effectively. Here are the main culprits:
 				</p>
 
 				<div className='grid md:grid-cols-2 gap-6 my-8 not-prose'>
@@ -176,7 +198,9 @@ export default function PDFCompressionBlog() {
 							</h3>
 						</div>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							Photos at 300+ DPI, especially from cameras or scanners, can be several MB each. A 10-page scanned document easily reaches 50-100MB.
+							Photos at 300+ DPI, especially from cameras or
+							scanners, can be several MB each. A 10-page scanned
+							document easily reaches 50-100MB.
 						</p>
 					</div>
 
@@ -190,7 +214,9 @@ export default function PDFCompressionBlog() {
 							</h3>
 						</div>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							PDFs embed entire font files to ensure consistent display. Using many fonts or full character sets (like Japanese) adds significant size.
+							PDFs embed entire font files to ensure consistent
+							display. Using many fonts or full character sets
+							(like Japanese) adds significant size.
 						</p>
 					</div>
 
@@ -204,7 +230,9 @@ export default function PDFCompressionBlog() {
 							</h3>
 						</div>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							PDFs created by some software don't apply compression by default, leaving images and content streams unoptimized.
+							PDFs created by some software don't apply
+							compression by default, leaving images and content
+							streams unoptimized.
 						</p>
 					</div>
 
@@ -218,15 +246,21 @@ export default function PDFCompressionBlog() {
 							</h3>
 						</div>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							Comments, revisions, and metadata (like edit history) accumulate over time, especially in collaborative documents.
+							Comments, revisions, and metadata (like edit
+							history) accumulate over time, especially in
+							collaborative documents.
 						</p>
 					</div>
 				</div>
 
-				<h2 className='text-3xl font-bold mt-12 mb-6'>Compression Techniques Explained</h2>
+				<h2 className='text-3xl font-bold mt-12 mb-6'>
+					Compression Techniques Explained
+				</h2>
 
 				<p>
-					PDF compression isn't one-size-fits-all. Different techniques work better for different types of content. Here's what happens behind the scenes:
+					PDF compression isn't one-size-fits-all. Different
+					techniques work better for different types of content.
+					Here's what happens behind the scenes:
 				</p>
 
 				<div className='overflow-x-auto my-8'>
@@ -251,8 +285,7 @@ export default function PDFCompressionBlog() {
 							{compressionTechniques.map((tech, idx) => (
 								<tr
 									key={idx}
-									className='border-t border-gray-300 dark:border-gray-700'
-								>
+									className='border-t border-gray-300 dark:border-gray-700'>
 									<td className='border border-gray-300 dark:border-gray-700 px-4 py-3 font-medium'>
 										{tech.name}
 									</td>
@@ -271,11 +304,11 @@ export default function PDFCompressionBlog() {
 					</table>
 				</div>
 
-				<h2 className='text-3xl font-bold mt-12 mb-6'>Best Tools for PDF Compression</h2>
+				<h2 className='text-3xl font-bold mt-12 mb-6'>
+					Best Tools for PDF Compression
+				</h2>
 
-				<p>
-					Each tool has its strengths. Here's how they compare:
-				</p>
+				<p>Each tool has its strengths. Here's how they compare:</p>
 
 				<div className='overflow-x-auto my-8'>
 					<table className='min-w-full border-collapse border border-gray-300 dark:border-gray-700'>
@@ -309,8 +342,7 @@ export default function PDFCompressionBlog() {
 										method.recommended
 											? 'bg-green-50 dark:bg-green-900/10'
 											: ''
-									}`}
-								>
+									}`}>
 									<td className='border border-gray-300 dark:border-gray-700 px-4 py-3 font-medium'>
 										{method.method}
 										{method.recommended && (
@@ -345,7 +377,9 @@ export default function PDFCompressionBlog() {
 				</h2>
 
 				<p>
-					Adobe Acrobat Pro offers the most control and best quality-to-size ratio. It's the gold standard for professional PDF work.
+					Adobe Acrobat Pro offers the most control and best
+					quality-to-size ratio. It's the gold standard for
+					professional PDF work.
 				</p>
 
 				<div className='bg-gray-50 dark:bg-gray-800 rounded-xl p-6 my-8'>
@@ -358,13 +392,17 @@ export default function PDFCompressionBlog() {
 							<strong>Open your PDF</strong> in Adobe Acrobat Pro
 						</li>
 						<li>
-							<strong>Go to File → Save As Other → Reduced Size PDF</strong>
+							<strong>
+								Go to File → Save As Other → Reduced Size PDF
+							</strong>
 						</li>
 						<li>
-							<strong>Choose compatibility</strong>: Select "Retain existing" for best quality
+							<strong>Choose compatibility</strong>: Select
+							"Retain existing" for best quality
 						</li>
 						<li>
-							<strong>Click OK</strong> and save the compressed file
+							<strong>Click OK</strong> and save the compressed
+							file
 						</li>
 					</ol>
 				</div>
@@ -375,12 +413,22 @@ export default function PDFCompressionBlog() {
 						Pro Tip: Advanced Optimization
 					</h4>
 					<p className='text-sm text-blue-800 dark:text-blue-200 mb-2'>
-						For maximum control, use <strong>File → Save As Other → Optimized PDF</strong>. This lets you:
+						For maximum control, use{' '}
+						<strong>File → Save As Other → Optimized PDF</strong>.
+						This lets you:
 					</p>
 					<ul className='text-sm text-blue-800 dark:text-blue-200 space-y-1 mb-0'>
-						<li>• Downsample images to specific DPI (150 DPI works great for screen viewing)</li>
-						<li>• Choose JPEG compression quality for color images</li>
-						<li>• Subset embedded fonts to only include used characters</li>
+						<li>
+							• Downsample images to specific DPI (150 DPI works
+							great for screen viewing)
+						</li>
+						<li>
+							• Choose JPEG compression quality for color images
+						</li>
+						<li>
+							• Subset embedded fonts to only include used
+							characters
+						</li>
 						<li>• Remove metadata, bookmarks, and annotations</li>
 					</ul>
 				</div>
@@ -390,7 +438,8 @@ export default function PDFCompressionBlog() {
 				</h2>
 
 				<p>
-					If you're on a Mac, Preview offers a quick and effective compression option built right into the OS.
+					If you're on a Mac, Preview offers a quick and effective
+					compression option built right into the OS.
 				</p>
 
 				<div className='bg-gray-50 dark:bg-gray-800 rounded-xl p-6 my-8'>
@@ -425,7 +474,10 @@ export default function PDFCompressionBlog() {
 								Heads Up
 							</h4>
 							<p className='text-sm text-yellow-800 dark:text-yellow-200 mb-0'>
-								Preview's compression is aggressive and can noticeably reduce image quality. Always save a copy before compressing, and check the result before deleting the original.
+								Preview's compression is aggressive and can
+								noticeably reduce image quality. Always save a
+								copy before compressing, and check the result
+								before deleting the original.
 							</p>
 						</div>
 					</div>
@@ -436,7 +488,9 @@ export default function PDFCompressionBlog() {
 				</h2>
 
 				<p>
-					For developers or those who need to batch-process PDFs, Ghostscript offers powerful, scriptable compression with full control over quality settings.
+					For developers or those who need to batch-process PDFs,
+					Ghostscript offers powerful, scriptable compression with
+					full control over quality settings.
 				</p>
 
 				<div className='bg-gray-50 dark:bg-gray-800 rounded-xl p-6 my-8'>
@@ -466,14 +520,18 @@ export default function PDFCompressionBlog() {
 								Windows:
 							</p>
 							<pre className='bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-xs'>
-								<code>Download from ghostscript.com and install</code>
+								<code>
+									Download from ghostscript.com and install
+								</code>
 							</pre>
 						</div>
 					</div>
 				</div>
 
 				<div className='bg-gray-50 dark:bg-gray-800 rounded-xl p-6 my-8'>
-					<h3 className='text-xl font-semibold mb-4'>Compression Commands</h3>
+					<h3 className='text-xl font-semibold mb-4'>
+						Compression Commands
+					</h3>
 					<div className='space-y-4'>
 						<div>
 							<p className='text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2'>
@@ -513,7 +571,8 @@ export default function PDFCompressionBlog() {
 				</h2>
 
 				<p>
-					The right compression level depends on how you'll use the PDF. Here's a practical guide:
+					The right compression level depends on how you'll use the
+					PDF. Here's a practical guide:
 				</p>
 
 				<div className='grid md:grid-cols-3 gap-6 my-8 not-prose'>
@@ -528,7 +587,9 @@ export default function PDFCompressionBlog() {
 							<strong>Target:</strong> Under 5MB
 						</p>
 						<p className='text-sm text-gray-600 dark:text-gray-400'>
-							Use aggressive compression (72-150 DPI). Quality loss is acceptable for quick review. Recipients can always request the high-res version.
+							Use aggressive compression (72-150 DPI). Quality
+							loss is acceptable for quick review. Recipients can
+							always request the high-res version.
 						</p>
 					</div>
 
@@ -543,7 +604,8 @@ export default function PDFCompressionBlog() {
 							<strong>Target:</strong> 1-3MB per page
 						</p>
 						<p className='text-sm text-gray-600 dark:text-gray-400'>
-							Balance quality and download speed. 150 DPI works well. Optimize for screen viewing, not printing.
+							Balance quality and download speed. 150 DPI works
+							well. Optimize for screen viewing, not printing.
 						</p>
 					</div>
 
@@ -558,7 +620,8 @@ export default function PDFCompressionBlog() {
 							<strong>Target:</strong> Minimal compression
 						</p>
 						<p className='text-sm text-gray-600 dark:text-gray-400'>
-							Use 300 DPI or higher. Preserve all details. File size is secondary to quality for archival purposes.
+							Use 300 DPI or higher. Preserve all details. File
+							size is secondary to quality for archival purposes.
 						</p>
 					</div>
 				</div>
@@ -574,7 +637,9 @@ export default function PDFCompressionBlog() {
 							Compressing Already-Compressed PDFs
 						</h3>
 						<p className='text-sm text-red-800 dark:text-red-200 mb-0'>
-							Running compression multiple times degrades quality without much size reduction. Compress once, from the highest quality source.
+							Running compression multiple times degrades quality
+							without much size reduction. Compress once, from the
+							highest quality source.
 						</p>
 					</div>
 
@@ -584,7 +649,9 @@ export default function PDFCompressionBlog() {
 							Not Keeping Originals
 						</h3>
 						<p className='text-sm text-red-800 dark:text-red-200 mb-0'>
-							Always work on a copy. Once you compress and save, you can't recover the lost quality. Keep your high-res originals safe.
+							Always work on a copy. Once you compress and save,
+							you can't recover the lost quality. Keep your
+							high-res originals safe.
 						</p>
 					</div>
 
@@ -594,7 +661,10 @@ export default function PDFCompressionBlog() {
 							Using Untrusted Online Tools
 						</h3>
 						<p className='text-sm text-red-800 dark:text-red-200 mb-0'>
-							Many "free" PDF compressors upload your files to their servers. This is a privacy and security risk, especially for sensitive documents. Use local tools when possible.
+							Many "free" PDF compressors upload your files to
+							their servers. This is a privacy and security risk,
+							especially for sensitive documents. Use local tools
+							when possible.
 						</p>
 					</div>
 
@@ -604,7 +674,9 @@ export default function PDFCompressionBlog() {
 							Over-Optimizing Text Documents
 						</h3>
 						<p className='text-sm text-red-800 dark:text-red-200 mb-0'>
-							Text-only PDFs are already small. Aggressive compression can make text blurry or hard to read without significant size savings.
+							Text-only PDFs are already small. Aggressive
+							compression can make text blurry or hard to read
+							without significant size savings.
 						</p>
 					</div>
 				</div>
@@ -614,7 +686,8 @@ export default function PDFCompressionBlog() {
 				</h2>
 
 				<p>
-					When compressing PDFs, especially sensitive documents, privacy matters:
+					When compressing PDFs, especially sensitive documents,
+					privacy matters:
 				</p>
 
 				<div className='grid md:grid-cols-2 gap-6 my-8 not-prose'>
@@ -628,11 +701,17 @@ export default function PDFCompressionBlog() {
 						<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-2 mb-0'>
 							<li className='flex items-start gap-2'>
 								<CheckCircle2 className='h-4 w-4 text-green-600 mt-0.5 flex-shrink-0' />
-								<span>Desktop software (Adobe, Preview, Ghostscript)</span>
+								<span>
+									Desktop software (Adobe, Preview,
+									Ghostscript)
+								</span>
 							</li>
 							<li className='flex items-start gap-2'>
 								<CheckCircle2 className='h-4 w-4 text-green-600 mt-0.5 flex-shrink-0' />
-								<span>Browser-based tools that process locally (no upload)</span>
+								<span>
+									Browser-based tools that process locally (no
+									upload)
+								</span>
 							</li>
 							<li className='flex items-start gap-2'>
 								<CheckCircle2 className='h-4 w-4 text-green-600 mt-0.5 flex-shrink-0' />
@@ -655,19 +734,30 @@ export default function PDFCompressionBlog() {
 						<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-2 mb-0'>
 							<li className='flex items-start gap-2'>
 								<AlertTriangle className='h-4 w-4 text-red-600 mt-0.5 flex-shrink-0' />
-								<span>Free online compressors (files leave your device)</span>
+								<span>
+									Free online compressors (files leave your
+									device)
+								</span>
 							</li>
 							<li className='flex items-start gap-2'>
 								<AlertTriangle className='h-4 w-4 text-red-600 mt-0.5 flex-shrink-0' />
-								<span>Tools without clear privacy policies</span>
+								<span>
+									Tools without clear privacy policies
+								</span>
 							</li>
 							<li className='flex items-start gap-2'>
 								<AlertTriangle className='h-4 w-4 text-red-600 mt-0.5 flex-shrink-0' />
-								<span>Services that require email or account signup</span>
+								<span>
+									Services that require email or account
+									signup
+								</span>
 							</li>
 							<li className='flex items-start gap-2'>
 								<AlertTriangle className='h-4 w-4 text-red-600 mt-0.5 flex-shrink-0' />
-								<span>Compression tools bundled with other software</span>
+								<span>
+									Compression tools bundled with other
+									software
+								</span>
 							</li>
 						</ul>
 					</div>
@@ -678,28 +768,39 @@ export default function PDFCompressionBlog() {
 				</h2>
 
 				<p>
-					Compression isn't always the answer. Here's when you should skip it:
+					Compression isn't always the answer. Here's when you should
+					skip it:
 				</p>
 
 				<div className='space-y-4 my-8'>
 					<div className='bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4'>
 						<p className='text-sm text-gray-700 dark:text-gray-300 mb-0'>
-							<strong>Legal documents:</strong> Courts and legal processes often require original, unmodified files. Compression can be seen as alteration.
+							<strong>Legal documents:</strong> Courts and legal
+							processes often require original, unmodified files.
+							Compression can be seen as alteration.
 						</p>
 					</div>
 					<div className='bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4'>
 						<p className='text-sm text-gray-700 dark:text-gray-300 mb-0'>
-							<strong>CAD drawings and technical diagrams:</strong> Line quality matters. Even slight compression artifacts can cause confusion.
+							<strong>
+								CAD drawings and technical diagrams:
+							</strong>{' '}
+							Line quality matters. Even slight compression
+							artifacts can cause confusion.
 						</p>
 					</div>
 					<div className='bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4'>
 						<p className='text-sm text-gray-700 dark:text-gray-300 mb-0'>
-							<strong>Print-ready files:</strong> If your PDF is going to a professional printer, they need the highest quality. Don't compress.
+							<strong>Print-ready files:</strong> If your PDF is
+							going to a professional printer, they need the
+							highest quality. Don't compress.
 						</p>
 					</div>
 					<div className='bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4'>
 						<p className='text-sm text-gray-700 dark:text-gray-300 mb-0'>
-							<strong>Already optimized PDFs:</strong> If a PDF is already small for its content, further compression will only hurt quality.
+							<strong>Already optimized PDFs:</strong> If a PDF is
+							already small for its content, further compression
+							will only hurt quality.
 						</p>
 					</div>
 				</div>
@@ -708,14 +809,18 @@ export default function PDFCompressionBlog() {
 					Batch Processing: Compress Multiple PDFs
 				</h2>
 
-				<p>
-					Need to compress many PDFs? Here's how to automate it:
-				</p>
+				<p>Need to compress many PDFs? Here's how to automate it:</p>
 
 				<div className='bg-gray-50 dark:bg-gray-800 rounded-xl p-6 my-8'>
-					<h3 className='text-xl font-semibold mb-4'>Bash Script for Ghostscript</h3>
+					<h3 className='text-xl font-semibold mb-4'>
+						Bash Script for Ghostscript
+					</h3>
 					<p className='text-sm text-gray-600 dark:text-gray-400 mb-4'>
-						Save this as <code className='text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded'>compress-pdfs.sh</code> and run it in a folder with PDFs:
+						Save this as{' '}
+						<code className='text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded'>
+							compress-pdfs.sh
+						</code>{' '}
+						and run it in a folder with PDFs:
 					</p>
 					<pre className='bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-xs'>
 						<code>{`#!/bin/bash
@@ -742,7 +847,12 @@ echo "Done! Compressed files have 'compressed_' prefix"`}</code>
 							Q: Can I compress a PDF without losing quality?
 						</h3>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							<strong>A:</strong> Not entirely. Any compression involves some loss, but it's often imperceptible. For documents with high-resolution images, you can reduce size by 70-80% without noticeable quality loss if done correctly. Text-heavy PDFs have less room for compression without affecting readability.
+							<strong>A:</strong> Not entirely. Any compression
+							involves some loss, but it's often imperceptible.
+							For documents with high-resolution images, you can
+							reduce size by 70-80% without noticeable quality
+							loss if done correctly. Text-heavy PDFs have less
+							room for compression without affecting readability.
 						</p>
 					</div>
 
@@ -751,7 +861,11 @@ echo "Done! Compressed files have 'compressed_' prefix"`}</code>
 							Q: Why is my PDF so large after scanning?
 						</h3>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							<strong>A:</strong> Scanners often save at very high resolution (300-600 DPI) without compression. A single scanned page can be 5-10MB. Use your scanner's "PDF" mode with compression enabled, or compress afterwards using the methods above.
+							<strong>A:</strong> Scanners often save at very high
+							resolution (300-600 DPI) without compression. A
+							single scanned page can be 5-10MB. Use your
+							scanner's "PDF" mode with compression enabled, or
+							compress afterwards using the methods above.
 						</p>
 					</div>
 
@@ -760,7 +874,12 @@ echo "Done! Compressed files have 'compressed_' prefix"`}</code>
 							Q: Is it safe to use online PDF compressors?
 						</h3>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							<strong>A:</strong> It depends. Many upload your files to their servers, which is a privacy risk. Look for tools that explicitly process files locally in your browser. For sensitive documents, always use local software like Adobe Acrobat, Preview, or Ghostscript.
+							<strong>A:</strong> It depends. Many upload your
+							files to their servers, which is a privacy risk.
+							Look for tools that explicitly process files locally
+							in your browser. For sensitive documents, always use
+							local software like Adobe Acrobat, Preview, or
+							Ghostscript.
 						</p>
 					</div>
 
@@ -769,7 +888,11 @@ echo "Done! Compressed files have 'compressed_' prefix"`}</code>
 							Q: What's the best compression level for emailing?
 						</h3>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							<strong>A:</strong> Aim for under 5MB total. Use 72-150 DPI image compression (Ghostscript's /screen or /ebook settings). Most email servers have a 25MB limit, but smaller files send faster and are more likely to be opened.
+							<strong>A:</strong> Aim for under 5MB total. Use
+							72-150 DPI image compression (Ghostscript's /screen
+							or /ebook settings). Most email servers have a 25MB
+							limit, but smaller files send faster and are more
+							likely to be opened.
 						</p>
 					</div>
 
@@ -778,17 +901,21 @@ echo "Done! Compressed files have 'compressed_' prefix"`}</code>
 							Q: Can compression damage my PDF?
 						</h3>
 						<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
-							<strong>A:</strong> No, compression doesn't corrupt files. However, aggressive compression can make images blurry or text hard to read. Always save a backup before compressing, and check the result before deleting the original.
+							<strong>A:</strong> No, compression doesn't corrupt
+							files. However, aggressive compression can make
+							images blurry or text hard to read. Always save a
+							backup before compressing, and check the result
+							before deleting the original.
 						</p>
 					</div>
 				</div>
 
-				<h2 className='text-3xl font-bold mt-12 mb-6'>
-					Conclusion
-				</h2>
+				<h2 className='text-3xl font-bold mt-12 mb-6'>Conclusion</h2>
 
 				<p>
-					PDF compression is a balance between file size and quality. For most use cases, you can reduce size by 60-80% without noticeable quality loss using the right tools and settings.
+					PDF compression is a balance between file size and quality.
+					For most use cases, you can reduce size by 60-80% without
+					noticeable quality loss using the right tools and settings.
 				</p>
 
 				<p>
@@ -797,38 +924,29 @@ echo "Done! Compressed files have 'compressed_' prefix"`}</code>
 
 				<ul className='space-y-2'>
 					<li>
-						<strong>For casual use:</strong> Mac Preview's "Reduce File Size" is fast and easy
+						<strong>For casual use:</strong> Mac Preview's "Reduce
+						File Size" is fast and easy
 					</li>
 					<li>
-						<strong>For professional work:</strong> Adobe Acrobat Pro offers the best quality control
+						<strong>For professional work:</strong> Adobe Acrobat
+						Pro offers the best quality control
 					</li>
 					<li>
-						<strong>For batch processing:</strong> Ghostscript provides scriptable, powerful compression
+						<strong>For batch processing:</strong> Ghostscript
+						provides scriptable, powerful compression
 					</li>
 					<li>
-						<strong>For privacy:</strong> Always use local tools for sensitive documents
+						<strong>For privacy:</strong> Always use local tools for
+						sensitive documents
 					</li>
 				</ul>
 
 				<p>
-					Remember: compression is one-way. Always keep your original, high-quality PDFs as backups. You can always compress more, but you can never recover lost quality.
+					Remember: compression is one-way. Always keep your original,
+					high-quality PDFs as backups. You can always compress more,
+					but you can never recover lost quality.
 				</p>
 
-				<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border-2 border-blue-200 dark:border-blue-800 rounded-xl p-8 my-12 text-center'>
-					<h3 className='text-2xl font-bold text-gray-900 dark:text-white mb-4'>
-						Need to Split Your PDFs Too?
-					</h3>
-					<p className='text-gray-700 dark:text-gray-300 mb-6'>
-						Check out our free PDF slicer that works 100% in your browser. No uploads, no tracking—just fast, private PDF splitting.
-					</p>
-					<Link
-						href='/'
-						className='inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg transition-all'
-					>
-						Try PDF Slicer Free
-						<CheckCircle2 className='h-5 w-5' />
-					</Link>
-				</div>
 			</div>
 		</BlogLayout>
 	);

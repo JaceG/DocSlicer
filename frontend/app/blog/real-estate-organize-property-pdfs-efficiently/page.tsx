@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 		title: 'Real Estate: How to Organize Property PDFs Efficiently',
 		description:
 			'Professional guide to PDF management for realtors. Organize listings, streamline transactions, and impress clients.',
-		url: 'https://www.docslicer.com/blog/real-estate-organize-property-pdfs-efficiently',
+		url: 'https://www.pdfwonderkit.com/blog/real-estate-organize-property-pdfs-efficiently',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/real-estate-organize-property-pdfs-efficiently',
+		canonical: 'https://www.pdfwonderkit.com/blog/real-estate-organize-property-pdfs-efficiently',
 	},
 };
 
@@ -35,15 +35,17 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '10 min read',
 	category: 'Real Estate',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'real estate',
-		'realtors',
-		'property management',
-		'listing documents',
-		'contracts',
+		'real-estate',
+		'organize-pdf',
+		'merge-pdf',
+		'split-pdf',
 	],
 	featured: false,
+	toolSlug: 'organize',
+	ctaTitle: 'Organize Property Documents Faster',
+	ctaDescription: 'Merge listing packets, split disclosure documents, and organize inspection reports in seconds. Perfect for busy realtors — 100% browser-based and private.',
 };
 
 export default function RealEstatePDFOrganizationPage() {
@@ -281,7 +283,7 @@ export default function RealEstatePDFOrganizationPage() {
 									<strong>Step 3: Merge into One Presentation</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Go to DocSlicer → Merge PDF mode
+											Go to PDF Wonder Kit → Merge PDF mode
 										</li>
 										<li>
 											Upload all 5 comp sheets in your desired
@@ -361,7 +363,7 @@ export default function RealEstatePDFOrganizationPage() {
 								<li className='text-sm'>
 									<strong>Step 2: Extract Critical Sections</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
-										<li>Upload inspection report to DocSlicer</li>
+										<li>Upload inspection report to PDF Wonder Kit</li>
 										<li>Extract pages 12-18 (Roof)</li>
 										<li>Extract pages 45-52 (Electrical)</li>
 										<li>Extract any other flagged sections</li>
@@ -455,7 +457,7 @@ export default function RealEstatePDFOrganizationPage() {
 								<li className='text-sm'>
 									<strong>Step 3: Merge into Tour Packet</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
-										<li>DocSlicer → Merge PDF</li>
+										<li>PDF Wonder Kit → Merge PDF</li>
 										<li>Upload all 5 in viewing order</li>
 										<li>
 											Add cover page with tour schedule and
@@ -537,7 +539,7 @@ export default function RealEstatePDFOrganizationPage() {
 									<strong>Step 2: Extract Just Your Unit</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Upload 200-page PDF to DocSlicer
+											Upload 200-page PDF to PDF Wonder Kit
 										</li>
 										<li>Extract pages 75-92</li>
 										<li>
@@ -589,7 +591,7 @@ export default function RealEstatePDFOrganizationPage() {
 						</h3>
 						<p className='text-sm text-blue-800 dark:text-blue-200 mb-0'>
 							Listing packets with 50+ photos can be 40MB+—too large
-							for email. Use DocSlicer's compression feature to
+							for email. Use PDF Wonder Kit's compression feature to
 							reduce to 5-8MB while keeping photos sharp. Clients can
 							actually open your emails!
 						</p>
@@ -934,7 +936,7 @@ export default function RealEstatePDFOrganizationPage() {
 							category if you prefer)
 						</li>
 						<li>
-							<strong>Step 3:</strong> Use DocSlicer → Merge PDF to
+							<strong>Step 3:</strong> Use PDF Wonder Kit → Merge PDF to
 							combine all
 						</li>
 						<li>
@@ -960,10 +962,10 @@ export default function RealEstatePDFOrganizationPage() {
 				<div className='space-y-6'>
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold mt-0'>
-							Is DocSlicer secure for handling client documents?
+							Is PDF Wonder Kit secure for handling client documents?
 						</h3>
 						<p className='mb-0'>
-							Yes! DocSlicer processes all files locally in your
+							Yes! PDF Wonder Kit processes all files locally in your
 							browser—nothing is uploaded to external servers. Client
 							information, financials, and property details never
 							leave your device. This is crucial for maintaining
@@ -977,7 +979,7 @@ export default function RealEstatePDFOrganizationPage() {
 							Can I use this on my mobile device at open houses?
 						</h3>
 						<p className='mb-0'>
-							Absolutely! DocSlicer works in any mobile browser
+							Absolutely! PDF Wonder Kit works in any mobile browser
 							(Safari, Chrome, etc.). However, for heavy document
 							manipulation (merging 50-page packets), we recommend
 							using a laptop/desktop for better performance. Quick
@@ -990,7 +992,7 @@ export default function RealEstatePDFOrganizationPage() {
 							How do I handle files larger than 25MB on the free plan?
 						</h3>
 						<p className='mb-0'>
-							DocSlicer Free supports up to 25MB files. Upgrade to
+							PDF Wonder Kit Free supports up to 25MB files. Upgrade to
 							Premium ($2/month) for up to 100MB files—essential for
 							realtors dealing with high-res listing photos or large
 							inspection reports. Premium also includes unlimited
@@ -1028,7 +1030,7 @@ export default function RealEstatePDFOrganizationPage() {
 				</div>
 
 				{/* Conclusion */}
-				<div className='bg-gradient-to-r from-blue-50 to-teal-50 dark:from-blue-900/20 dark:to-teal-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800'>
+				<div className='bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700'>
 					<h2 className='mt-0'>Close More Deals, Waste Less Time</h2>
 					<p className='text-gray-700 dark:text-gray-300 mb-4'>
 						Efficient document management isn't just about saving
@@ -1038,20 +1040,7 @@ export default function RealEstatePDFOrganizationPage() {
 						presentation or buyer packet, you're more responsive,
 						more credible, and more successful.
 					</p>
-					<div className='flex flex-wrap gap-3'>
-						<Link
-							href='/'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'>
-							<Home className='h-5 w-5' />
-							Try DocSlicer (Free for Realtors)
-						</Link>
-						<Link
-							href='/pricing'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border-2 border-gray-300 dark:border-gray-600'>
-							View Real Estate Pricing
-						</Link>
-					</div>
-					<p className='text-sm text-gray-600 dark:text-gray-400 mt-4 mb-0'>
+					<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
 						<strong>Realtor Tip:</strong> Start with one workflow (like
 						listing presentations) and master it. Once you see the time
 						savings, you'll naturally expand to organizing inspections,

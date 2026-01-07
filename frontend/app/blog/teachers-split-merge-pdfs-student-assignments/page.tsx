@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 		title: 'How Teachers Can Split and Merge PDFs for Student Assignments',
 		description:
 			'Essential PDF management guide for teachers. Save time on grading, create custom learning materials, and organize student work efficiently.',
-		url: 'https://www.docslicer.com/blog/teachers-split-merge-pdfs-student-assignments',
+		url: 'https://www.pdfwonderkit.com/blog/teachers-split-merge-pdfs-student-assignments',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/teachers-split-merge-pdfs-student-assignments',
+		canonical: 'https://www.pdfwonderkit.com/blog/teachers-split-merge-pdfs-student-assignments',
 	},
 };
 
@@ -35,15 +35,17 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '10 min read',
 	category: 'Education',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'teachers',
 		'education',
-		'grading',
-		'classroom management',
-		'student assignments',
+		'split-pdf',
+		'merge-pdf',
+		'teachers',
 	],
 	featured: false,
+	toolSlug: 'merge',
+	ctaTitle: 'Save Hours on Document Prep',
+	ctaDescription: 'Split and merge PDFs instantly for worksheets, packets, and student portfolios. 100% browser-based — secure for student data and FERPA compliant.',
 };
 
 export default function TeachersPDFGuidePage() {
@@ -400,7 +402,7 @@ export default function TeachersPDFGuidePage() {
 											<Link
 												href='/'
 												className='text-blue-600 hover:underline'>
-												DocSlicer.com
+												PDF Wonder Kit.com
 											</Link>
 										</li>
 										<li>
@@ -478,7 +480,7 @@ export default function TeachersPDFGuidePage() {
 									<strong>Step 2: Merge into One Grading Document</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Go to DocSlicer → Merge PDF mode
+											Go to PDF Wonder Kit → Merge PDF mode
 										</li>
 										<li>
 											Upload all 25 PDFs at once (drag and
@@ -579,7 +581,7 @@ export default function TeachersPDFGuidePage() {
 								<li className='text-sm'>
 									<strong>Step 2: Extract Three Versions</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
-										<li>Upload master worksheet to DocSlicer</li>
+										<li>Upload master worksheet to PDF Wonder Kit</li>
 										<li>
 											Extract pages 1-2 → Save as
 											"Algebra_Worksheet_3_Level_A.pdf"
@@ -717,7 +719,7 @@ export default function TeachersPDFGuidePage() {
 							<br />• Compress PDFs before sharing (reduces data
 							usage)
 							<br />• Aim for under 2MB for phone-friendly sizes
-							<br />• DocSlicer's compression maintains readability
+							<br />• PDF Wonder Kit's compression maintains readability
 							<br />
 							Your students (and their parents' data plans) will
 							thank you!
@@ -801,7 +803,7 @@ export default function TeachersPDFGuidePage() {
 				<div className='space-y-6'>
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold mt-0'>
-							Can I use DocSlicer with copyrighted textbooks?
+							Can I use PDF Wonder Kit with copyrighted textbooks?
 						</h3>
 						<p className='mb-0'>
 							For personal classroom use and creating materials for
@@ -816,10 +818,10 @@ export default function TeachersPDFGuidePage() {
 
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold mt-0'>
-							Is DocSlicer FERPA compliant for student records?
+							Is PDF Wonder Kit FERPA compliant for student records?
 						</h3>
 						<p className='mb-0'>
-							Yes! DocSlicer processes all files locally in your
+							Yes! PDF Wonder Kit processes all files locally in your
 							browser—student work never leaves your device. No
 							student data is uploaded to external servers. This
 							makes it inherently FERPA compliant. Always follow your
@@ -833,10 +835,10 @@ export default function TeachersPDFGuidePage() {
 							Can I use this on my school computer?
 						</h3>
 						<p className='mb-0'>
-							Absolutely! DocSlicer runs in any web browser (Chrome,
+							Absolutely! PDF Wonder Kit runs in any web browser (Chrome,
 							Firefox, Safari, Edge) with no installation required.
 							Even if your school restricts software installations,
-							you can use DocSlicer because it's a website. It works
+							you can use PDF Wonder Kit because it's a website. It works
 							offline too (after the page loads).
 						</p>
 					</div>
@@ -859,7 +861,7 @@ export default function TeachersPDFGuidePage() {
 
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold mt-0'>
-							Can I share my DocSlicer account with my department?
+							Can I share my PDF Wonder Kit account with my department?
 						</h3>
 						<p className='mb-0'>
 							Individual accounts are designed for single users.
@@ -873,7 +875,7 @@ export default function TeachersPDFGuidePage() {
 				</div>
 
 				{/* Conclusion */}
-				<div className='bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800'>
+				<div className='bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700'>
 					<h2 className='mt-0'>Reclaim Your Time, Enhance Your Teaching</h2>
 					<p className='text-gray-700 dark:text-gray-300 mb-4'>
 						You became a teacher to inspire students, not to fight
@@ -881,21 +883,8 @@ export default function TeachersPDFGuidePage() {
 						Efficient PDF management gives you back the time you need
 						for what really matters: teaching.
 					</p>
-					<div className='flex flex-wrap gap-3'>
-						<Link
-							href='/'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'>
-							<GraduationCap className='h-5 w-5' />
-							Try DocSlicer (Free for Teachers)
-						</Link>
-						<Link
-							href='/pricing'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border-2 border-gray-300 dark:border-gray-600'>
-							View Education Pricing
-						</Link>
-					</div>
-					<p className='text-sm text-gray-600 dark:text-gray-400 mt-4 mb-0'>
-						<strong>Teacher Tip:</strong> Bookmark DocSlicer and add it
+					<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
+						<strong>Teacher Tip:</strong> Bookmark PDF Wonder Kit and add it
 						to your Sunday planning routine. You'll wonder how you
 						ever managed without it!
 					</p>

@@ -26,15 +26,12 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '9 min read',
 	category: 'Guides',
-	author: 'DocSlicer Team',
-	tags: [
-		'pdf tools comparison',
-		'free pdf software',
-		'paid pdf tools',
-		'pdf features',
-		'value comparison',
-	],
+	author: 'PDF Wonder Kit Team',
+	tags: ['comparison', 'free-tools', 'productivity'],
 	featured: false,
+	ctaTitle: 'Try the Best Free PDF Tool First',
+	ctaDescription:
+		'PDF Wonder Kit gives you professional PDF splitting, merging, and compression — completely free, with no watermarks, no limits, and total privacy.',
 };
 
 export const metadata: Metadata = {
@@ -60,7 +57,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -68,7 +65,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -150,7 +147,7 @@ const featureComparison = [
 
 const pricingOptions = [
 	{
-		name: 'Free (DocSlicer)',
+		name: 'Free (PDF Wonder Kit)',
 		price: '$0',
 		type: 'Browser-based',
 		features: [
@@ -225,7 +222,7 @@ const userProfiles = [
 			'Basic compression',
 		],
 		recommendation: 'Free tools are perfect',
-		solution: 'DocSlicer or Mac Preview',
+		solution: 'PDF Wonder Kit or Mac Preview',
 		reasoning:
 			"You don't need advanced features. Free tools handle basic tasks perfectly.",
 	},
@@ -239,7 +236,7 @@ const userProfiles = [
 			'Forms and signatures',
 		],
 		recommendation: 'Free or low-cost paid',
-		solution: 'DocSlicer + occasional Adobe subscription',
+		solution: 'PDF Wonder Kit + occasional Adobe subscription',
 		reasoning:
 			'Use free tools for routine tasks, pay for Adobe only when you need advanced features.',
 	},
@@ -267,9 +264,9 @@ const userProfiles = [
 			'Compress for email',
 		],
 		recommendation: 'Stick with free',
-		solution: 'DocSlicer',
+		solution: 'PDF Wonder Kit',
 		reasoning:
-			"Save your money. Free tools do everything you need for academic work.",
+			'Save your money. Free tools do everything you need for academic work.',
 	},
 ];
 
@@ -279,9 +276,9 @@ export default function BlogPostPage() {
 			{/* Introduction */}
 			<div className='prose-lg'>
 				<p className='text-xl text-gray-700 dark:text-gray-300 leading-relaxed'>
-					Adobe Acrobat Pro costs $240 per year. That's a lot of
-					money for software you might only use occasionally. But is
-					the free alternative really good enough?{' '}
+					Adobe Acrobat Pro costs $240 per year. That's a lot of money
+					for software you might only use occasionally. But is the
+					free alternative really good enough?{' '}
 					<strong>The answer might surprise you.</strong>
 				</p>
 
@@ -482,14 +479,16 @@ export default function BlogPostPage() {
 												Typical Needs:
 											</h4>
 											<ul className='space-y-1'>
-												{profile.needs.map((need, i) => (
-													<li
-														key={i}
-														className='text-sm text-gray-600 dark:text-gray-400 flex items-start gap-2'>
-														<FileText className='h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0' />
-														{need}
-													</li>
-												))}
+												{profile.needs.map(
+													(need, i) => (
+														<li
+															key={i}
+															className='text-sm text-gray-600 dark:text-gray-400 flex items-start gap-2'>
+															<FileText className='h-4 w-4 text-gray-400 mt-0.5 flex-shrink-0' />
+															{need}
+														</li>
+													)
+												)}
 											</ul>
 										</div>
 
@@ -673,8 +672,8 @@ export default function BlogPostPage() {
 									<p className='text-sm text-gray-600 dark:text-gray-400 ml-4'>
 										→ <strong>Yes?</strong> You need paid
 										software
-										<br />→ <strong>No?</strong> Continue
-										to question 2
+										<br />→ <strong>No?</strong> Continue to
+										question 2
 									</p>
 								</div>
 
@@ -686,8 +685,8 @@ export default function BlogPostPage() {
 									<p className='text-sm text-gray-600 dark:text-gray-400 ml-4'>
 										→ <strong>Yes?</strong> You need paid
 										software
-										<br />→ <strong>No?</strong> Continue
-										to question 3
+										<br />→ <strong>No?</strong> Continue to
+										question 3
 									</p>
 								</div>
 
@@ -698,10 +697,10 @@ export default function BlogPostPage() {
 									</p>
 									<p className='text-sm text-gray-600 dark:text-gray-400 ml-4'>
 										→ <strong>Yes?</strong> Use local tools
-										(DocSlicer, Mac Preview, or desktop
+										(PDF Wonder Kit, Mac Preview, or desktop
 										software)
-										<br />→ <strong>No?</strong> Continue
-										to question 4
+										<br />→ <strong>No?</strong> Continue to
+										question 4
 									</p>
 								</div>
 
@@ -712,7 +711,7 @@ export default function BlogPostPage() {
 									</p>
 									<p className='text-sm text-gray-600 dark:text-gray-400 ml-4'>
 										→ <strong>Yes?</strong> Free tools are
-										perfect! Use DocSlicer.
+										perfect! Use PDF Wonder Kit.
 										<br />→ <strong>No?</strong> Evaluate
 										what specific features you need
 									</p>
@@ -727,7 +726,7 @@ export default function BlogPostPage() {
 							<p className='text-lg'>
 								<strong>80% of users</strong> only need
 								splitting, merging, and compression—all
-								available free in DocSlicer.
+								available free in PDF Wonder Kit.
 							</p>
 						</div>
 					</div>
@@ -743,14 +742,14 @@ export default function BlogPostPage() {
 				<div className='bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6'>
 					<div className='space-y-4 text-lg text-gray-800 dark:text-gray-200'>
 						<p>
-							<strong>Don't pay for features you don't use.</strong>{' '}
+							<strong>
+								Don't pay for features you don't use.
+							</strong>{' '}
 							Most people can get professional results with free
-							tools like DocSlicer.
+							tools like PDF Wonder Kit.
 						</p>
 
-						<p>
-							Paid software is justified for:
-						</p>
+						<p>Paid software is justified for:</p>
 						<ul className='list-disc ml-6 space-y-2'>
 							<li>Professional heavy daily users</li>
 							<li>Need for OCR text recognition</li>
@@ -759,34 +758,10 @@ export default function BlogPostPage() {
 						</ul>
 
 						<p className='font-bold text-blue-900 dark:text-blue-100 pt-4 border-t border-blue-200 dark:border-blue-700'>
-							Save $240/year: Try DocSlicer first. If it meets
-							your needs, you'll never need to upgrade.
+							Save $240/year: Try PDF Wonder Kit first. If it
+							meets your needs, you'll never need to upgrade.
 						</p>
 					</div>
-				</div>
-			</section>
-
-			{/* CTA */}
-			<section className='my-12'>
-				<div className='bg-gradient-to-r from-green-600 to-emerald-600 rounded-xl p-8 text-center text-white'>
-					<Gift className='h-12 w-12 mx-auto mb-4' />
-					<h2 className='text-2xl font-bold mb-4'>
-						Try the Best Free PDF Tool First
-					</h2>
-					<p className='text-green-100 mb-6 max-w-2xl mx-auto'>
-						DocSlicer gives you professional PDF splitting, merging,
-						and compression—completely free, with no watermarks, no
-						limits, and total privacy.
-					</p>
-					<Link
-						href='/'
-						className='inline-block px-8 py-4 bg-white text-green-600 font-bold rounded-lg hover:bg-green-50 transition-colors shadow-lg'>
-						Start Using DocSlicer Free →
-					</Link>
-					<p className='text-green-100 text-sm mt-4'>
-						No registration required • Works in your browser •
-						Unlimited use
-					</p>
 				</div>
 			</section>
 		</BlogLayout>

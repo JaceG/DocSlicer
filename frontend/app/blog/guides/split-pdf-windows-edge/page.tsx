@@ -19,11 +19,11 @@ export const metadata: Metadata = {
 		title: 'How to Split PDF on Windows with Edge (2026 Guide)',
 		description:
 			'Learn how to split PDF files on Windows using Microsoft Edge. Native Windows solution.',
-		url: 'https://www.docslicer.com/blog/guides/split-pdf-windows-edge',
+		url: 'https://www.pdfwonderkit.com/blog/guides/split-pdf-windows-edge',
 	},
 	alternates: {
 		canonical:
-			'https://www.docslicer.com/blog/guides/split-pdf-windows-edge',
+			'https://www.pdfwonderkit.com/blog/guides/split-pdf-windows-edge',
 	},
 };
 
@@ -35,7 +35,7 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '4 min read',
 	category: 'Platform Guides',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
 		'windows',
 		'microsoft edge',
@@ -89,7 +89,7 @@ export default function WindowsEdgePage() {
 					Microsoft Edge is the default browser on Windows 11 and comes
 					with excellent PDF viewing capabilities. Whether you're using
 					Edge's built-in features or a browser-based tool like
-					DocSlicer, splitting PDFs on Windows with Edge is fast and
+					PDF Wonder Kit, splitting PDFs on Windows with Edge is fast and
 					secure.
 				</p>
 
@@ -139,11 +139,11 @@ export default function WindowsEdgePage() {
 
 				<h2 className='flex items-center gap-2'>
 					<Scissors className='h-6 w-6 text-blue-600' />
-					Method 2: DocSlicer in Edge (Recommended)
+					Method 2: PDF Wonder Kit in Edge (Recommended)
 				</h2>
 
 				<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6'>
-					<h3 className='mt-0'>Why Use DocSlicer in Edge?</h3>
+					<h3 className='mt-0'>Why Use PDF Wonder Kit in Edge?</h3>
 					<ul className='text-gray-800 dark:text-gray-200 mb-0'>
 						<li>
 							<strong>Optimized for Windows</strong> - Smooth
@@ -164,14 +164,14 @@ export default function WindowsEdgePage() {
 				</div>
 
 				<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
-					<h3 className='mt-0'>How to Use DocSlicer in Edge:</h3>
+					<h3 className='mt-0'>How to Use PDF Wonder Kit in Edge:</h3>
 					<ol className='space-y-3'>
 						<li>
 							<strong>Open Edge</strong> and go to{' '}
 							<Link
 								href='/'
 								className='text-blue-600 hover:underline'>
-								DocSlicer.com
+								PDF Wonder Kit.com
 							</Link>
 						</li>
 						<li>
@@ -228,7 +228,7 @@ export default function WindowsEdgePage() {
 						<p className='mb-0'>
 							Edge is optimized for Windows and typically offers
 							better performance and battery life. Both work great
-							with DocSlicer, but Edge is the native choice for
+							with PDF Wonder Kit, but Edge is the native choice for
 							Windows users.
 						</p>
 					</div>
@@ -238,7 +238,7 @@ export default function WindowsEdgePage() {
 							Does this work on Windows 10 and Windows 11?
 						</h3>
 						<p className='mb-0'>
-							Yes! DocSlicer works in Edge on both Windows 10 and
+							Yes! PDF Wonder Kit works in Edge on both Windows 10 and
 							Windows 11. Edge is pre-installed on both versions.
 						</p>
 					</div>

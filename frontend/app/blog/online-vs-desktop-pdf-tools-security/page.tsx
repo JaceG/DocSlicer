@@ -28,15 +28,15 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '8 min read',
 	category: 'Security',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'pdf security',
-		'online tools',
-		'desktop software',
-		'privacy comparison',
-		'data protection',
+		'security',
+		'privacy',
+		'comparison',
 	],
 	featured: false,
+	ctaTitle: 'Want Desktop Security with Online Convenience?',
+	ctaDescription: 'PDF Wonder Kit processes PDFs entirely in your browser. No uploads, no servers, no compromises. Get the best of both worlds.',
 };
 
 export const metadata: Metadata = {
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -508,7 +508,7 @@ export default function BlogPostPage() {
 
 					<div className='bg-white dark:bg-gray-800 rounded-lg p-6 mb-4'>
 						<h3 className='text-xl font-bold text-gray-900 dark:text-white mb-4'>
-							How DocSlicer Works
+							How PDF Wonder Kit Works
 						</h3>
 						<ul className='space-y-3'>
 							<li className='flex items-start gap-2'>
@@ -565,7 +565,7 @@ export default function BlogPostPage() {
 					<Link
 						href='/'
 						className='inline-block px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors'>
-						Try DocSlicer Free →
+						Try PDF Wonder Kit Free →
 					</Link>
 				</div>
 			</section>
@@ -599,7 +599,7 @@ export default function BlogPostPage() {
 									<strong>
 										Browser-based local processing
 									</strong>{' '}
-									(DocSlicer) - Best security + convenience
+									(PDF Wonder Kit) - Best security + convenience
 								</span>
 							</li>
 							<li className='flex items-center gap-2'>
@@ -626,25 +626,6 @@ export default function BlogPostPage() {
 				</div>
 			</section>
 
-			{/* CTA */}
-			<section className='my-12'>
-				<div className='bg-gradient-to-r from-green-600 to-blue-600 rounded-xl p-8 text-center text-white'>
-					<Shield className='h-12 w-12 mx-auto mb-4' />
-					<h2 className='text-2xl font-bold mb-4'>
-						Want Desktop Security with Online Convenience?
-					</h2>
-					<p className='text-green-100 mb-6 max-w-2xl mx-auto'>
-						DocSlicer processes PDFs entirely in your browser. No
-						uploads, no servers, no compromises. Get the best of
-						both worlds.
-					</p>
-					<Link
-						href='/'
-						className='inline-block px-8 py-4 bg-white text-green-600 font-bold rounded-lg hover:bg-green-50 transition-colors shadow-lg'>
-						Try DocSlicer Free →
-					</Link>
-				</div>
-			</section>
 		</BlogLayout>
 	);
 }

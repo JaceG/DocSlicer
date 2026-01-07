@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 		title: 'How to Merge Scanned Documents into One Searchable PDF',
 		description:
 			'Complete guide to merging scanned documents into organized, searchable PDFs. Perfect for going paperless.',
-		url: 'https://www.docslicer.com/blog/merge-scanned-documents-into-pdf',
+		url: 'https://www.pdfwonderkit.com/blog/merge-scanned-documents-into-pdf',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/merge-scanned-documents-into-pdf',
+		canonical: 'https://www.pdfwonderkit.com/blog/merge-scanned-documents-into-pdf',
 	},
 };
 
@@ -35,15 +35,16 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '8 min read',
 	category: 'Productivity',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
+		'merge-pdf',
 		'scanning',
-		'merge pdf',
-		'digitization',
 		'paperless',
-		'document management',
 	],
 	featured: false,
+	toolSlug: 'merge',
+	ctaTitle: 'Ready to Organize Your Scanned Documents?',
+	ctaDescription: 'PDF Wonder Kit makes it easy to merge scanned documents into organized, professional PDFs — all while keeping your files completely private.',
 };
 
 export default function MergeScannedDocumentsPage() {
@@ -275,7 +276,7 @@ export default function MergeScannedDocumentsPage() {
 					How to Merge Scanned Documents
 				</h2>
 
-				<h3>Method 1: Using DocSlicer (Recommended)</h3>
+				<h3>Method 1: Using PDF Wonder Kit (Recommended)</h3>
 
 				<div className='bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800 mb-6'>
 					<div className='flex items-center gap-3 mb-4'>
@@ -313,7 +314,7 @@ export default function MergeScannedDocumentsPage() {
 								<Link
 									href='/'
 									className='text-blue-600 hover:underline'>
-									DocSlicer.com
+									PDF Wonder Kit.com
 								</Link>
 							</strong>
 						</li>
@@ -362,7 +363,7 @@ export default function MergeScannedDocumentsPage() {
 
 				<div className='bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-lg'>
 					<h4 className='text-green-900 dark:text-green-100 mt-0'>
-						✅ Why DocSlicer is Perfect for Scanned Documents:
+						✅ Why PDF Wonder Kit is Perfect for Scanned Documents:
 					</h4>
 					<ul className='text-green-800 dark:text-green-200 mb-0'>
 						<li>
@@ -402,7 +403,7 @@ export default function MergeScannedDocumentsPage() {
 							Option 1: Convert During Merge
 						</h3>
 						<p className='text-sm mb-2'>
-							DocSlicer automatically converts images to PDF when
+							PDF Wonder Kit automatically converts images to PDF when
 							you upload them in merge mode.
 						</p>
 						<ol className='text-sm mb-0 space-y-1'>
@@ -729,7 +730,7 @@ export default function MergeScannedDocumentsPage() {
 							Can I merge scanned images with existing PDFs?
 						</h3>
 						<p className='mb-0'>
-							Absolutely! DocSlicer automatically handles mixed
+							Absolutely! PDF Wonder Kit automatically handles mixed
 							inputs. Upload JPGs, PNGs, and PDFs all at once, and
 							they'll be merged into a single PDF in the order you
 							specify.
@@ -780,37 +781,13 @@ export default function MergeScannedDocumentsPage() {
 							Can I split a merged PDF later if I need to?
 						</h3>
 						<p className='mb-0'>
-							Yes! Use DocSlicer's "Split PDF" mode to extract
+							Yes! Use PDF Wonder Kit's "Split PDF" mode to extract
 							specific pages or ranges. This is helpful if you later
 							realize you need one document from the merged set.
 						</p>
 					</div>
 				</div>
 
-				{/* Conclusion CTA */}
-				<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 border-2 border-green-200 dark:border-green-800'>
-					<h2 className='mt-0'>
-						Ready to Organize Your Scanned Documents?
-					</h2>
-					<p className='text-gray-700 dark:text-gray-300 mb-4'>
-						DocSlicer makes it easy to merge scanned documents into
-						organized, professional PDFs—all while keeping your files
-						completely private.
-					</p>
-					<div className='flex flex-wrap gap-3'>
-						<Link
-							href='/'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors shadow-lg'>
-							<Layers className='h-5 w-5' />
-							Merge Scans Now (Free)
-						</Link>
-						<Link
-							href='/pricing'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border-2 border-gray-300 dark:border-gray-600'>
-							View Premium Features
-						</Link>
-					</div>
-				</div>
 			</div>
 		</BlogLayout>
 	);

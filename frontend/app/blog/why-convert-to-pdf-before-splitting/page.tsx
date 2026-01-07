@@ -16,15 +16,19 @@ import {
 
 const postData: BlogPost = {
 	slug: 'why-convert-to-pdf-before-splitting',
-	title: 'Why You Can\'t Split EPUBs Like PDFs (And What to Do Instead)',
+	title: "Why You Can't Split EPUBs Like PDFs (And What to Do Instead)",
 	description:
-		'EPUBs and other document formats can\'t be split like PDFs due to their fundamentally different structure. Learn why conversion to PDF is necessary and how to do it properly.',
+		"EPUBs and other document formats can't be split like PDFs due to their fundamentally different structure. Learn why conversion to PDF is necessary and how to do it properly.",
 	date: '2026-01-05',
 	readTime: '7 min read',
 	category: 'Tutorials',
-	author: 'DocSlicer Team',
-	tags: ['epub', 'convert to pdf', 'file formats', 'document conversion', 'split epub'],
+	author: 'PDF Wonder Kit Team',
+	tags: ['split-pdf', 'epub', 'conversion', 'tutorial'],
 	featured: true,
+	toolSlug: 'split',
+	ctaTitle: 'Ready to Split Your PDF?',
+	ctaDescription:
+		'Convert your file to PDF, then split it in seconds with complete privacy protection. 100% browser-based processing.',
 };
 
 export const metadata: Metadata = {
@@ -33,7 +37,7 @@ export const metadata: Metadata = {
 	keywords: [
 		'split epub',
 		'convert epub to pdf',
-		'why can\'t split epub',
+		"why can't split epub",
 		'epub vs pdf',
 		'convert to pdf before splitting',
 		'document conversion',
@@ -48,7 +52,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -56,7 +60,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -106,14 +110,15 @@ export default function WhyConvertToPDFPost() {
 							Quick Answer
 						</h2>
 						<p className='text-gray-700 dark:text-gray-300 mb-3'>
-							EPUBs, DOCX, and other document formats don't have fixed
-							pages like PDFs do — they reflow based on screen size. You
-							can't split what doesn't have defined page boundaries.{' '}
-							<strong>Solution:</strong> Convert to PDF first, then split.{' '}
+							EPUBs, DOCX, and other document formats don't have
+							fixed pages like PDFs do — they reflow based on
+							screen size. You can't split what doesn't have
+							defined page boundaries. <strong>Solution:</strong>{' '}
+							Convert to PDF first, then split.{' '}
 							<Link
 								href='/'
 								className='text-blue-600 font-semibold hover:underline'>
-								PDF Slicer
+								PDF Wonder Kit
 							</Link>{' '}
 							will soon detect your file type and offer automatic
 							conversion.
@@ -121,17 +126,18 @@ export default function WhyConvertToPDFPost() {
 						<Link
 							href='/'
 							className='inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors'>
-							Try PDF Slicer Free →
+							Try PDF Wonder Kit Free →
 						</Link>
 					</div>
 				</div>
 			</div>
 
 			<p>
-				You have an EPUB ebook or a Word document and want to extract just a
-				few chapters or sections. Sounds simple, right? But when you try to
-				split it like you would a PDF, you hit a wall. Unlike PDFs, most
-				document formats simply <strong>can't be split</strong> the same way.
+				You have an EPUB ebook or a Word document and want to extract
+				just a few chapters or sections. Sounds simple, right? But when
+				you try to split it like you would a PDF, you hit a wall. Unlike
+				PDFs, most document formats simply{' '}
+				<strong>can't be split</strong> the same way.
 			</p>
 
 			<p>
@@ -192,14 +198,16 @@ export default function WhyConvertToPDFPost() {
 			<h2 id='why-not-epub'>Why You Can't Split an EPUB Like a PDF</h2>
 
 			<p>
-				The fundamental reason EPUBs can't be split like PDFs comes down to
-				their core architecture:{' '}
+				The fundamental reason EPUBs can't be split like PDFs comes down
+				to their core architecture:{' '}
 				<strong>EPUBs don't have fixed pages</strong>.
 			</p>
 
 			<h3>How EPUBs Work</h3>
 
-			<p>An EPUB file is essentially a website in a package. It contains:</p>
+			<p>
+				An EPUB file is essentially a website in a package. It contains:
+			</p>
 
 			<ul>
 				<li>
@@ -220,9 +228,10 @@ export default function WhyConvertToPDFPost() {
 			</ul>
 
 			<p>
-				Think of an EPUB like a responsive website. When you open it on an
-				e-reader, phone, or computer, the text <strong>reflows</strong> to
-				fit your screen. Change the font size? The "pages" change completely.
+				Think of an EPUB like a responsive website. When you open it on
+				an e-reader, phone, or computer, the text{' '}
+				<strong>reflows</strong> to fit your screen. Change the font
+				size? The "pages" change completely.
 			</p>
 
 			<div className='not-prose bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-800 rounded-lg p-6 my-6'>
@@ -233,14 +242,16 @@ export default function WhyConvertToPDFPost() {
 							The Problem with "Pages" in EPUBs
 						</h3>
 						<p className='text-amber-700 dark:text-amber-300 mb-3'>
-							An EPUB that shows "Page 1-150" on your e-reader might
-							show completely different page numbers on a different
-							device. The pages aren't real — they're just a UI
-							convenience. There's nothing concrete to "split."
+							An EPUB that shows "Page 1-150" on your e-reader
+							might show completely different page numbers on a
+							different device. The pages aren't real — they're
+							just a UI convenience. There's nothing concrete to
+							"split."
 						</p>
 						<p className='text-amber-700 dark:text-amber-300'>
-							You can't say "give me pages 10-25 of this EPUB" because
-							those pages don't technically exist in the file itself.
+							You can't say "give me pages 10-25 of this EPUB"
+							because those pages don't technically exist in the
+							file itself.
 						</p>
 					</div>
 				</div>
@@ -249,8 +260,8 @@ export default function WhyConvertToPDFPost() {
 			<h3>What About EPUB Chapters?</h3>
 
 			<p>
-				You might think, "What if I split by chapters instead of pages?" While
-				technically possible, this requires:
+				You might think, "What if I split by chapters instead of pages?"
+				While technically possible, this requires:
 			</p>
 
 			<ul>
@@ -262,15 +273,16 @@ export default function WhyConvertToPDFPost() {
 			</ul>
 
 			<p>
-				This is far more complex than splitting a PDF. Most tools simply don't
-				support it because the use case is rare and technically challenging.
+				This is far more complex than splitting a PDF. Most tools simply
+				don't support it because the use case is rare and technically
+				challenging.
 			</p>
 
 			<h2 id='pdf-special'>What Makes PDFs Special for Splitting</h2>
 
 			<p>
-				PDFs were designed from the ground up with a completely different
-				philosophy: <strong>fixed layout documents</strong>.
+				PDFs were designed from the ground up with a completely
+				different philosophy: <strong>fixed layout documents</strong>.
 			</p>
 
 			<h3>How PDFs Work</h3>
@@ -279,26 +291,27 @@ export default function WhyConvertToPDFPost() {
 
 			<ul>
 				<li>
-					<strong>Exact coordinates</strong> — Every element has a precise
-					position
+					<strong>Exact coordinates</strong> — Every element has a
+					precise position
 				</li>
 				<li>
-					<strong>Fixed dimensions</strong> — Pages have defined width and
-					height
+					<strong>Fixed dimensions</strong> — Pages have defined width
+					and height
 				</li>
 				<li>
-					<strong>Embedded fonts and images</strong> — Everything needed is
-					in the file
+					<strong>Embedded fonts and images</strong> — Everything
+					needed is in the file
 				</li>
 				<li>
-					<strong>Page tree structure</strong> — A clear hierarchy of pages
+					<strong>Page tree structure</strong> — A clear hierarchy of
+					pages
 				</li>
 			</ul>
 
 			<p>
 				When you open a PDF, <strong>page 5 is always page 5</strong>,
-				regardless of your screen size, device, or zoom level. This makes
-				splitting trivial from a technical perspective.
+				regardless of your screen size, device, or zoom level. This
+				makes splitting trivial from a technical perspective.
 			</p>
 
 			<div className='not-prose bg-green-50 dark:bg-green-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6 my-6'>
@@ -321,15 +334,15 @@ export default function WhyConvertToPDFPost() {
 							<li className='flex items-start gap-2'>
 								<CheckCircle2 className='h-5 w-5 flex-shrink-0 mt-0.5' />
 								<span>
-									<strong>Self-contained</strong> — All fonts and
-									resources are embedded
+									<strong>Self-contained</strong> — All fonts
+									and resources are embedded
 								</span>
 							</li>
 							<li className='flex items-start gap-2'>
 								<CheckCircle2 className='h-5 w-5 flex-shrink-0 mt-0.5' />
 								<span>
-									<strong>Preserves layout</strong> — Split pages
-									look identical to originals
+									<strong>Preserves layout</strong> — Split
+									pages look identical to originals
 								</span>
 							</li>
 							<li className='flex items-start gap-2'>
@@ -354,10 +367,10 @@ export default function WhyConvertToPDFPost() {
 			<h3>Microsoft Word Documents (DOCX, DOC)</h3>
 
 			<p>
-				Like EPUBs, Word documents are designed for editing and reflowing.
-				While they show "pages" in Microsoft Word, these pages are just a
-				print preview. The actual document structure is based on paragraphs,
-				styles, and sections — not fixed pages.
+				Like EPUBs, Word documents are designed for editing and
+				reflowing. While they show "pages" in Microsoft Word, these
+				pages are just a print preview. The actual document structure is
+				based on paragraphs, styles, and sections — not fixed pages.
 			</p>
 
 			<div className='not-prose bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 my-6'>
@@ -378,8 +391,8 @@ export default function WhyConvertToPDFPost() {
 
 			<p>
 				Plain text files have no concept of pages at all. They're just a
-				continuous stream of characters. You can split them by line or by
-				character, but not by "page."
+				continuous stream of characters. You can split them by line or
+				by character, but not by "page."
 			</p>
 
 			<h3>Presentation Formats (PPTX, KEY)</h3>
@@ -387,16 +400,17 @@ export default function WhyConvertToPDFPost() {
 			<p>
 				PowerPoint and Keynote presentations do have "slides," which are
 				conceptually similar to pages. However, splitting them requires
-				understanding their proprietary formats, and the result would still be
-				a presentation file — not as universally viewable as a PDF.
+				understanding their proprietary formats, and the result would
+				still be a presentation file — not as universally viewable as a
+				PDF.
 			</p>
 
 			<h3>Images and Scans</h3>
 
 			<p>
 				If you have images (JPG, PNG) or scanned documents, these are
-				single-page items by nature. To create a multi-page document you can
-				split, you need to combine them into a PDF first.
+				single-page items by nature. To create a multi-page document you
+				can split, you need to combine them into a PDF first.
 			</p>
 
 			{/* Format Comparison Table */}
@@ -462,8 +476,8 @@ export default function WhyConvertToPDFPost() {
 
 			<p>
 				The solution is straightforward:{' '}
-				<strong>convert your file to PDF first</strong>, then split it. Here
-				are the best methods:
+				<strong>convert your file to PDF first</strong>, then split it.
+				Here are the best methods:
 			</p>
 
 			<h3>Method 1: Using Calibre (Best for EPUBs)</h3>
@@ -481,7 +495,10 @@ export default function WhyConvertToPDFPost() {
 			</p>
 
 			<ol>
-				<li>Download and install Calibre (available for Windows, Mac, Linux)</li>
+				<li>
+					Download and install Calibre (available for Windows, Mac,
+					Linux)
+				</li>
 				<li>
 					Click <strong>"Add books"</strong> and select your EPUB file
 				</li>
@@ -491,9 +508,7 @@ export default function WhyConvertToPDFPost() {
 				<li>
 					Set output format to <strong>PDF</strong>
 				</li>
-				<li>
-					Adjust page size and margins if desired
-				</li>
+				<li>Adjust page size and margins if desired</li>
 				<li>
 					Click <strong>"OK"</strong> and wait for conversion
 				</li>
@@ -511,8 +526,8 @@ export default function WhyConvertToPDFPost() {
 							Pro tip:
 						</strong>
 						<span className='text-green-700 dark:text-green-300 ml-1'>
-							Calibre's conversion is completely local — your files never
-							leave your computer. Great for privacy!
+							Calibre's conversion is completely local — your
+							files never leave your computer. Great for privacy!
 						</span>
 					</div>
 				</div>
@@ -524,9 +539,7 @@ export default function WhyConvertToPDFPost() {
 
 			<h4>In Microsoft Word:</h4>
 			<ol>
-				<li>
-					Open your document
-				</li>
+				<li>Open your document</li>
 				<li>
 					Go to <strong>File → Save As</strong>
 				</li>
@@ -540,31 +553,25 @@ export default function WhyConvertToPDFPost() {
 
 			<h4>In Google Docs:</h4>
 			<ol>
-				<li>
-					Open your document
-				</li>
+				<li>Open your document</li>
 				<li>
 					Go to <strong>File → Download → PDF Document</strong>
 				</li>
-				<li>
-					Your PDF downloads immediately
-				</li>
+				<li>Your PDF downloads immediately</li>
 			</ol>
 
 			<h3>Method 3: Print to PDF (Universal)</h3>
 
 			<p>
-				Almost any file that can be viewed can be converted to PDF using your
-				operating system's "Print to PDF" feature:
+				Almost any file that can be viewed can be converted to PDF using
+				your operating system's "Print to PDF" feature:
 			</p>
 
 			<ol>
+				<li>Open your file in any application that can view it</li>
 				<li>
-					Open your file in any application that can view it
-				</li>
-				<li>
-					Press <code>Ctrl+P</code> (Windows/Linux) or <code>⌘+P</code>{' '}
-					(Mac) to open the print dialog
+					Press <code>Ctrl+P</code> (Windows/Linux) or{' '}
+					<code>⌘+P</code> (Mac) to open the print dialog
 				</li>
 				<li>
 					Choose <strong>"Save as PDF"</strong> or{' '}
@@ -584,9 +591,9 @@ export default function WhyConvertToPDFPost() {
 						</strong>
 						<span className='text-amber-700 dark:text-amber-300 ml-1'>
 							"Print to PDF" generally produces good results, but
-							specialized tools like Calibre or native "Export to PDF"
-							features usually create smaller file sizes with better
-							formatting.
+							specialized tools like Calibre or native "Export to
+							PDF" features usually create smaller file sizes with
+							better formatting.
 						</span>
 					</div>
 				</div>
@@ -596,8 +603,8 @@ export default function WhyConvertToPDFPost() {
 
 			<p>
 				There are many online EPUB-to-PDF converters, but remember:{' '}
-				<strong>they upload your files to their servers</strong>. This is fine
-				for non-sensitive content, but avoid using them for:
+				<strong>they upload your files to their servers</strong>. This
+				is fine for non-sensitive content, but avoid using them for:
 			</p>
 
 			<ul>
@@ -607,21 +614,23 @@ export default function WhyConvertToPDFPost() {
 			</ul>
 
 			<p>
-				Popular options include CloudConvert, Zamzar, and Online-Convert, but
-				local tools are always safer.
+				Popular options include CloudConvert, Zamzar, and
+				Online-Convert, but local tools are always safer.
 			</p>
 
-			<h2 id='automatic-detection'>Coming Soon: Automatic File Type Detection</h2>
+			<h2 id='automatic-detection'>
+				Coming Soon: Automatic File Type Detection
+			</h2>
 
 			<p>
 				We're making this even easier. Soon,{' '}
 				<Link
 					href='/'
 					className='text-blue-600 font-semibold hover:underline'>
-					PDF Slicer
+					PDF Wonder Kit
 				</Link>{' '}
-				will automatically detect when you try to upload a non-PDF file and
-				prompt you to convert it first.
+				will automatically detect when you try to upload a non-PDF file
+				and prompt you to convert it first.
 			</p>
 
 			<div className='not-prose bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border-2 border-purple-200 dark:border-purple-800 rounded-xl p-6 my-8'>
@@ -634,7 +643,8 @@ export default function WhyConvertToPDFPost() {
 							🚀 Coming Soon: Smart File Conversion
 						</h3>
 						<p className='text-purple-700 dark:text-purple-300 mb-3'>
-							Upload an EPUB, DOCX, or other format, and PDF Slicer will:
+							Upload an EPUB, DOCX, or other format, and PDF
+							Wonder Kit will:
 						</p>
 						<ul className='text-purple-700 dark:text-purple-300 space-y-1 mb-4'>
 							<li>• Automatically detect the file type</li>
@@ -642,9 +652,12 @@ export default function WhyConvertToPDFPost() {
 								• Prompt you to convert to PDF with one click
 							</li>
 							<li>
-								• Convert the file right in your browser (no uploads!)
+								• Convert the file right in your browser (no
+								uploads!)
 							</li>
-							<li>• Let you split it immediately after conversion</li>
+							<li>
+								• Let you split it immediately after conversion
+							</li>
 						</ul>
 						<p className='text-purple-700 dark:text-purple-300 text-sm italic'>
 							All processing will remain 100% client-side for your
@@ -660,30 +673,31 @@ export default function WhyConvertToPDFPost() {
 			<p>
 				Technically, you could extract specific chapters from an EPUB's
 				internal HTML structure, but this requires specialized tools and
-				technical knowledge. It's far easier to convert to PDF first, then
-				split.
+				technical knowledge. It's far easier to convert to PDF first,
+				then split.
 			</p>
 
 			<h3>Will converting to PDF lose quality or formatting?</h3>
 			<p>
-				Modern conversion tools (like Calibre or Word's built-in export) do an
-				excellent job preserving formatting. Some minor layout differences may
-				occur since you're going from a reflowable to a fixed-layout format,
-				but text and images remain clear.
+				Modern conversion tools (like Calibre or Word's built-in export)
+				do an excellent job preserving formatting. Some minor layout
+				differences may occur since you're going from a reflowable to a
+				fixed-layout format, but text and images remain clear.
 			</p>
 
 			<h3>What about DRM-protected EPUBs?</h3>
 			<p>
-				DRM (Digital Rights Management) protected files cannot be converted or
-				split without first removing the DRM, which may violate your purchase
-				agreement or local laws. Always respect copyright and terms of service.
+				DRM (Digital Rights Management) protected files cannot be
+				converted or split without first removing the DRM, which may
+				violate your purchase agreement or local laws. Always respect
+				copyright and terms of service.
 			</p>
 
 			<h3>Can I convert multiple files to PDF at once?</h3>
 			<p>
-				Yes! Tools like Calibre support batch conversion. Select multiple books,
-				click "Convert books," choose PDF as output, and let it process all of
-				them sequentially.
+				Yes! Tools like Calibre support batch conversion. Select
+				multiple books, click "Convert books," choose PDF as output, and
+				let it process all of them sequentially.
 			</p>
 
 			<h3>After converting to PDF, how do I split it?</h3>
@@ -692,59 +706,44 @@ export default function WhyConvertToPDFPost() {
 				<Link
 					href='/'
 					className='text-blue-600 font-semibold hover:underline'>
-					PDF Slicer
+					PDF Wonder Kit
 				</Link>{' '}
-				to split your newly created PDF in seconds. Just open the file, select
-				the pages you want, and download. Your files never leave your device.
+				to split your newly created PDF in seconds. Just open the file,
+				select the pages you want, and download. Your files never leave
+				your device.
 			</p>
 
 			<h2>Conclusion</h2>
 
 			<p>
-				EPUBs, Word documents, and many other file formats simply weren't
-				designed with page-based splitting in mind. They're built for
-				flexibility and editing, with content that flows and adapts to
-				different screens.
+				EPUBs, Word documents, and many other file formats simply
+				weren't designed with page-based splitting in mind. They're
+				built for flexibility and editing, with content that flows and
+				adapts to different screens.
 			</p>
 
 			<p>
-				PDFs, on the other hand, are perfect for splitting because they have
-				fixed, clearly defined pages that look the same everywhere.
+				PDFs, on the other hand, are perfect for splitting because they
+				have fixed, clearly defined pages that look the same everywhere.
 			</p>
 
 			<p>
-				<strong>The solution is simple:</strong> convert your EPUB, DOCX, or
-				other document to PDF using a local tool like Calibre or your
-				application's built-in export feature. Then use{' '}
+				<strong>The solution is simple:</strong> convert your EPUB,
+				DOCX, or other document to PDF using a local tool like Calibre
+				or your application's built-in export feature. Then use{' '}
 				<Link
 					href='/'
 					className='text-blue-600 font-semibold hover:underline'>
-					PDF Slicer
+					PDF Wonder Kit
 				</Link>{' '}
-				to split it in seconds — with complete privacy since all processing
-				happens in your browser.
+				to split it in seconds — with complete privacy since all
+				processing happens in your browser.
 			</p>
 
 			<p>
-				And soon, we'll make it even easier with automatic file type detection
-				and one-click conversion. Stay tuned!
+				And soon, we'll make it even easier with automatic file type
+				detection and one-click conversion. Stay tuned!
 			</p>
-
-			<div className='not-prose text-center p-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl mt-12'>
-				<h3 className='text-2xl font-bold text-white mb-3'>
-					Ready to Split Your PDF?
-				</h3>
-				<p className='text-blue-100 mb-6 max-w-lg mx-auto'>
-					Convert your file to PDF, then split it in seconds with complete
-					privacy protection.
-				</p>
-				<Link
-					href='/'
-					className='inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors shadow-lg'>
-					Try PDF Slicer Free
-					<ArrowRight className='h-5 w-5' />
-				</Link>
-			</div>
 		</BlogLayout>
 	);
 }

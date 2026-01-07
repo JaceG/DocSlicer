@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 		title: 'How to Split Large PDFs for Email (Gmail & Outlook Limits)',
 		description:
 			'Complete guide to splitting PDFs that exceed email attachment limits. Works with Gmail, Outlook, and all email providers.',
-		url: 'https://www.docslicer.com/blog/split-large-pdfs-for-email',
+		url: 'https://www.pdfwonderkit.com/blog/split-large-pdfs-for-email',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/split-large-pdfs-for-email',
+		canonical: 'https://www.pdfwonderkit.com/blog/split-large-pdfs-for-email',
 	},
 };
 
@@ -35,16 +35,16 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '6 min read',
 	category: 'Tutorials',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
+		'split-pdf',
 		'email',
-		'gmail',
-		'outlook',
-		'split pdf',
-		'file size',
-		'compression',
+		'file-size',
 	],
 	featured: false,
+	toolSlug: 'split',
+	ctaTitle: 'Split Your Large PDF for Email',
+	ctaDescription: 'Divide your PDF into email-friendly chunks in seconds. Select page ranges and download multiple smaller files. Perfect for Gmail and Outlook attachments.',
 };
 
 export default function SplitPDFForEmailPage() {
@@ -242,7 +242,7 @@ export default function SplitPDFForEmailPage() {
 				<h3>How to Split a PDF for Email:</h3>
 
 				<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
-					<h4 className='mt-0'>Using DocSlicer (Recommended):</h4>
+					<h4 className='mt-0'>Using PDF Wonder Kit (Recommended):</h4>
 					<ol className='space-y-3'>
 						<li>
 							<strong>Calculate your split points:</strong>
@@ -255,7 +255,7 @@ export default function SplitPDFForEmailPage() {
 								<Link
 									href='/'
 									className='text-blue-600 hover:underline'>
-									DocSlicer.com
+									PDF Wonder Kit.com
 								</Link>
 							</strong>
 						</li>
@@ -325,7 +325,7 @@ export default function SplitPDFForEmailPage() {
 							1. Online PDF Compressors
 						</h4>
 						<p className='text-sm mb-2'>
-							Use DocSlicer's compression tool to reduce file size
+							Use PDF Wonder Kit's compression tool to reduce file size
 							by 40-70% while maintaining readability.
 						</p>
 						<ul className='text-sm mb-0 space-y-1'>
@@ -605,7 +605,7 @@ export default function SplitPDFForEmailPage() {
 						<p className='mb-0'>
 							You don't need to! Recipients can simply open each
 							part separately. If you do need one combined file,
-							use a PDF merger tool (DocSlicer offers this) to
+							use a PDF merger tool (PDF Wonder Kit offers this) to
 							merge all parts back together.
 						</p>
 					</div>

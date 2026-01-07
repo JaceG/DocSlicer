@@ -1,7 +1,16 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { BlogLayout, BlogPost } from '@/components/blog/BlogLayout';
-import { Scale, Shield, Folder, Clock, CheckCircle2, AlertTriangle, FileText, Lock } from 'lucide-react';
+import {
+	Scale,
+	Shield,
+	Folder,
+	Clock,
+	CheckCircle2,
+	AlertTriangle,
+	FileText,
+	Lock,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
 	title: 'Legal Document Management: Splitting and Organizing Case Files',
@@ -20,10 +29,11 @@ export const metadata: Metadata = {
 		title: 'Legal Document Management: Splitting and Organizing Case Files',
 		description:
 			'Professional guide to PDF management for law firms. Organize case files, split exhibits, and maintain confidentiality.',
-		url: 'https://www.docslicer.com/blog/legal-document-management-split-organize-case-files',
+		url: 'https://www.pdfwonderkit.com/blog/legal-document-management-split-organize-case-files',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/legal-document-management-split-organize-case-files',
+		canonical:
+			'https://www.pdfwonderkit.com/blog/legal-document-management-split-organize-case-files',
 	},
 };
 
@@ -35,15 +45,17 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '12 min read',
 	category: 'Legal',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
 		'legal',
-		'law firms',
-		'paralegals',
-		'case management',
-		'document organization',
+		'split-pdf',
+		'organize-pdf',
+		'security',
 	],
 	featured: false,
+	toolSlug: 'split',
+	ctaTitle: 'Secure Legal Document Processing',
+	ctaDescription: 'Split exhibits, organize discovery, and manage case files with complete confidentiality. 100% browser-based processing protects attorney-client privilege.',
 };
 
 export default function LegalDocumentManagementPage() {
@@ -56,15 +68,15 @@ export default function LegalDocumentManagementPage() {
 						<Scale className='h-6 w-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-1' />
 						<div>
 							<h3 className='text-blue-900 dark:text-blue-100 mt-0 mb-2'>
-								Paralegals Spend 25-40% of Their Time on Document
-								Organization
+								Paralegals Spend 25-40% of Their Time on
+								Document Organization
 							</h3>
 							<p className='text-blue-800 dark:text-blue-200 mb-0'>
-								If you're manually copying and pasting documents to
-								create exhibit binders, renaming hundreds of files
-								from discovery, or struggling to extract specific
-								pages from depositions—you're not alone. But
-								there's a better way.
+								If you're manually copying and pasting documents
+								to create exhibit binders, renaming hundreds of
+								files from discovery, or struggling to extract
+								specific pages from depositions—you're not
+								alone. But there's a better way.
 							</p>
 						</div>
 					</div>
@@ -111,9 +123,7 @@ export default function LegalDocumentManagementPage() {
 								<td className='border px-4 py-2'>
 									2.5 hours (copy/paste, renumber)
 								</td>
-								<td className='border px-4 py-2'>
-									15 minutes
-								</td>
+								<td className='border px-4 py-2'>15 minutes</td>
 								<td className='border px-4 py-2'>
 									<span className='text-green-600 font-semibold'>
 										2h 15m
@@ -127,9 +137,7 @@ export default function LegalDocumentManagementPage() {
 								<td className='border px-4 py-2'>
 									4 hours (manual sorting, merging)
 								</td>
-								<td className='border px-4 py-2'>
-									30 minutes
-								</td>
+								<td className='border px-4 py-2'>30 minutes</td>
 								<td className='border px-4 py-2'>
 									<span className='text-green-600 font-semibold'>
 										3h 30m
@@ -143,9 +151,7 @@ export default function LegalDocumentManagementPage() {
 								<td className='border px-4 py-2'>
 									6 hours (extract, tab, combine)
 								</td>
-								<td className='border px-4 py-2'>
-									45 minutes
-								</td>
+								<td className='border px-4 py-2'>45 minutes</td>
 								<td className='border px-4 py-2'>
 									<span className='text-green-600 font-semibold'>
 										5h 15m
@@ -156,12 +162,8 @@ export default function LegalDocumentManagementPage() {
 								<td className='border px-4 py-2'>
 									Split multi-party contract by counterparty
 								</td>
-								<td className='border px-4 py-2'>
-									1.5 hours
-								</td>
-								<td className='border px-4 py-2'>
-									10 minutes
-								</td>
+								<td className='border px-4 py-2'>1.5 hours</td>
+								<td className='border px-4 py-2'>10 minutes</td>
 								<td className='border px-4 py-2'>
 									<span className='text-green-600 font-semibold'>
 										1h 20m
@@ -172,12 +174,8 @@ export default function LegalDocumentManagementPage() {
 								<td className='border px-4 py-2 font-bold'>
 									Per Case Total (typical litigation case)
 								</td>
-								<td className='border px-4 py-2'>
-									14 hours
-								</td>
-								<td className='border px-4 py-2'>
-									1h 40m
-								</td>
+								<td className='border px-4 py-2'>14 hours</td>
+								<td className='border px-4 py-2'>1h 40m</td>
 								<td className='border px-4 py-2'>
 									<span className='text-green-600 font-bold text-base'>
 										12h 20m saved
@@ -193,11 +191,14 @@ export default function LegalDocumentManagementPage() {
 						💼 Firm Economics:
 					</p>
 					<p className='text-green-800 dark:text-green-200 mb-0'>
-						<strong>12.3 hours saved × $175/hour paralegal rate = $2,152 in recovered billable time per case.</strong>
+						<strong>
+							12.3 hours saved × $175/hour paralegal rate = $2,152
+							in recovered billable time per case.
+						</strong>
 						<br />
-						For a firm handling 50 cases/year: That's over $100,000 in
-						billable hours that can be redirected to substantive legal
-						work instead of document wrangling.
+						For a firm handling 50 cases/year: That's over $100,000
+						in billable hours that can be redirected to substantive
+						legal work instead of document wrangling.
 					</p>
 				</div>
 
@@ -210,24 +211,25 @@ export default function LegalDocumentManagementPage() {
 				<div className='bg-red-50 dark:bg-red-900/20 border-2 border-red-500 dark:border-red-800 rounded-xl p-6 mb-6'>
 					<h3 className='text-red-900 dark:text-red-100 mt-0 flex items-center gap-2'>
 						<AlertTriangle className='h-5 w-5' />
-						⚠️ Critical Warning: Online PDF Tools Can Waive Privilege
+						⚠️ Critical Warning: Online PDF Tools Can Waive
+						Privilege
 					</h3>
 					<p className='text-red-800 dark:text-red-200 mb-4'>
 						When you upload privileged documents to third-party
 						servers (most "free" online PDF tools), you may
-						inadvertently waive attorney-client privilege. Courts have
-						ruled that:
+						inadvertently waive attorney-client privilege. Courts
+						have ruled that:
 					</p>
 					<ul className='text-red-800 dark:text-red-200 mb-4 space-y-2'>
 						<li>
-							<strong>Voluntary disclosure to third parties</strong>{' '}
+							<strong>
+								Voluntary disclosure to third parties
+							</strong>{' '}
 							can destroy privilege (even if accidental)
 						</li>
 						<li>
-							<strong>
-								Insufficient security measures
-							</strong>{' '}
-							may constitute a failure to protect confidential
+							<strong>Insufficient security measures</strong> may
+							constitute a failure to protect confidential
 							information
 						</li>
 						<li>
@@ -246,11 +248,11 @@ export default function LegalDocumentManagementPage() {
 							Case Example: In re XYZ Corp Litigation
 						</p>
 						<p className='text-sm text-red-800 dark:text-red-200 mb-0 italic'>
-							"The use of an unsecured third-party cloud service to
-							process privileged documents, without encryption or a
-							confidentiality agreement, constituted a waiver of
-							attorney-client privilege. The reasonable expectation
-							of confidentiality was not maintained."
+							"The use of an unsecured third-party cloud service
+							to process privileged documents, without encryption
+							or a confidentiality agreement, constituted a waiver
+							of attorney-client privilege. The reasonable
+							expectation of confidentiality was not maintained."
 						</p>
 					</div>
 				</div>
@@ -265,13 +267,15 @@ export default function LegalDocumentManagementPage() {
 							</div>
 							<div>
 								<h4 className='text-green-900 dark:text-green-100 mt-0 mb-2'>
-									✅ Tier 1: Client-Side Processing (Recommended)
+									✅ Tier 1: Client-Side Processing
+									(Recommended)
 								</h4>
 								<p className='text-green-800 dark:text-green-200 text-sm mb-3'>
-									<strong>DocSlicer:</strong> Processes files
-									entirely in your browser. No uploads, no
-									servers, no third-party access. Maintains
-									privilege because files never leave your device.
+									<strong>PDF Wonder Kit:</strong> Processes
+									files entirely in your browser. No uploads,
+									no servers, no third-party access. Maintains
+									privilege because files never leave your
+									device.
 								</p>
 							</div>
 						</div>
@@ -290,12 +294,13 @@ export default function LegalDocumentManagementPage() {
 								</li>
 								<li>
 									<CheckCircle2 className='inline h-4 w-4 mr-1' />
-									Reasonable measures to maintain confidentiality
+									Reasonable measures to maintain
+									confidentiality
 								</li>
 								<li>
 									<CheckCircle2 className='inline h-4 w-4 mr-1' />
-									Complies with state bar ethics opinions on cloud
-									services
+									Complies with state bar ethics opinions on
+									cloud services
 								</li>
 							</ul>
 						</div>
@@ -311,24 +316,25 @@ export default function LegalDocumentManagementPage() {
 							Ensure cloud features are disabled.
 						</p>
 						<p className='text-yellow-800 dark:text-yellow-200 text-sm mb-0'>
-							<strong>Ethics Note:</strong> ABA Formal Opinion 477R
-							permits cloud services if reasonable care is taken to
-							protect client information. Ensure desktop software
-							doesn't automatically sync to cloud.
+							<strong>Ethics Note:</strong> ABA Formal Opinion
+							477R permits cloud services if reasonable care is
+							taken to protect client information. Ensure desktop
+							software doesn't automatically sync to cloud.
 						</p>
 					</div>
 
 					<div className='bg-red-50 dark:bg-red-900/20 rounded-lg p-6 border-2 border-red-300 dark:border-red-800'>
 						<h4 className='text-red-900 dark:text-red-100 mt-0 flex items-center gap-2'>
-							<AlertTriangle className='h-5 w-5' />
-							❌ Tier 3: Never Use for Client Files
+							<AlertTriangle className='h-5 w-5' />❌ Tier 3:
+							Never Use for Client Files
 						</h4>
 						<p className='text-red-800 dark:text-red-200 text-sm mb-3'>
 							<strong>
 								ILovePDF, Smallpdf, PDF2Go, any tool requiring
 								upload:
 							</strong>{' '}
-							These explicitly upload files to third-party servers.
+							These explicitly upload files to third-party
+							servers.
 						</p>
 						<p className='text-red-800 dark:text-red-200 text-sm mb-0'>
 							<strong>Risk:</strong> Potential privilege waiver,
@@ -352,8 +358,8 @@ export default function LegalDocumentManagementPage() {
 						<p className='text-sm mb-4'>
 							<strong>Scenario:</strong> 750-page deposition
 							transcript with 20 exhibits referenced throughout.
-							You need to create a separate exhibit binder with tab
-							dividers for each exhibit.
+							You need to create a separate exhibit binder with
+							tab dividers for each exhibit.
 						</p>
 
 						<div className='bg-white dark:bg-gray-900 rounded p-5 border border-gray-300 dark:border-gray-700'>
@@ -365,12 +371,13 @@ export default function LegalDocumentManagementPage() {
 									<strong>Step 1: Review Transcript</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Identify exhibit pages (usually marked
-											"Exhibit 1," "Exhibit 2," etc.)
+											Identify exhibit pages (usually
+											marked "Exhibit 1," "Exhibit 2,"
+											etc.)
 										</li>
 										<li>
-											Create a spreadsheet: Exhibit # | Start
-											Page | End Page
+											Create a spreadsheet: Exhibit # |
+											Start Page | End Page
 										</li>
 										<li>
 											Example: Exhibit A = pages 45-52,
@@ -383,19 +390,24 @@ export default function LegalDocumentManagementPage() {
 										Step 2: Extract Each Exhibit
 									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
-										<li>Upload deposition PDF to DocSlicer</li>
+										<li>
+											Upload deposition PDF to PDF Wonder
+											Kit
+										</li>
 										<li>
 											Create extraction ranges for each
 											exhibit
 										</li>
 										<li>
-											Download all at once (ZIP download for
-											Premium users)
+											Download all at once (ZIP download
+											for Premium users)
 										</li>
 									</ul>
 								</li>
 								<li className='text-sm'>
-									<strong>Step 3: Rename Systematically</strong>
+									<strong>
+										Step 3: Rename Systematically
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
 											<code className='text-xs'>
@@ -408,17 +420,19 @@ export default function LegalDocumentManagementPage() {
 											</code>
 										</li>
 										<li>
-											Use descriptive names (not just "Exhibit
-											1")
+											Use descriptive names (not just
+											"Exhibit 1")
 										</li>
 									</ul>
 								</li>
 								<li className='text-sm'>
-									<strong>Step 4: Create Master Binder</strong>
+									<strong>
+										Step 4: Create Master Binder
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											If needed, merge all exhibits back into
-											one organized binder
+											If needed, merge all exhibits back
+											into one organized binder
 										</li>
 										<li>
 											Add cover page and table of contents
@@ -437,8 +451,8 @@ export default function LegalDocumentManagementPage() {
 						<div className='mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-300 dark:border-blue-700'>
 							<p className='text-sm text-blue-900 dark:text-blue-100 mb-0'>
 								<strong>Time Saved:</strong> What took 2.5 hours
-								manually now takes 15 minutes. That's 2+ billable
-								hours recovered per deposition.
+								manually now takes 15 minutes. That's 2+
+								billable hours recovered per deposition.
 							</p>
 						</div>
 					</div>
@@ -449,9 +463,9 @@ export default function LegalDocumentManagementPage() {
 						</h3>
 						<p className='text-sm mb-4'>
 							<strong>Scenario:</strong> Opposing counsel produced
-							1,200 pages of documents as one massive PDF. You need
-							to organize them by category: Emails, Contracts,
-							Financial Records, Internal Memos.
+							1,200 pages of documents as one massive PDF. You
+							need to organize them by category: Emails,
+							Contracts, Financial Records, Internal Memos.
 						</p>
 
 						<div className='bg-white dark:bg-gray-900 rounded p-5 border border-gray-300 dark:border-gray-700'>
@@ -478,10 +492,13 @@ export default function LegalDocumentManagementPage() {
 								<li className='text-sm'>
 									<strong>Step 2: Split by Category</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
-										<li>Upload full discovery PDF to DocSlicer</li>
 										<li>
-											Create 4 separate extractions (one per
-											category)
+											Upload full discovery PDF to PDF
+											Wonder Kit
+										</li>
+										<li>
+											Create 4 separate extractions (one
+											per category)
 										</li>
 										<li>
 											Name each:
@@ -497,7 +514,9 @@ export default function LegalDocumentManagementPage() {
 									</ul>
 								</li>
 								<li className='text-sm'>
-									<strong>Step 3: Further Subcategorization</strong>
+									<strong>
+										Step 3: Further Subcategorization
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
 											If needed, split categories further
@@ -505,8 +524,8 @@ export default function LegalDocumentManagementPage() {
 											counterparty)
 										</li>
 										<li>
-											Create folder structure in your document
-											management system
+											Create folder structure in your
+											document management system
 										</li>
 									</ul>
 								</li>
@@ -514,15 +533,16 @@ export default function LegalDocumentManagementPage() {
 									<strong>Step 4: Privilege Review</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Easier to review emails separately from
-											contracts
+											Easier to review emails separately
+											from contracts
 										</li>
 										<li>
-											Identify privileged documents within each
-											category
+											Identify privileged documents within
+											each category
 										</li>
 										<li>
-											Extract and create privilege log entries
+											Extract and create privilege log
+											entries
 										</li>
 									</ul>
 								</li>
@@ -534,8 +554,8 @@ export default function LegalDocumentManagementPage() {
 								<strong>Efficiency Gain:</strong> Organized
 								discovery documents are 10x easier to review,
 								search, and present. Your attorney can find what
-								they need in seconds instead of scrolling through
-								1,200 pages.
+								they need in seconds instead of scrolling
+								through 1,200 pages.
 							</p>
 						</div>
 					</div>
@@ -545,8 +565,8 @@ export default function LegalDocumentManagementPage() {
 							Workflow 3: Creating Trial Exhibit Binders
 						</h3>
 						<p className='text-sm mb-4'>
-							<strong>Scenario:</strong> Trial in 2 weeks. You need
-							to create 3 exhibit binders: Plaintiff's Direct
+							<strong>Scenario:</strong> Trial in 2 weeks. You
+							need to create 3 exhibit binders: Plaintiff's Direct
 							Exhibits, Defendant's Direct Exhibits, and Rebuttal
 							Exhibits.
 						</p>
@@ -557,29 +577,36 @@ export default function LegalDocumentManagementPage() {
 							</h4>
 							<ol className='space-y-3 mb-0'>
 								<li className='text-sm'>
-									<strong>Step 1: Compile Exhibit List</strong>
+									<strong>
+										Step 1: Compile Exhibit List
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
 											Create exhibit list with attorney:
 											<br />• PX-1: Employment Contract
 											<br />• PX-2: Termination Letter
-											<br />• PX-3: Email Thread (10 pages)
+											<br />• PX-3: Email Thread (10
+											pages)
 											<br />• [etc., 50 total exhibits]
 										</li>
 									</ul>
 								</li>
 								<li className='text-sm'>
-									<strong>Step 2: Gather Source Documents</strong>
+									<strong>
+										Step 2: Gather Source Documents
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Locate each exhibit in your case files
+											Locate each exhibit in your case
+											files
 										</li>
 										<li>
 											Some may need extraction from larger
 											documents
 										</li>
 										<li>
-											Use DocSlicer to extract relevant pages
+											Use PDF Wonder Kit to extract
+											relevant pages
 										</li>
 									</ul>
 								</li>
@@ -593,8 +620,8 @@ export default function LegalDocumentManagementPage() {
 											</code>
 										</li>
 										<li>
-											Add exhibit stamp (can be done later in
-											trial software)
+											Add exhibit stamp (can be done later
+											in trial software)
 										</li>
 										<li>Ensure page numbers are clear</li>
 									</ul>
@@ -603,27 +630,31 @@ export default function LegalDocumentManagementPage() {
 									<strong>Step 4: Merge into Binders</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Use DocSlicer "Merge PDF" to combine all
-											PX exhibits
+											Use PDF Wonder Kit "Merge PDF" to
+											combine all PX exhibits
 										</li>
 										<li>
 											Add table of contents as first pages
 										</li>
 										<li>
-											Create separate binders for plaintiff,
-											defendant, rebuttal
+											Create separate binders for
+											plaintiff, defendant, rebuttal
 										</li>
 									</ul>
 								</li>
 								<li className='text-sm'>
-									<strong>Step 5: Produce Multiple Copies</strong>
+									<strong>
+										Step 5: Produce Multiple Copies
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Working copy for attorney (annotated)
+											Working copy for attorney
+											(annotated)
 										</li>
 										<li>Court copy (clean)</li>
 										<li>
-											Opposing counsel copy (per court rules)
+											Opposing counsel copy (per court
+											rules)
 										</li>
 										<li>Client copy (for review)</li>
 									</ul>
@@ -634,9 +665,9 @@ export default function LegalDocumentManagementPage() {
 						<div className='mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-300 dark:border-green-700'>
 							<p className='text-sm text-green-900 dark:text-green-100 mb-0'>
 								<strong>Best Practice:</strong> Keep a master
-								digital binder that matches your print binders. If
-								trial strategy changes, you can quickly reorganize
-								and reprint updated binders.
+								digital binder that matches your print binders.
+								If trial strategy changes, you can quickly
+								reorganize and reprint updated binders.
 							</p>
 						</div>
 					</div>
@@ -646,10 +677,10 @@ export default function LegalDocumentManagementPage() {
 							Workflow 4: Splitting Multi-Party Contracts
 						</h3>
 						<p className='text-sm mb-4'>
-							<strong>Scenario:</strong> Complex commercial contract
-							with 8 counterparties. Each needs their specific
-							exhibits, schedules, and signature pages. The master
-							agreement is 300 pages.
+							<strong>Scenario:</strong> Complex commercial
+							contract with 8 counterparties. Each needs their
+							specific exhibits, schedules, and signature pages.
+							The master agreement is 300 pages.
 						</p>
 
 						<div className='bg-white dark:bg-gray-900 rounded p-5 border border-gray-300 dark:border-gray-700'>
@@ -658,19 +689,24 @@ export default function LegalDocumentManagementPage() {
 							</h4>
 							<ol className='space-y-3 mb-0'>
 								<li className='text-sm'>
-									<strong>Step 1: Identify Common & Unique Sections</strong>
+									<strong>
+										Step 1: Identify Common & Unique
+										Sections
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
 											Common: Master terms (pages 1-50)
 										</li>
 										<li>
-											Unique per party: Schedules, pricing,
-											specific terms
+											Unique per party: Schedules,
+											pricing, specific terms
 										</li>
 									</ul>
 								</li>
 								<li className='text-sm'>
-									<strong>Step 2: Extract Party-Specific Materials</strong>
+									<strong>
+										Step 2: Extract Party-Specific Materials
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
 											For Party A: Extract pages 1-50
@@ -681,7 +717,9 @@ export default function LegalDocumentManagementPage() {
 									</ul>
 								</li>
 								<li className='text-sm'>
-									<strong>Step 3: Merge Complete Packets</strong>
+									<strong>
+										Step 3: Merge Complete Packets
+									</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
 											Merge Party A's sections into one
@@ -700,12 +738,12 @@ export default function LegalDocumentManagementPage() {
 									<strong>Step 4: Quality Control</strong>
 									<ul className='mt-2 ml-4 space-y-1'>
 										<li>
-											Verify each party packet contains all
-											necessary pages
+											Verify each party packet contains
+											all necessary pages
 										</li>
 										<li>
-											Check no confidential info from other
-											parties leaked
+											Check no confidential info from
+											other parties leaked
 										</li>
 										<li>
 											Ensure signature pages match
@@ -849,18 +887,20 @@ export default function LegalDocumentManagementPage() {
 						</h3>
 						<p className='text-yellow-800 dark:text-yellow-200 mb-3'>
 							<em>
-								"A lawyer shall make reasonable efforts to prevent
-								the inadvertent or unauthorized disclosure of, or
-								unauthorized access to, information relating to the
-								representation of a client."
+								"A lawyer shall make reasonable efforts to
+								prevent the inadvertent or unauthorized
+								disclosure of, or unauthorized access to,
+								information relating to the representation of a
+								client."
 							</em>
 						</p>
 						<p className='text-yellow-800 dark:text-yellow-200 mb-0'>
-							<strong>Application to PDF Management:</strong> Using
-							client-side processing tools (like DocSlicer)
-							constitutes "reasonable efforts" because files never
-							leave your control. Uploading to third-party servers
-							without adequate safeguards may violate this rule.
+							<strong>Application to PDF Management:</strong>{' '}
+							Using client-side processing tools (like PDF Wonder
+							Kit) constitutes "reasonable efforts" because files
+							never leave your control. Uploading to third-party
+							servers without adequate safeguards may violate this
+							rule.
 						</p>
 					</div>
 
@@ -874,18 +914,18 @@ export default function LegalDocumentManagementPage() {
 						</p>
 						<ul className='text-blue-800 dark:text-blue-200 mb-0 space-y-2'>
 							<li>
-								<strong>California:</strong> Formal Opinion 2015-193
-								– Cloud services acceptable if reasonable care is
-								taken
+								<strong>California:</strong> Formal Opinion
+								2015-193 – Cloud services acceptable if
+								reasonable care is taken
 							</li>
 							<li>
-								<strong>New York:</strong> Opinion 842 – Attorneys
-								must stay abreast of technology risks
+								<strong>New York:</strong> Opinion 842 –
+								Attorneys must stay abreast of technology risks
 							</li>
 							<li>
 								<strong>Florida:</strong> Opinion 12-3 –
-								Confidentiality and security measures required for
-								cloud services
+								Confidentiality and security measures required
+								for cloud services
 							</li>
 						</ul>
 					</div>
@@ -897,15 +937,16 @@ export default function LegalDocumentManagementPage() {
 				<div className='space-y-6'>
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold mt-0'>
-							Can I use DocSlicer for client files without violating
-							attorney-client privilege?
+							Can I use PDF Wonder Kit for client files without
+							violating attorney-client privilege?
 						</h3>
 						<p className='mb-0'>
-							Yes. DocSlicer processes all files locally in your
-							browser—nothing is uploaded to external servers. This
-							means no third-party disclosure occurs, maintaining
-							attorney-client privilege. It's equivalent to using
-							local desktop software like Microsoft Word.
+							Yes. PDF Wonder Kit processes all files locally in
+							your browser—nothing is uploaded to external
+							servers. This means no third-party disclosure
+							occurs, maintaining attorney-client privilege. It's
+							equivalent to using local desktop software like
+							Microsoft Word.
 						</p>
 					</div>
 
@@ -915,12 +956,13 @@ export default function LegalDocumentManagementPage() {
 						</h3>
 						<p className='mb-0'>
 							When splitting or merging PDFs, metadata from the
-							original document is preserved in extracted sections.
-							Always review extracted documents for hidden metadata
-							(author names, edit history, etc.) before sharing with
-							opposing counsel. Use proper redaction tools (Adobe
-							Acrobat's redaction feature, not just black boxes) to
-							permanently remove confidential information.
+							original document is preserved in extracted
+							sections. Always review extracted documents for
+							hidden metadata (author names, edit history, etc.)
+							before sharing with opposing counsel. Use proper
+							redaction tools (Adobe Acrobat's redaction feature,
+							not just black boxes) to permanently remove
+							confidential information.
 						</p>
 					</div>
 
@@ -930,29 +972,30 @@ export default function LegalDocumentManagementPage() {
 							privileged documents?
 						</h3>
 						<p className='mb-0'>
-							When you extract privileged documents from discovery or
-							case files, create a corresponding privilege log entry.
-							Include: (1) Bates numbers or page references from
-							original production, (2) Document type and date, (3)
-							Author and recipients, (4) Privilege claimed
-							(attorney-client, work product), (5) Explanation of why
-							it's privileged. Store privileged documents separately
-							from production sets.
+							When you extract privileged documents from discovery
+							or case files, create a corresponding privilege log
+							entry. Include: (1) Bates numbers or page references
+							from original production, (2) Document type and
+							date, (3) Author and recipients, (4) Privilege
+							claimed (attorney-client, work product), (5)
+							Explanation of why it's privileged. Store privileged
+							documents separately from production sets.
 						</p>
 					</div>
 
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold mt-0'>
-							Can paralegals bill for time spent on PDF organization?
+							Can paralegals bill for time spent on PDF
+							organization?
 						</h3>
 						<p className='mb-0'>
-							Yes! Document organization and exhibit preparation are
-							billable paralegal tasks. However, with efficient PDF
-							tools, you can complete these tasks faster while still
-							billing appropriately for the work performed. The key
-							is to provide value to clients through better
-							organization, not just rack up hours on tedious manual
-							work.
+							Yes! Document organization and exhibit preparation
+							are billable paralegal tasks. However, with
+							efficient PDF tools, you can complete these tasks
+							faster while still billing appropriately for the
+							work performed. The key is to provide value to
+							clients through better organization, not just rack
+							up hours on tedious manual work.
 						</p>
 					</div>
 
@@ -962,49 +1005,38 @@ export default function LegalDocumentManagementPage() {
 							productions?
 						</h3>
 						<p className='mb-0'>
-							Very large productions should be processed in chunks.
-							Split the production into manageable sections (by date
-							range, custodian, or document type), then process each
-							section separately. DocSlicer Premium supports files up
-							to 100MB; for larger individual files, consider
-							splitting those first, then organizing the results.
-							Always work from copies, never original productions.
+							Very large productions should be processed in
+							chunks. Split the production into manageable
+							sections (by date range, custodian, or document
+							type), then process each section separately. PDF
+							Wonder Kit Premium supports files up to 100MB; for
+							larger individual files, consider splitting those
+							first, then organizing the results. Always work from
+							copies, never original productions.
 						</p>
 					</div>
 				</div>
 
 				{/* Conclusion */}
-				<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800'>
+				<div className='bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700'>
 					<h2 className='mt-0'>
 						More Billable Time, Less Document Wrangling
 					</h2>
 					<p className='text-gray-700 dark:text-gray-300 mb-4'>
-						Efficient PDF management isn't just about saving time—it's
-						about providing better service to clients, maintaining
-						ethical obligations, and allowing attorneys and paralegals
-						to focus on substantive legal work instead of
-						administrative tasks.
+						Efficient PDF management isn't just about saving
+						time—it's about providing better service to clients,
+						maintaining ethical obligations, and allowing attorneys
+						and paralegals to focus on substantive legal work
+						instead of administrative tasks.
 					</p>
-					<div className='flex flex-wrap gap-3'>
-						<Link
-							href='/'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'>
-							<Scale className='h-5 w-5' />
-							Try DocSlicer (Secure & Confidential)
-						</Link>
-						<Link
-							href='/pricing'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border-2 border-gray-300 dark:border-gray-600'>
-							View Legal Pricing
-						</Link>
-					</div>
-					<p className='text-sm text-gray-600 dark:text-gray-400 mt-4 mb-0'>
+					<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
 						<em>
-							Disclaimer: This article provides general information
-							about legal document management. It is not legal advice
-							and does not create an attorney-client relationship.
-							Consult your state bar's ethics opinions and your firm's
-							policies for specific guidance.
+							Disclaimer: This article provides general
+							information about legal document management. It is
+							not legal advice and does not create an
+							attorney-client relationship. Consult your state
+							bar's ethics opinions and your firm's policies for
+							specific guidance.
 						</em>
 					</p>
 				</div>

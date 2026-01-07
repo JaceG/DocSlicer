@@ -20,7 +20,7 @@ export default function TermsPage() {
 							1. Acceptance of Terms
 						</h2>
 						<p>
-							By accessing and using DocSlicer ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these Terms of Service, please do not use the Service.
+							By accessing and using PDF Wonder Kit ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these Terms of Service, please do not use the Service.
 						</p>
 					</section>
 
@@ -29,7 +29,7 @@ export default function TermsPage() {
 							2. Description of Service
 						</h2>
 						<p>
-							DocSlicer provides a web-based PDF document slicing service that allows users to extract specific pages or page ranges from PDF documents. The service operates entirely in your browser for security and privacy.
+							PDF Wonder Kit provides a comprehensive web-based PDF toolkit with 18+ tools including split, merge, compress, protect, sign, annotate, OCR, and more. The service operates entirely in your browser for security and privacy.
 						</p>
 					</section>
 
@@ -50,7 +50,7 @@ export default function TermsPage() {
 							<strong>3.4 Payment and Sales Tax:</strong> Premium subscriptions are processed through Stripe. By subscribing, you authorize us to charge your payment method for the applicable fees. Ohio residents will be charged applicable state and local sales tax (currently 5.75% state rate plus applicable local taxes) as required by Ohio law for Software as a Service.
 						</p>
 						<p>
-							<strong>3.5 Cancellation:</strong> You may cancel your subscription at any time through your account dashboard or by contacting admin@docslicer.com. Cancellation will take effect at the end of your current billing period. No refunds will be provided for partial billing periods.
+							<strong>3.5 Cancellation:</strong> You may cancel your subscription at any time through your account dashboard or by contacting admin@pdfwonderkit.com. Cancellation will take effect at the end of your current billing period. No refunds will be provided for partial billing periods.
 						</p>
 					</section>
 
@@ -171,7 +171,7 @@ export default function TermsPage() {
 							13. Contact Information
 						</h2>
 						<p>
-							For questions about these Terms, please contact us at: admin@docslicer.com
+							For questions about these Terms, please contact us at: admin@pdfwonderkit.com
 						</p>
 					</section>
 				</div>

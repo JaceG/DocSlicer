@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { BlogLayout } from '@/components/blog/BlogLayout';
 
 export const metadata: Metadata = {
-	title: 'Understanding PDF File Structure: Why Are Some PDFs So Large? | DocSlicer',
+	title: 'Understanding PDF File Structure: Why Are Some PDFs So Large? | PDF Wonder Kit',
 	description:
 		'Deep dive into PDF file structure and discover why some PDFs are massive while others are tiny. Learn what makes PDFs large and how to optimize them.',
 	keywords: [
@@ -23,10 +23,10 @@ export const metadata: Metadata = {
 			'Deep dive into PDF file structure and discover why some PDFs are massive while others are tiny.',
 		type: 'article',
 		publishedTime: '2025-01-05T00:00:00Z',
-		authors: ['DocSlicer Team'],
+		authors: ['PDF Wonder Kit Team'],
 	},
 	alternates: {
-		canonical: 'https://docslicer.com/blog/understanding-pdf-file-structure',
+		canonical: 'https://pdfwonderkit.com/blog/understanding-pdf-file-structure',
 	},
 };
 
@@ -34,7 +34,7 @@ const postData = {
 	title: 'Understanding PDF File Structure: Why Are Some PDFs So Large?',
 	description:
 		'Deep dive into PDF file structure and discover why some PDFs are massive while others are tiny. Learn what makes PDFs large and how to optimize them.',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	date: 'January 5, 2025',
 	readTime: '10 min read',
 	category: 'Technical',
@@ -660,7 +660,7 @@ export default function BlogPost() {
 						Need to Optimize Large PDFs?
 					</h3>
 					<p className='mb-4'>
-						DocSlicer provides intelligent PDF compression that balances quality
+						PDF Wonder Kit provides intelligent PDF compression that balances quality
 						and file size. Process files locally in your browser — no uploads,
 						no privacy concerns.
 					</p>

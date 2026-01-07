@@ -14,7 +14,7 @@ Replace `[Your Email Address]` in both files with your actual email:
 
 **Example:**
 ```tsx
-<li><strong>Email:</strong> support@docslicer.com</li>
+<li><strong>Email:</strong> support@pdfwonderkit.com</li>
 ```
 
 ### 2. Legal Jurisdiction (Required)

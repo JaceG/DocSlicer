@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 		title: 'How to Compress PDFs for Faster Website Loading',
 		description:
 			'Complete guide to optimizing PDFs for web performance. Reduce load times, improve SEO, and enhance user experience.',
-		url: 'https://www.docslicer.com/blog/compress-pdfs-for-web-loading',
+		url: 'https://www.pdfwonderkit.com/blog/compress-pdfs-for-web-loading',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/compress-pdfs-for-web-loading',
+		canonical: 'https://www.pdfwonderkit.com/blog/compress-pdfs-for-web-loading',
 	},
 };
 
@@ -35,15 +35,17 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '9 min read',
 	category: 'Web Development',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'web optimization',
+		'compress-pdf',
+		'web-optimization',
 		'performance',
 		'seo',
-		'compression',
-		'web design',
 	],
 	featured: false,
+	toolSlug: 'compress',
+	ctaTitle: 'Ready to Compress Your PDFs?',
+	ctaDescription: 'Reduce PDF file sizes by up to 90% while maintaining quality. Perfect for web optimization, email attachments, and faster downloads. 100% browser-based.',
 };
 
 export default function CompressPDFsForWebPage() {
@@ -319,7 +321,7 @@ export default function CompressPDFsForWebPage() {
 					How to Compress PDFs for Web Optimization
 				</h2>
 
-				<h3>Method 1: Using DocSlicer (Fast & Secure)</h3>
+				<h3>Method 1: Using PDF Wonder Kit (Fast & Secure)</h3>
 
 				<div className='bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800 mb-6'>
 					<div className='flex items-center gap-3 mb-4'>
@@ -346,7 +348,7 @@ export default function CompressPDFsForWebPage() {
 								<Link
 									href='/'
 									className='text-blue-600 hover:underline'>
-									DocSlicer.com
+									PDF Wonder Kit.com
 								</Link>
 							</strong>
 						</li>
@@ -389,7 +391,7 @@ export default function CompressPDFsForWebPage() {
 
 				<div className='bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-lg'>
 					<h4 className='text-green-900 dark:text-green-100 mt-0'>
-						✅ Why DocSlicer for Web PDFs:
+						✅ Why PDF Wonder Kit for Web PDFs:
 					</h4>
 					<ul className='text-green-800 dark:text-green-200 mb-0'>
 						<li>
@@ -890,30 +892,6 @@ export default function CompressPDFsForWebPage() {
 					</div>
 				</div>
 
-				{/* Conclusion */}
-				<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800'>
-					<h2 className='mt-0'>
-						Ready to Optimize Your PDFs for the Web?
-					</h2>
-					<p className='text-gray-700 dark:text-gray-300 mb-4'>
-						DocSlicer makes it easy to compress PDFs quickly and
-						securely—all in your browser, with no uploads or privacy
-						concerns.
-					</p>
-					<div className='flex flex-wrap gap-3'>
-						<Link
-							href='/'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'>
-							<Zap className='h-5 w-5' />
-							Compress PDFs Now
-						</Link>
-						<Link
-							href='/pricing'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border-2 border-gray-300 dark:border-gray-600'>
-							View Premium Features
-						</Link>
-					</div>
-				</div>
 			</div>
 		</BlogLayout>
 	);

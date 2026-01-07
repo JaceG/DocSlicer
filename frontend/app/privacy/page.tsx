@@ -20,7 +20,7 @@ export default function PrivacyPage() {
 							1. Introduction
 						</h2>
 						<p>
-							DocSlicer ("we," "our," or "us") respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our PDF slicing service.
+							PDF Wonder Kit ("we," "our," or "us") respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect, use, and safeguard your information when you use our comprehensive PDF toolkit.
 						</p>
 					</section>
 
@@ -177,7 +177,7 @@ export default function PrivacyPage() {
 							<li><strong>Withdraw Consent:</strong> Withdraw consent for data processing</li>
 						</ul>
 						<p className='mt-3'>
-							To exercise these rights, contact us at admin@docslicer.com.
+							To exercise these rights, contact us at admin@pdfwonderkit.com.
 						</p>
 					</section>
 
@@ -249,8 +249,8 @@ export default function PrivacyPage() {
 							If you have questions about this Privacy Policy or our privacy practices, please contact us:
 						</p>
 						<ul className='space-y-2'>
-							<li><strong>Email:</strong> admin@docslicer.com</li>
-							<li><strong>Website:</strong> www.docslicer.com</li>
+							<li><strong>Email:</strong> admin@pdfwonderkit.com</li>
+							<li><strong>Website:</strong> www.pdfwonderkit.com</li>
 						</ul>
 					</section>
 				</div>

@@ -18,11 +18,11 @@ export const metadata: Metadata = {
 		title: 'How to Split PDF on Mac with Firefox (2026 Guide)',
 		description:
 			'Learn how to split PDF files on Mac using Firefox browser.',
-		url: 'https://www.docslicer.com/blog/guides/split-pdf-mac-firefox',
+		url: 'https://www.pdfwonderkit.com/blog/guides/split-pdf-mac-firefox',
 	},
 	alternates: {
 		canonical:
-			'https://www.docslicer.com/blog/guides/split-pdf-mac-firefox',
+			'https://www.pdfwonderkit.com/blog/guides/split-pdf-mac-firefox',
 	},
 };
 
@@ -34,7 +34,7 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '4 min read',
 	category: 'Platform Guides',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: ['mac', 'firefox', 'split pdf', 'browser tools', 'pdf tutorial'],
 	featured: false,
 };
@@ -87,7 +87,7 @@ export default function MacFirefoxPage() {
 				<p className='text-xl text-gray-700 dark:text-gray-300 leading-relaxed'>
 					Firefox on Mac combines Mozilla's privacy-first philosophy
 					with macOS's elegant design. For users who value privacy and
-					open-source software, Firefox + DocSlicer offers the most
+					open-source software, Firefox + PDF Wonder Kit offers the most
 					private PDF splitting experience on Mac.
 				</p>
 
@@ -116,11 +116,11 @@ export default function MacFirefoxPage() {
 
 				<h2 className='flex items-center gap-2'>
 					<Scissors className='h-6 w-6 text-orange-600' />
-					Method 2: DocSlicer in Firefox (Recommended)
+					Method 2: PDF Wonder Kit in Firefox (Recommended)
 				</h2>
 
 				<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6'>
-					<h3 className='mt-0'>Why Firefox + DocSlicer on Mac?</h3>
+					<h3 className='mt-0'>Why Firefox + PDF Wonder Kit on Mac?</h3>
 					<ul className='text-gray-800 dark:text-gray-200 mb-0'>
 						<li>
 							<strong>Ultimate Privacy</strong> - No tracking from
@@ -128,7 +128,7 @@ export default function MacFirefoxPage() {
 						</li>
 						<li>
 							<strong>Open Source</strong> - Both Firefox and
-							DocSlicer respect your privacy
+							PDF Wonder Kit respect your privacy
 						</li>
 						<li>
 							<strong>Multiple Ranges</strong> - Advanced
@@ -148,7 +148,7 @@ export default function MacFirefoxPage() {
 							<Link
 								href='/'
 								className='text-orange-600 hover:underline'>
-								DocSlicer.com
+								PDF Wonder Kit.com
 							</Link>
 						</li>
 						<li>Upload your PDF (fully private processing)</li>
@@ -234,7 +234,7 @@ export default function MacFirefoxPage() {
 						Modern Firefox performs excellently on Mac. While Safari
 						is slightly more optimized for macOS, Firefox's
 						performance is great for typical use, including PDF
-						splitting with DocSlicer.
+						splitting with PDF Wonder Kit.
 					</p>
 				</div>
 

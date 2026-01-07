@@ -15,14 +15,24 @@ export interface BlogPost {
 	author: string;
 	tags: string[];
 	featured?: boolean;
+	// Optional CTA customization
+	toolSlug?: string; // e.g., 'split', 'merge', 'compress' - links to /[toolSlug]
+	ctaTitle?: string;
+	ctaDescription?: string;
 }
 
 interface BlogLayoutProps {
 	children: React.ReactNode;
 	post: BlogPost;
+	hideCta?: boolean; // Hide the default CTA if the post has its own
 }
 
-export function BlogLayout({ children, post }: BlogLayoutProps) {
+export function BlogLayout({ children, post, hideCta = false }: BlogLayoutProps) {
+	// Determine CTA link based on toolSlug or default to home
+	const ctaLink = post.toolSlug ? `/${post.toolSlug}` : '/';
+	const ctaTitle = post.ctaTitle || 'Ready to Get Started?';
+	const ctaDescription = post.ctaDescription || 
+		'No software to install. No complicated steps. Just open your file, select what you need, and download. 100% free and private — your files never leave your device.';
 	const handleShare = async () => {
 		if (navigator.share) {
 			try {
@@ -121,32 +131,32 @@ export function BlogLayout({ children, post }: BlogLayoutProps) {
 				</div>
 
 				{/* CTA Section */}
-				<div className='mt-16 p-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-xl'>
-					<div className='text-center'>
-						<h2 className='text-2xl md:text-3xl font-bold text-white mb-4'>
-							Skip the Hassle — Try PDF Slicer Instead
-						</h2>
-						<p className='text-blue-100 mb-6 text-lg max-w-2xl mx-auto'>
-							No software to install. No complicated steps. Just open your file, select
-							pages, and download. 100% free and private — your files never
-							leave your device.
-						</p>
-						<div className='flex flex-col sm:flex-row gap-4 justify-center'>
-							<Link
-								href='/'
-								className='inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-colors shadow-lg'
-							>
-								Try PDF Slicer Free →
-							</Link>
-							<Link
-								href='/pricing'
-								className='inline-flex items-center justify-center px-8 py-4 bg-blue-500/30 text-white font-medium rounded-xl hover:bg-blue-500/40 transition-colors border border-white/20'
-							>
-								View Pricing
-							</Link>
+				{!hideCta && (
+					<div className='mt-16 p-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl shadow-xl'>
+						<div className='text-center'>
+							<h2 className='text-2xl md:text-3xl font-bold text-white mb-4'>
+								{ctaTitle}
+							</h2>
+							<p className='text-blue-100 mb-6 text-lg max-w-2xl mx-auto'>
+								{ctaDescription}
+							</p>
+							<div className='flex flex-col sm:flex-row gap-4 justify-center'>
+								<Link
+									href={ctaLink}
+									className='inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-colors shadow-lg'
+								>
+									Try PDF Wonder Kit Free →
+								</Link>
+								<Link
+									href='/pricing'
+									className='inline-flex items-center justify-center px-8 py-4 bg-blue-500/30 text-white font-medium rounded-xl hover:bg-blue-500/40 transition-colors border border-white/20'
+								>
+									View Pricing
+								</Link>
+							</div>
 						</div>
 					</div>
-				</div>
+				)}
 
 				{/* Related Articles (placeholder for future) */}
 				<div className='mt-16'>

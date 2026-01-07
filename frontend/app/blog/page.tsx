@@ -25,13 +25,13 @@ export const metadata: Metadata = {
 		'document management',
 	],
 	openGraph: {
-		title: 'PDF Guides & Tutorials | PDF Slicer',
+		title: 'PDF Guides & Tutorials | PDF Wonder Kit',
 		description:
 			'Learn how to split, merge, and manage PDF documents. Free guides and tutorials.',
-		url: 'https://www.docslicer.com/blog',
+		url: 'https://www.pdfwonderkit.com/blog',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog',
+		canonical: 'https://www.pdfwonderkit.com/blog',
 	},
 };
 
@@ -489,7 +489,7 @@ export default function BlogIndex() {
 					<Link
 						href='/'
 						className='inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-colors shadow-lg'>
-						Try PDF Slicer Free →
+						Try PDF Wonder Kit Free →
 					</Link>
 				</section>
 			</main>

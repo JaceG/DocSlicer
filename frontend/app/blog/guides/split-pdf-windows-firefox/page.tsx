@@ -18,11 +18,11 @@ export const metadata: Metadata = {
 		title: 'How to Split PDF on Windows with Firefox (2026 Guide)',
 		description:
 			'Learn how to split PDF files on Windows using Firefox browser.',
-		url: 'https://www.docslicer.com/blog/guides/split-pdf-windows-firefox',
+		url: 'https://www.pdfwonderkit.com/blog/guides/split-pdf-windows-firefox',
 	},
 	alternates: {
 		canonical:
-			'https://www.docslicer.com/blog/guides/split-pdf-windows-firefox',
+			'https://www.pdfwonderkit.com/blog/guides/split-pdf-windows-firefox',
 	},
 };
 
@@ -34,7 +34,7 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '4 min read',
 	category: 'Platform Guides',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
 		'windows',
 		'firefox',
@@ -94,7 +94,7 @@ export default function WindowsFirefoxPage() {
 					Firefox is the privacy champion among browsers, making it an
 					excellent choice for handling sensitive PDFs on Windows.
 					Whether you're using Firefox's built-in tools or a
-					browser-based solution like DocSlicer, your files stay
+					browser-based solution like PDF Wonder Kit, your files stay
 					private.
 				</p>
 
@@ -134,11 +134,11 @@ export default function WindowsFirefoxPage() {
 
 				<h2 className='flex items-center gap-2'>
 					<Scissors className='h-6 w-6 text-orange-600' />
-					Method 2: DocSlicer in Firefox (Recommended)
+					Method 2: PDF Wonder Kit in Firefox (Recommended)
 				</h2>
 
 				<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6'>
-					<h3 className='mt-0'>Why DocSlicer in Firefox?</h3>
+					<h3 className='mt-0'>Why PDF Wonder Kit in Firefox?</h3>
 					<ul className='text-gray-800 dark:text-gray-200 mb-0'>
 						<li>
 							<strong>Maximum Privacy</strong> - Firefox + local
@@ -167,7 +167,7 @@ export default function WindowsFirefoxPage() {
 							<Link
 								href='/'
 								className='text-orange-600 hover:underline'>
-								DocSlicer.com
+								PDF Wonder Kit.com
 							</Link>
 						</li>
 						<li>Upload your PDF (drag & drop supported)</li>
@@ -189,7 +189,7 @@ export default function WindowsFirefoxPage() {
 						<li>Enable "Strict" tracking protection for maximum privacy</li>
 						<li>No telemetry sent to Mozilla if you disable it</li>
 						<li>
-							DocSlicer's local processing + Firefox = ultimate
+							PDF Wonder Kit's local processing + Firefox = ultimate
 							privacy combo
 						</li>
 					</ul>
@@ -203,7 +203,7 @@ export default function WindowsFirefoxPage() {
 					</h3>
 					<p className='mb-0'>
 						Firefox is open-source and privacy-focused. Combined with
-						DocSlicer's local processing, you get the most private
+						PDF Wonder Kit's local processing, you get the most private
 						PDF splitting experience possible. No tracking, no data
 						collection.
 					</p>

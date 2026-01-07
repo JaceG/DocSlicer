@@ -1,7 +1,7 @@
-# PDF Slicer - Monetization Strategy
+# PDF Wonder Kit - Monetization Strategy
 
 ## Overview
-PDF Slicer now includes a complete SaaS monetization system with a $2/month or $20/year premium tier designed for impulse purchases.
+PDF Wonder Kit now includes a complete SaaS monetization system with a $2/month or $20/year premium tier designed for impulse purchases.
 
 ## 💰 Pricing Strategy
 

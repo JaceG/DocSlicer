@@ -1,8 +1,8 @@
-# 🚀 Quick Start Guide - PDF Slicer SaaS
+# 🚀 Quick Start Guide - PDF Wonder Kit SaaS
 
 ## What's New? 🎉
 
-Your PDF Slicer is now a **complete SaaS application** with:
+Your PDF Wonder Kit is now a **complete SaaS application** with:
 - ✅ User authentication (Clerk)
 - ✅ Stripe subscriptions ($2/month or $20/year)
 - ✅ Free tier with limits (3 PDFs, 25MB, 3 ranges)

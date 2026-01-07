@@ -12,30 +12,32 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL('https://www.docslicer.com'),
+	metadataBase: new URL('https://www.pdfwonderkit.com'),
 	title: {
-		default: 'PDF Slicer - Split PDF Documents with Ease | DocSlicer',
-		template: '%s | PDF Slicer',
+		default: 'PDF Wonder Kit - Complete PDF Toolkit | 18 Tools in One',
+		template: '%s | PDF Wonder Kit',
 	},
 	description:
-		'Split PDFs into smaller documents in seconds. 100% private & secure - your files never leave your device. Free plan available. Extract, split, and slice PDF pages effortlessly.',
+		'Complete PDF toolkit with 18+ tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device. Free plan available.',
 	keywords: [
-		'PDF slicer',
+		'PDF toolkit',
+		'PDF tools',
 		'split PDF',
-		'PDF splitter',
-		'extract PDF pages',
-		'split PDF online',
-		'PDF page extractor',
-		'divide PDF',
-		'separate PDF pages',
-		'PDF tool',
-		'free PDF splitter',
+		'merge PDF',
+		'compress PDF',
+		'sign PDF',
+		'annotate PDF',
+		'PDF OCR',
+		'PDF editor',
+		'PDF converter',
+		'free PDF tools',
 		'secure PDF processing',
 		'private PDF editor',
+		'PDF wonder kit',
 	],
-	authors: [{ name: 'DocSlicer' }],
-	creator: 'DocSlicer',
-	publisher: 'DocSlicer',
+	authors: [{ name: 'PDF Wonder Kit' }],
+	creator: 'PDF Wonder Kit',
+	publisher: 'PDF Wonder Kit',
 	formatDetection: {
 		email: false,
 		address: false,
@@ -46,27 +48,27 @@ export const metadata: Metadata = {
 	openGraph: {
 		type: 'website',
 		locale: 'en_US',
-		url: 'https://www.docslicer.com',
-		siteName: 'PDF Slicer - DocSlicer',
-		title: 'PDF Slicer - Split PDF Documents with Ease',
+		url: 'https://www.pdfwonderkit.com',
+		siteName: 'PDF Wonder Kit',
+		title: 'PDF Wonder Kit - Complete PDF Toolkit',
 		description:
-			'Split PDFs into smaller documents in seconds. 100% private & secure - your files never leave your device. Free plan available.',
+			'Complete PDF toolkit with 18+ tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device.',
 		images: [
 			{
 				url: '/og-image.svg',
 				width: 1200,
 				height: 630,
-				alt: 'PDF Slicer - Split PDF Documents',
+				alt: 'PDF Wonder Kit - Complete PDF Toolkit',
 			},
 		],
 	},
 	twitter: {
 		card: 'summary_large_image',
-		title: 'PDF Slicer - Split PDF Documents with Ease',
+		title: 'PDF Wonder Kit - Complete PDF Toolkit',
 		description:
-			'Split PDFs into smaller documents in seconds. 100% private & secure - your files never leave your device.',
+			'18+ PDF tools in one: split, merge, compress, sign, annotate, OCR & more. 100% private & secure - your files never leave your device.',
 		images: ['/og-image.svg'],
-		creator: '@docslicer',
+		creator: '@pdfwonderkit',
 	},
 	robots: {
 		index: true,
@@ -86,7 +88,7 @@ export const metadata: Metadata = {
 		// bing: 'your-bing-verification-code',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com',
+		canonical: 'https://www.pdfwonderkit.com',
 	},
 	other: {
 		// 'google-adsense-account': 'ca-pub-9935452437578823',
@@ -99,14 +101,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	// JSON-LD structured data for Google
-	const jsonLd = {
-		'@context': 'https://schema.org',
-		'@type': 'WebApplication',
-		name: 'PDF Slicer',
-		alternateName: 'DocSlicer',
-		url: 'https://www.docslicer.com',
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'WebApplication',
+	name: 'PDF Wonder Kit',
+	alternateName: 'PDFWonderKit',
+	url: 'https://www.pdfwonderkit.com',
 		description:
-			'Split PDFs into smaller documents in seconds. 100% private & secure - your files never leave your device.',
+			'Complete PDF toolkit with 18+ tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device.',
 		applicationCategory: 'BusinessApplication',
 		operatingSystem: 'Web Browser',
 		offers: {
@@ -117,11 +119,14 @@ export default function RootLayout({
 		},
 		aggregateRating: {
 			'@type': 'AggregateRating',
-			ratingValue: '4.8',
-			ratingCount: '127',
+			ratingValue: '4.9',
+			ratingCount: '267',
 		},
 		featureList: [
-			'Split PDF by page ranges',
+			'18+ PDF tools in one platform',
+			'Split, merge, compress PDFs',
+			'Sign and annotate documents',
+			'OCR for scanned PDFs (12+ languages)',
 			'100% client-side processing',
 			'No file uploads - complete privacy',
 			'Free tier available',

@@ -25,9 +25,12 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '7 min read',
 	category: 'Tutorials',
-	author: 'DocSlicer Team',
-	tags: ['merge pdf', 'combine pdf', 'join pdf', 'windows', 'mac', 'linux', 'tutorial'],
+	author: 'PDF Wonder Kit Team',
+	tags: ['merge-pdf', 'combine-pdf', 'join-pdf', 'tutorial'],
 	featured: true,
+	toolSlug: 'merge',
+	ctaTitle: 'Ready to Merge Your PDFs?',
+	ctaDescription: 'Combine multiple PDF files into one document in seconds. Drag-and-drop reordering, 100% browser-based processing. Your files never leave your device.',
 };
 
 export const metadata: Metadata = {
@@ -51,7 +54,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -59,7 +62,7 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
@@ -789,28 +792,12 @@ export default function HowToMergePDFsPost() {
 					without installing software or uploading files to any server.
 				</p>
 
-				<p className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6'>
+				<p className='text-lg text-gray-700 dark:text-gray-300 leading-relaxed'>
 					For platform-specific needs, Mac users have the excellent built-in
 					Preview app, while Windows and Linux users can choose from many free
 					tools or command-line utilities. No matter which method you choose,
 					you now have everything you need to merge PDFs like a pro.
 				</p>
-
-				<div className='bg-gradient-to-r from-blue-500 to-indigo-600 p-8 rounded-2xl text-white'>
-					<h3 className='text-2xl font-bold mb-4'>
-						Need to Manage PDFs More Efficiently?
-					</h3>
-					<p className='text-blue-50 mb-6'>
-						Beyond merging, you might also need to split, extract, or organize
-						PDF pages. Check out our other guides for comprehensive PDF
-						management tips.
-					</p>
-					<Link
-						href='/blog'
-						className='inline-block bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors'>
-						Browse All Guides →
-					</Link>
-				</div>
 			</section>
 
 			{/* Related Articles */}

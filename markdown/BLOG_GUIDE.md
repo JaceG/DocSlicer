@@ -4,7 +4,7 @@
 The blog is designed as an SEO content marketing channel that:
 1. Ranks for high-volume keywords (e.g., "how to split pdf")
 2. Provides genuine value to readers
-3. Converts readers into PDF Slicer users
+3. Converts readers into PDF Wonder Kit users
 
 ---
 
@@ -52,7 +52,7 @@ const postData: BlogPost = {
   date: '2026-01-15',  // Publication date
   readTime: '6 min read',
   category: 'Tutorials',  // Tutorials, Tips, Privacy, etc.
-  author: 'DocSlicer Team',
+  author: 'PDF Wonder Kit Team',
   tags: ['keyword1', 'keyword2', 'keyword3'],
   featured: false,  // Set true to feature on blog index
 };
@@ -66,10 +66,10 @@ export const metadata: Metadata = {
     description: postData.description,
     type: 'article',
     publishedTime: postData.date,
-    url: `https://www.docslicer.com/blog/${postData.slug}`,
+    url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
   },
   alternates: {
-    canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+    canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
   },
 };
 
@@ -90,7 +90,7 @@ export default function YourPostName() {
       <p>
         Final thoughts and CTA to try{' '}
         <Link href='/' className='text-blue-600 font-semibold hover:underline'>
-          PDF Slicer
+          PDF Wonder Kit
         </Link>
         .
       </p>
@@ -127,7 +127,7 @@ Add to `frontend/public/sitemap.xml`:
 ```xml
 <!-- Blog: Your Post Title -->
 <url>
-  <loc>https://www.docslicer.com/blog/your-post-slug</loc>
+  <loc>https://www.pdfwonderkit.com/blog/your-post-slug</loc>
   <lastmod>2026-01-15</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.8</priority>
@@ -192,7 +192,7 @@ The BlogLayout wraps content in Tailwind prose classes. Use:
 
 // Links
 <Link href='/' className='text-blue-600 font-semibold hover:underline'>
-  PDF Slicer
+  PDF Wonder Kit
 </Link>
 
 // Custom callout boxes (use not-prose to escape prose styling)
@@ -222,7 +222,7 @@ The BlogLayout wraps content in Tailwind prose classes. Use:
 
 1. **"How to Merge Multiple PDFs into One Document"**
    - Keywords: merge pdf, combine pdf, join pdf
-   - Angle: Compare methods, lead to DocSlicer when merge feature launches
+   - Angle: Compare methods, lead to PDF Wonder Kit when merge feature launches
 
 2. **"Best Free PDF Tools for Privacy-Conscious Users"**
    - Keywords: secure pdf, private pdf editor
@@ -282,7 +282,7 @@ The BlogLayout wraps content in Tailwind prose classes. Use:
 
 ## Questions?
 
-Contact: admin@docslicer.com
+Contact: admin@pdfwonderkit.com
 
 ---
 

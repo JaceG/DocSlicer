@@ -1,29 +1,56 @@
-# DocSlicer - PDF Slicing SaaS
+# PDF Wonder Kit - Complete PDF Toolkit
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green.svg)
 
-A modern SaaS application for extracting page ranges from PDF documents. Split your PDFs into smaller, manageable pieces with an intuitive drag-and-drop interface and **100% client-side processing** for maximum privacy.
+A comprehensive **18-in-1 PDF toolkit** with everything you need to work with PDFs professionally. Split, merge, compress, protect, annotate, sign, and more—all with **100% client-side processing** for maximum privacy.
 
 🔒 **Your files never leave your device** - Everything happens in your browser!
 
-![PDF Slicer Screenshot](assets/screentshot.png)
+![PDF Wonder Kit Screenshot](assets/screentshot.png)
 
 ## 💰 Pricing
 
 - **Free**: 3 PDFs/month, 25MB files, 3 page ranges
 - **Premium**: $2/month or $20/year - Unlimited everything!
 
-[View Pricing](https://www.docslicer.com/pricing)
+[View Pricing](https://www.pdfwonderkit.com/pricing)
 
-## ✨ Features
+## ✨ All 18 Tools Included
 
-### Core PDF Processing
+### 📄 Document Manipulation
+1. **✂️ Split PDF** - Extract specific pages or split into multiple files
+2. **📑 Merge PDF** - Combine multiple PDFs with drag-and-drop reordering
+3. **🔄 Organize PDF** - Rotate, delete, and reorder pages with visual interface
+4. **📖 Split by Bookmarks** - Auto-split chapters using PDF table of contents
+
+### 🗜️ Compression & Optimization
+5. **🗜️ Compress PDF** - Reduce file size with multiple quality levels (screen/ebook/print)
+6. **🗑️ Remove Blank Pages** - Auto-detect and remove empty pages from scanned PDFs
+7. **🔧 Repair PDF** - Fix corrupted or damaged PDF files
+
+### 🔐 Security & Protection
+8. **🔒 Password Protect** - AES-256 encryption with custom permissions
+9. **🔓 Unlock PDF** - Remove passwords from PDFs you own
+10. **💧 Watermark** - Add text or image watermarks with opacity control
+
+### 📝 Editing & Annotation
+11. **✏️ Annotate** - Highlights, text boxes, arrows, shapes, and freehand drawing
+12. **✍️ Sign PDF** - Digital signatures (draw, type, or upload)
+13. **📝 Fill Forms** - Complete interactive PDF forms online
+14. **🔢 Page Numbers** - Add customizable numbering (1/i/A formats)
+15. **ℹ️ Metadata Editor** - Edit title, author, keywords, and properties
+
+### 🖼️ Conversion & OCR
+16. **🖼️ Images to PDF** - Convert JPG/PNG/WebP to PDF with reordering
+17. **📸 PDF to Images** - Export pages as high-quality JPG/PNG/WebP
+18. **🔍 OCR** - Make scanned PDFs searchable (12+ languages, Tesseract.js)
+19. **📊 Compare PDFs** - Visual diff and text comparison between documents
+
+### Universal Features
 - **Drag & Drop Upload**: Seamless file upload with visual feedback and validation
 - **Page Thumbnails**: Infinite scroll grid view with optimized loading
-- **Visual Page Selection**: Click pages to set start/end ranges intuitively
-- **Range Management**: Add multiple page ranges with live preview
-- **Batch Processing**: Slice multiple ranges simultaneously with progress tracking
+- **Batch Processing**: Process multiple files simultaneously with progress tracking
 - **Smart Downloads**: Individual PDF files or bulk ZIP archives (Premium)
 
 ### 🔒 Privacy & Security (Our #1 Feature!)
@@ -75,13 +102,13 @@ A modern SaaS application for extracting page ranges from PDF documents. Split y
 ## 📦 Quick Start
 
 ### For Users
-Visit [www.docslicer.com](https://www.docslicer.com) and start slicing!
+Visit [www.pdfwonderkit.com](https://www.pdfwonderkit.com) and start working with your PDFs!
 
 ### For Developers
 
 ```bash
 # Clone the repository
-git clone https://github.com/JaceG/DocSlicer.git
+git clone https://github.com/JaceG/pdf-wonder-kit.git
 cd pdf-epub-slicer
 
 # Install dependencies
@@ -102,13 +129,17 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🎯 Usage
 
-### Simple 5-Step Process
-1. **Sign Up**: Create a free account (or use without signing up for single PDFs)
-2. **Upload**: Drag & drop a PDF file (Free: 25MB, Premium: 100MB)
-3. **Preview**: Browse page thumbnails in infinite scroll grid
-4. **Select**: Click start page, then end page to create ranges
-5. **Slice**: Process selected ranges into separate PDF files
-6. **Download**: Get individual files or ZIP archive (Premium only)
+### Simple 3-Step Process
+1. **Choose Tool**: Select from 18+ PDF tools based on your needs
+2. **Upload**: Drag & drop your PDF file(s) (Free: 25MB, Premium: 100MB)
+3. **Process & Download**: Apply changes and download instantly
+
+### Popular Workflows
+- **Split Document**: Upload → Select pages → Split → Download
+- **Merge Files**: Upload multiple → Reorder → Merge → Download
+- **Compress PDF**: Upload → Choose quality → Compress → Download
+- **Sign Document**: Upload → Draw/type signature → Place → Download
+- **OCR Scan**: Upload scanned PDF → Select language → Process → Download searchable PDF
 
 ### Free vs Premium
 
@@ -213,20 +244,21 @@ pdf-epub-slicer/
 
 ## ⚖️ Legal
 
-- **Terms of Service**: [/terms](https://www.docslicer.com/terms)
-- **Privacy Policy**: [/privacy](https://www.docslicer.com/privacy)
+- **Terms of Service**: [/terms](https://www.pdfwonderkit.com/terms)
+- **Privacy Policy**: [/privacy](https://www.pdfwonderkit.com/privacy)
 - **Jurisdiction**: Columbus, Ohio, USA
-- **Contact**: admin@docslicer.com
+- **Contact**: admin@pdfwonderkit.com
 
 ## 🔮 Roadmap
 
-- [ ] Password-Protected PDFs support
-- [ ] OCR Integration for scanned documents
-- [ ] Merge PDFs functionality
+- [x] 18+ PDF tools implemented
+- [x] OCR for scanned documents (12+ languages)
+- [x] Merge, split, compress PDFs
+- [x] Digital signatures and form filling
 - [ ] API access for developers
 - [ ] Desktop app (Electron)
-- [ ] Batch file processing
-- [ ] Team workspaces
+- [ ] Advanced batch file processing
+- [ ] Team workspaces & collaboration
 
 ## 📊 Stats
 
@@ -250,4 +282,4 @@ For bugs or feature requests, please open an issue on GitHub.
 
 **Made with ❤️ in Columbus, Ohio**
 
-[Visit DocSlicer](https://www.docslicer.com) | [Report Issue](https://github.com/JaceG/DocSlicer/issues) | [Contact Us](mailto:admin@docslicer.com)
+[Visit PDF Wonder Kit](https://www.pdfwonderkit.com) | [Report Issue](https://github.com/JaceG/pdf-wonder-kit/issues) | [Contact Us](mailto:admin@pdfwonderkit.com)

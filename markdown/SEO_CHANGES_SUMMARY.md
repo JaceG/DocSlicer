@@ -44,15 +44,15 @@
 
 **Before:**
 ```typescript
-title: 'PDF Slicer - Split PDF Documents with Ease'
+title: 'PDF Wonder Kit - Split PDF Documents with Ease'
 // Basic meta tags only
 ```
 
 **After:**
 ```typescript
 title: {
-  default: 'PDF Slicer - Split PDF Documents with Ease | DocSlicer',
-  template: '%s | PDF Slicer'
+  default: 'PDF Wonder Kit - Split PDF Documents with Ease | PDF Wonder Kit',
+  template: '%s | PDF Wonder Kit'
 }
 // + Open Graph
 // + Twitter Cards
@@ -95,7 +95,7 @@ Your existing logo (`/icon.svg`) features:
 ### 1. Enhanced Meta Tags
 ```html
 <!-- Title with branding -->
-<title>PDF Slicer - Split PDF Documents with Ease | DocSlicer</title>
+<title>PDF Wonder Kit - Split PDF Documents with Ease | PDF Wonder Kit</title>
 
 <!-- Optimized description (158 chars) -->
 <meta name="description" content="Split PDFs into smaller documents in seconds. 
@@ -108,10 +108,10 @@ extract PDF pages, free PDF splitter, secure PDF processing..." />
 
 ### 2. Open Graph (Social Media)
 ```html
-<meta property="og:title" content="PDF Slicer - Split PDF Documents with Ease" />
+<meta property="og:title" content="PDF Wonder Kit - Split PDF Documents with Ease" />
 <meta property="og:description" content="100% private & secure..." />
 <meta property="og:image" content="/og-image.svg" />
-<meta property="og:url" content="https://www.docslicer.com" />
+<meta property="og:url" content="https://www.pdfwonderkit.com" />
 ```
 
 **Result**: Rich previews on Facebook, LinkedIn, WhatsApp, Slack
@@ -119,7 +119,7 @@ extract PDF pages, free PDF splitter, secure PDF processing..." />
 ### 3. Twitter Cards
 ```html
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="PDF Slicer..." />
+<meta name="twitter:title" content="PDF Wonder Kit..." />
 <meta name="twitter:image" content="/og-image.svg" />
 ```
 
@@ -129,7 +129,7 @@ extract PDF pages, free PDF splitter, secure PDF processing..." />
 ```json
 {
   "@type": "WebApplication",
-  "name": "PDF Slicer",
+  "name": "PDF Wonder Kit",
   "offers": { "price": "0", "priceCurrency": "USD" },
   "aggregateRating": { "ratingValue": "4.8" },
   "featureList": [...]
@@ -154,15 +154,15 @@ extract PDF pages, free PDF splitter, secure PDF processing..." />
 ### Google Search Results
 **Before:**
 ```
-PDF Slicer - Split PDF Documents with Ease
-www.docslicer.com
+PDF Wonder Kit - Split PDF Documents with Ease
+www.pdfwonderkit.com
 A modern web application to slice PDF files by page ranges...
 ```
 
 **After:**
 ```
-PDF Slicer - Split PDF Documents with Ease | DocSlicer
-www.docslicer.com
+PDF Wonder Kit - Split PDF Documents with Ease | PDF Wonder Kit
+www.pdfwonderkit.com
 ⭐⭐⭐⭐⭐ 4.8 (127) · Free · Web App
 Split PDFs in seconds. 100% private & secure - files never leave your device...
 ✓ Split PDF by page ranges
@@ -189,9 +189,9 @@ Split PDFs in seconds. 100% private & secure - files never leave your device...
 ### 1. Google Search Console
 ```bash
 1. Visit: https://search.google.com/search-console
-2. Add property: www.docslicer.com
+2. Add property: www.pdfwonderkit.com
 3. Verify ownership (DNS or HTML file method)
-4. Submit sitemap: https://www.docslicer.com/sitemap.xml
+4. Submit sitemap: https://www.pdfwonderkit.com/sitemap.xml
 5. Request indexing for homepage
 ```
 
@@ -230,7 +230,7 @@ aggregateRating: {
 ### SEO Testing
 ```bash
 # View page source
-curl https://www.docslicer.com | grep -i "og:"
+curl https://www.pdfwonderkit.com | grep -i "og:"
 
 # Test structured data
 https://search.google.com/test/rich-results
@@ -239,12 +239,12 @@ https://search.google.com/test/rich-results
 ### Social Preview Testing
 1. **Facebook Debugger**: 
    - URL: https://developers.facebook.com/tools/debug/
-   - Enter: https://www.docslicer.com
+   - Enter: https://www.pdfwonderkit.com
    - Should show custom OG image
 
 2. **Twitter Card Validator**:
    - URL: https://cards-dev.twitter.com/validator  
-   - Enter: https://www.docslicer.com
+   - Enter: https://www.pdfwonderkit.com
    - Should show large image card
 
 ---
@@ -297,7 +297,7 @@ https://search.google.com/test/rich-results
 For detailed information, see:
 - **Complete Guide**: `/markdown/SEO_OPTIMIZATION.md`
 - **This Summary**: `/markdown/SEO_CHANGES_SUMMARY.md`
-- **Live Site**: https://www.docslicer.com
+- **Live Site**: https://www.pdfwonderkit.com
 
 ---
 
@@ -330,7 +330,7 @@ For detailed information, see:
 ## 🆘 Support
 
 **Questions?**
-- Email: admin@docslicer.com
+- Email: admin@pdfwonderkit.com
 - Docs: `/markdown/SEO_OPTIMIZATION.md`
 
 **Issues?**

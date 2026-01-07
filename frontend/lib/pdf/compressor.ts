@@ -80,8 +80,8 @@ export async function compressPDF(
 			pdfDoc.setAuthor('');
 			pdfDoc.setSubject('');
 			pdfDoc.setKeywords([]);
-			pdfDoc.setProducer('DocSlicer');
-			pdfDoc.setCreator('DocSlicer');
+			pdfDoc.setProducer('PDF Wonder Kit');
+			pdfDoc.setCreator('PDF Wonder Kit');
 		}
 
 		onProgress?.(50);

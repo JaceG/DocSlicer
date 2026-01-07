@@ -21,9 +21,12 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '8 min read',
 	category: 'Tutorials',
-	author: 'DocSlicer Team',
-	tags: ['split pdf', 'windows', 'mac', 'linux', 'tutorial', 'how to'],
+	author: 'PDF Wonder Kit Team',
+	tags: ['split-pdf', 'extract-pages', 'tutorial'],
 	featured: true,
+	toolSlug: 'split',
+	ctaTitle: 'Ready to Split Your PDF?',
+	ctaDescription: 'Extract specific pages from any PDF in seconds. Just select the pages you want and download. 100% browser-based — your files never leave your device.',
 };
 
 export const metadata: Metadata = {
@@ -47,7 +50,7 @@ export const metadata: Metadata = {
 		publishedTime: postData.date,
 		authors: [postData.author],
 		tags: postData.tags,
-		url: `https://www.docslicer.com/blog/${postData.slug}`,
+		url: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 	twitter: {
 		card: 'summary_large_image',
@@ -55,14 +58,14 @@ export const metadata: Metadata = {
 		description: postData.description,
 	},
 	alternates: {
-		canonical: `https://www.docslicer.com/blog/${postData.slug}`,
+		canonical: `https://www.pdfwonderkit.com/blog/${postData.slug}`,
 	},
 };
 
 // Comparison data
 const methodComparison = [
 	{
-		method: 'PDF Slicer (Online)',
+		method: 'PDF Wonder Kit (Online)',
 		time: '30 seconds',
 		difficulty: 'Very Easy',
 		privacy: 'Files never uploaded',
@@ -122,7 +125,7 @@ export default function HowToSplitPDFPost() {
 							<Link
 								href='/'
 								className='text-blue-600 font-semibold hover:underline'>
-								PDF Slicer
+								PDF Wonder Kit
 							</Link>
 							. Just open your file, select the pages you want,
 							and download. It takes about 30 seconds and your
@@ -498,7 +501,7 @@ pdfunite page_1.pdf page_2.pdf page_3.pdf combined.pdf`}
 				<Link
 					href='/'
 					className='text-blue-600 font-semibold hover:underline'>
-					PDF Slicer
+					PDF Wonder Kit
 				</Link>{' '}
 				works.
 			</p>
@@ -510,7 +513,7 @@ pdfunite page_1.pdf page_2.pdf page_3.pdf combined.pdf`}
 					</div>
 					<div>
 						<h3 className='text-lg font-bold text-green-800 dark:text-green-200 mb-2'>
-							How PDF Slicer Protects Your Privacy
+							How PDF Wonder Kit Protects Your Privacy
 						</h3>
 						<ul className='text-green-700 dark:text-green-300 space-y-2'>
 							<li className='flex items-start gap-2'>
@@ -625,7 +628,7 @@ pdfunite page_1.pdf page_2.pdf page_3.pdf combined.pdf`}
 				<Link
 					href='/'
 					className='text-blue-600 font-semibold hover:underline'>
-					PDF Slicer
+					PDF Wonder Kit
 				</Link>{' '}
 				in about 30 seconds:
 			</p>
@@ -641,14 +644,14 @@ pdfunite page_1.pdf page_2.pdf page_3.pdf combined.pdf`}
 						</span>
 						<div>
 							<strong className='text-gray-900 dark:text-white'>
-								Go to PDF Slicer
+								Go to PDF Wonder Kit
 							</strong>
 							<p className='text-gray-600 dark:text-gray-300 text-sm'>
 								Visit{' '}
 								<Link
 									href='/'
 									className='text-blue-600 hover:underline'>
-									docslicer.com
+									pdfwonderkit.com
 								</Link>{' '}
 								in any modern browser
 							</p>
@@ -702,7 +705,7 @@ pdfunite page_1.pdf page_2.pdf page_3.pdf combined.pdf`}
 
 			<h3>Can I split a PDF for free?</h3>
 			<p>
-				Yes! PDF Slicer offers a free plan that lets you split up to 3
+				Yes! PDF Wonder Kit offers a free plan that lets you split up to 3
 				PDFs per month. For unlimited use, premium is just $2/month.
 			</p>
 
@@ -710,26 +713,26 @@ pdfunite page_1.pdf page_2.pdf page_3.pdf combined.pdf`}
 			<p>
 				It depends on the tool. Most online PDF tools upload your files
 				to their servers, which means your documents could potentially
-				be stored or accessed. PDF Slicer is different — all processing
+				be stored or accessed. PDF Wonder Kit is different — all processing
 				happens in your browser, so your files never leave your device.
 			</p>
 
 			<h3>Can I split a password-protected PDF?</h3>
 			<p>
-				Most tools (including PDF Slicer) can work with
+				Most tools (including PDF Wonder Kit) can work with
 				password-protected PDFs if you know the password. You'll need to
 				enter it when opening the file.
 			</p>
 
 			<h3>What's the maximum file size I can split?</h3>
 			<p>
-				PDF Slicer's free plan supports files up to 25MB. Premium users
+				PDF Wonder Kit's free plan supports files up to 25MB. Premium users
 				can process files up to 100MB.
 			</p>
 
 			<h3>Can I extract non-consecutive pages?</h3>
 			<p>
-				Yes! With PDF Slicer, you can select any combination of pages —
+				Yes! With PDF Wonder Kit, you can select any combination of pages —
 				they don't need to be consecutive. Select pages 1, 3, 7, and 15
 				if you want.
 			</p>
@@ -747,7 +750,7 @@ pdfunite page_1.pdf page_2.pdf page_3.pdf combined.pdf`}
 				<Link
 					href='/'
 					className='text-blue-600 font-semibold hover:underline'>
-					PDF Slicer
+					PDF Wonder Kit
 				</Link>{' '}
 				combines the convenience of online tools with the privacy of
 				local software. Your files never leave your device, there's
@@ -760,7 +763,7 @@ pdfunite page_1.pdf page_2.pdf page_3.pdf combined.pdf`}
 				<Link
 					href='/'
 					className='text-blue-600 font-semibold hover:underline'>
-					docslicer.com
+					pdfwonderkit.com
 				</Link>{' '}
 				and split your first PDF in less than a minute — for free.
 			</p>

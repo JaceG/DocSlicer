@@ -7,7 +7,7 @@ export function Footer() {
 				<div className='flex flex-col md:flex-row justify-between items-center gap-4'>
 					{/* Copyright */}
 					<div className='text-sm text-gray-600 dark:text-gray-400'>
-						© {new Date().getFullYear()} DocSlicer. All rights reserved.
+						© {new Date().getFullYear()} PDF Wonder Kit. All rights reserved.
 					</div>
 
 					{/* Links */}

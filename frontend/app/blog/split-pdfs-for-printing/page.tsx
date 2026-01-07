@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 		title: 'How to Split PDFs for Printing on Home Printers',
 		description:
 			'Complete guide to splitting PDFs for home printing. Handle large documents, save ink, and organize printed materials.',
-		url: 'https://www.docslicer.com/blog/split-pdfs-for-printing',
+		url: 'https://www.pdfwonderkit.com/blog/split-pdfs-for-printing',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/split-pdfs-for-printing',
+		canonical: 'https://www.pdfwonderkit.com/blog/split-pdfs-for-printing',
 	},
 };
 
@@ -35,15 +35,16 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '8 min read',
 	category: 'Productivity',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
+		'split-pdf',
 		'printing',
-		'home office',
-		'productivity',
-		'pdf splitting',
-		'printer tips',
+		'home-office',
 	],
 	featured: false,
+	toolSlug: 'split',
+	ctaTitle: 'Ready to Print Smarter?',
+	ctaDescription: 'PDF Wonder Kit makes it easy to split PDFs for efficient home printing — save money, avoid printer errors, and organize your printed documents better.',
 };
 
 export default function SplitPDFsForPrintingPage() {
@@ -279,7 +280,7 @@ export default function SplitPDFsForPrintingPage() {
 					How to Split PDFs for Printing
 				</h2>
 
-				<h3>Method: Using DocSlicer (Fast & Easy)</h3>
+				<h3>Method: Using PDF Wonder Kit (Fast & Easy)</h3>
 
 				<div className='bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 border border-blue-200 dark:border-blue-800 mb-6'>
 					<div className='flex items-center gap-3 mb-4'>
@@ -312,7 +313,7 @@ export default function SplitPDFsForPrintingPage() {
 								<Link
 									href='/'
 									className='text-blue-600 hover:underline'>
-									DocSlicer.com
+									PDF Wonder Kit.com
 								</Link>
 							</strong>
 						</li>
@@ -903,35 +904,13 @@ export default function SplitPDFsForPrintingPage() {
 							Can I merge sections back into one PDF later?
 						</h3>
 						<p className='mb-0'>
-							Absolutely! Use DocSlicer's "Merge PDF" feature to
+							Absolutely! Use PDF Wonder Kit's "Merge PDF" feature to
 							combine your printed sections back into a single PDF
 							if needed for digital storage or sharing.
 						</p>
 					</div>
 				</div>
 
-				{/* Conclusion */}
-				<div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-xl p-6 border-2 border-orange-200 dark:border-orange-800'>
-					<h2 className='mt-0'>Ready to Print Smarter?</h2>
-					<p className='text-gray-700 dark:text-gray-300 mb-4'>
-						DocSlicer makes it easy to split PDFs for efficient home
-						printing—save money, avoid printer errors, and organize
-						your printed documents better.
-					</p>
-					<div className='flex flex-wrap gap-3'>
-						<Link
-							href='/'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-lg transition-colors shadow-lg'>
-							<Scissors className='h-5 w-5' />
-							Split PDF for Printing
-						</Link>
-						<Link
-							href='/pricing'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border-2 border-gray-300 dark:border-gray-600'>
-							View Premium Features
-						</Link>
-					</div>
-				</div>
 			</div>
 		</BlogLayout>
 	);

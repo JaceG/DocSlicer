@@ -19,11 +19,11 @@ export const metadata: Metadata = {
 		title: 'How to Split PDF on Windows with Chrome (2026 Guide)',
 		description:
 			'Learn how to split PDF files on Windows using Google Chrome. Free and secure browser-based solution.',
-		url: 'https://www.docslicer.com/blog/guides/split-pdf-windows-chrome',
+		url: 'https://www.pdfwonderkit.com/blog/guides/split-pdf-windows-chrome',
 	},
 	alternates: {
 		canonical:
-			'https://www.docslicer.com/blog/guides/split-pdf-windows-chrome',
+			'https://www.pdfwonderkit.com/blog/guides/split-pdf-windows-chrome',
 	},
 };
 
@@ -35,7 +35,7 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '4 min read',
 	category: 'Platform Guides',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
 		'windows',
 		'chrome',
@@ -136,22 +136,22 @@ export default function WindowsChromePage() {
 					</ul>
 				</div>
 
-				{/* Method 2: DocSlicer in Chrome */}
+				{/* Method 2: PDF Wonder Kit in Chrome */}
 				<h2 className='flex items-center gap-2'>
 					<Scissors className='h-6 w-6 text-blue-600' />
-					Method 2: DocSlicer in Chrome (Recommended)
+					Method 2: PDF Wonder Kit in Chrome (Recommended)
 				</h2>
 
 				<p>
 					For a much more powerful and user-friendly experience, use
-					DocSlicer directly in Chrome. It's completely free and works
+					PDF Wonder Kit directly in Chrome. It's completely free and works
 					entirely in your browser—no downloads or installations needed.
 				</p>
 
 				<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6'>
 					<h3 className='mt-0 flex items-center gap-2 text-green-900 dark:text-green-100'>
 						<span className='text-2xl'>🔒</span>
-						Why Use DocSlicer in Chrome?
+						Why Use PDF Wonder Kit in Chrome?
 					</h3>
 					<ul className='text-gray-800 dark:text-gray-200 mb-0'>
 						<li>
@@ -180,7 +180,7 @@ export default function WindowsChromePage() {
 				<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 					<h3 className='mt-0 flex items-center gap-2'>
 						<Chrome className='h-5 w-5 text-blue-600' />
-						How to Split PDFs in Chrome with DocSlicer:
+						How to Split PDFs in Chrome with PDF Wonder Kit:
 					</h3>
 					<ol className='space-y-3'>
 						<li>
@@ -189,7 +189,7 @@ export default function WindowsChromePage() {
 							<Link
 								href='/'
 								className='text-blue-600 hover:underline'>
-								DocSlicer.com
+								PDF Wonder Kit.com
 							</Link>
 						</li>
 						<li>
@@ -197,7 +197,7 @@ export default function WindowsChromePage() {
 							upload area, or click to browse
 						</li>
 						<li>
-							<strong>Preview your PDF</strong> - DocSlicer will
+							<strong>Preview your PDF</strong> - PDF Wonder Kit will
 							show you all pages with thumbnails
 						</li>
 						<li>
@@ -265,7 +265,7 @@ export default function WindowsChromePage() {
 				</div>
 
 				{/* Comparison Table */}
-				<h2>Comparison: Chrome Built-in vs DocSlicer</h2>
+				<h2>Comparison: Chrome Built-in vs PDF Wonder Kit</h2>
 
 				<div className='overflow-x-auto'>
 					<table className='min-w-full border-collapse'>
@@ -278,7 +278,7 @@ export default function WindowsChromePage() {
 									Chrome Built-in
 								</th>
 								<th className='border border-gray-300 dark:border-gray-700 px-4 py-2 text-left'>
-									DocSlicer in Chrome
+									PDF Wonder Kit in Chrome
 								</th>
 							</tr>
 						</thead>
@@ -348,10 +348,10 @@ export default function WindowsChromePage() {
 				<div className='space-y-6'>
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold text-gray-900 dark:text-white mt-0'>
-							Does DocSlicer work offline in Chrome on Windows?
+							Does PDF Wonder Kit work offline in Chrome on Windows?
 						</h3>
 						<p className='text-gray-700 dark:text-gray-300 mb-0'>
-							After the initial page load, DocSlicer works
+							After the initial page load, PDF Wonder Kit works
 							entirely in your browser. If you have an active
 							internet connection to load the page, all PDF
 							processing happens locally on your Windows PC. Your
@@ -366,10 +366,10 @@ export default function WindowsChromePage() {
 						</h3>
 						<p className='text-gray-700 dark:text-gray-300 mb-0'>
 							Both Chrome and Edge (which is also Chromium-based)
-							work great with DocSlicer. Chrome might feel more
+							work great with PDF Wonder Kit. Chrome might feel more
 							familiar to most users, but Edge is optimized for
 							Windows and may perform slightly better. Both work
-							identically with DocSlicer.
+							identically with PDF Wonder Kit.
 						</p>
 					</div>
 
@@ -378,7 +378,7 @@ export default function WindowsChromePage() {
 							What file size can I split in Chrome on Windows?
 						</h3>
 						<p className='text-gray-700 dark:text-gray-300 mb-0'>
-							DocSlicer supports PDFs up to 25MB for free users
+							PDF Wonder Kit supports PDFs up to 25MB for free users
 							and 100MB for Premium users. Chrome itself can
 							handle very large PDFs, but browser-based tools have
 							practical memory limits.

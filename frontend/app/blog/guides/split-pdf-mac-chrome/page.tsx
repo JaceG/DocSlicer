@@ -18,11 +18,11 @@ export const metadata: Metadata = {
 		title: 'How to Split PDF on Mac with Chrome (2026 Guide)',
 		description:
 			'Learn how to split PDF files on Mac using Google Chrome browser.',
-		url: 'https://www.docslicer.com/blog/guides/split-pdf-mac-chrome',
+		url: 'https://www.pdfwonderkit.com/blog/guides/split-pdf-mac-chrome',
 	},
 	alternates: {
 		canonical:
-			'https://www.docslicer.com/blog/guides/split-pdf-mac-chrome',
+			'https://www.pdfwonderkit.com/blog/guides/split-pdf-mac-chrome',
 	},
 };
 
@@ -34,7 +34,7 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '4 min read',
 	category: 'Platform Guides',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: ['mac', 'chrome', 'split pdf', 'browser tools', 'pdf tutorial'],
 	featured: false,
 };
@@ -62,7 +62,7 @@ export default function MacChromePage() {
 					Google Chrome is the most popular browser worldwide, and it
 					works beautifully on Mac. While macOS has Preview built-in
 					for PDF handling, Chrome offers excellent web-based tools
-					like DocSlicer for more advanced splitting features.
+					like PDF Wonder Kit for more advanced splitting features.
 				</p>
 
 				<h2>Method 1: Chrome's Print Feature</h2>
@@ -102,11 +102,11 @@ export default function MacChromePage() {
 
 				<h2 className='flex items-center gap-2'>
 					<Scissors className='h-6 w-6 text-blue-600' />
-					Method 2: DocSlicer in Chrome (Recommended)
+					Method 2: PDF Wonder Kit in Chrome (Recommended)
 				</h2>
 
 				<div className='bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-xl p-6'>
-					<h3 className='mt-0'>Why DocSlicer in Chrome on Mac?</h3>
+					<h3 className='mt-0'>Why PDF Wonder Kit in Chrome on Mac?</h3>
 					<ul className='text-gray-800 dark:text-gray-200 mb-0'>
 						<li>
 							<strong>Familiar Interface</strong> - Chrome works
@@ -135,7 +135,7 @@ export default function MacChromePage() {
 							<Link
 								href='/'
 								className='text-blue-600 hover:underline'>
-								DocSlicer.com
+								PDF Wonder Kit.com
 							</Link>
 						</li>
 						<li>Upload your PDF from Finder</li>
@@ -201,7 +201,7 @@ export default function MacChromePage() {
 							use, familiar interface
 						</li>
 						<li>
-							<strong>DocSlicer</strong> - Works great in all
+							<strong>PDF Wonder Kit</strong> - Works great in all
 							three!
 						</li>
 					</ul>

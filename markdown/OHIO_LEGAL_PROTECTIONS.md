@@ -1,4 +1,4 @@
-# Ohio-Specific Legal Protections for DocSlicer
+# Ohio-Specific Legal Protections for PDF Wonder Kit
 
 ## ✅ Updated with Ohio Law Compliance
 
@@ -198,7 +198,7 @@ Consider adopting:
 - ✅ Age verification requirements
 - ✅ CPI protection standards
 - ✅ Data breach notification plan
-- ✅ Contact information (admin@docslicer.com)
+- ✅ Contact information (admin@pdfwonderkit.com)
 - ⚠️ Need: Actual age verification implementation
 - ⚠️ Need: Ohio tax registration
 - ⚠️ Need: Written breach response procedures

@@ -20,10 +20,10 @@ export const metadata: Metadata = {
 		title: 'HIPAA-Compliant PDF Management: Secure Tools for Healthcare',
 		description:
 			'Essential guide to secure, HIPAA-compliant PDF management for healthcare professionals. Protect patient data while managing medical documents.',
-		url: 'https://www.docslicer.com/blog/hipaa-compliant-pdf-management-healthcare',
+		url: 'https://www.pdfwonderkit.com/blog/hipaa-compliant-pdf-management-healthcare',
 	},
 	alternates: {
-		canonical: 'https://www.docslicer.com/blog/hipaa-compliant-pdf-management-healthcare',
+		canonical: 'https://www.pdfwonderkit.com/blog/hipaa-compliant-pdf-management-healthcare',
 	},
 };
 
@@ -35,15 +35,17 @@ const postData: BlogPost = {
 	date: '2026-01-05',
 	readTime: '11 min read',
 	category: 'Healthcare',
-	author: 'DocSlicer Team',
+	author: 'PDF Wonder Kit Team',
 	tags: [
-		'HIPAA compliance',
+		'hipaa-compliance',
 		'healthcare',
-		'medical documents',
-		'patient privacy',
-		'PHI',
+		'security',
+		'privacy',
 	],
 	featured: false,
+	toolSlug: 'split',
+	ctaTitle: 'Process Medical PDFs Securely',
+	ctaDescription: 'Split, merge, and organize patient PDFs with complete HIPAA compliance. 100% browser-based processing means PHI never leaves your device.',
 };
 
 export default function HIPAACompliantPDFPage() {
@@ -239,7 +241,7 @@ export default function HIPAACompliantPDFPage() {
 						</div>
 						<div>
 							<h4 className='text-green-900 dark:text-green-100 mt-0 mb-2'>
-								✅ Recommended: DocSlicer (Browser-Based Processing)
+								✅ Recommended: PDF Wonder Kit (Browser-Based Processing)
 							</h4>
 							<p className='text-green-800 dark:text-green-200 text-sm mb-3'>
 								Files are processed entirely in your browser using
@@ -302,7 +304,7 @@ export default function HIPAACompliantPDFPage() {
 							<strong>How to Use Safely:</strong>
 						</p>
 						<ol className='text-sm text-green-800 dark:text-green-200 mb-0 space-y-1'>
-							<li>Open DocSlicer.com in your browser</li>
+							<li>Open PDF Wonder Kit.com in your browser</li>
 							<li>
 								Upload the patient PDF (processed locally in your
 								browser)
@@ -414,7 +416,7 @@ export default function HIPAACompliantPDFPage() {
 									months)
 								</li>
 								<li>
-									<strong>Step 2:</strong> Use DocSlicer to
+									<strong>Step 2:</strong> Use PDF Wonder Kit to
 									extract only those 6 pages
 								</li>
 								<li>
@@ -460,7 +462,7 @@ export default function HIPAACompliantPDFPage() {
 									to identify page ranges per patient
 								</li>
 								<li>
-									<strong>Step 2:</strong> Use DocSlicer to
+									<strong>Step 2:</strong> Use PDF Wonder Kit to
 									create 10 separate extractions (e.g., Patient A
 									pages 1-4, Patient B pages 5-8, etc.)
 								</li>
@@ -508,7 +510,7 @@ export default function HIPAACompliantPDFPage() {
 									insurance form
 								</li>
 								<li>
-									<strong>Step 2:</strong> Use DocSlicer "Merge
+									<strong>Step 2:</strong> Use PDF Wonder Kit "Merge
 									PDF" feature to combine in correct order
 								</li>
 								<li>
@@ -549,7 +551,7 @@ export default function HIPAACompliantPDFPage() {
 							</p>
 							<ol className='text-sm mb-0 space-y-2'>
 								<li>
-									<strong>Step 1:</strong> Use DocSlicer
+									<strong>Step 1:</strong> Use PDF Wonder Kit
 									compression feature (browser-based)
 								</li>
 								<li>
@@ -663,7 +665,7 @@ export default function HIPAACompliantPDFPage() {
 						<li>
 							<strong>Rule #2:</strong> Use only approved tools from
 							your practice's HIPAA compliance officer. Typically:
-							browser-based tools (DocSlicer) or licensed desktop
+							browser-based tools (PDF Wonder Kit) or licensed desktop
 							software with BAA.
 						</li>
 						<li>
@@ -691,7 +693,7 @@ export default function HIPAACompliantPDFPage() {
 							"All staff members must use only approved,
 							HIPAA-compliant tools when splitting, merging, or
 							editing PDF documents containing Protected Health
-							Information (PHI). Approved tools include: [DocSlicer
+							Information (PHI). Approved tools include: [PDF Wonder Kit
 							for browser-based processing, Adobe Acrobat Pro with
 							cloud features disabled]. Staff are prohibited from
 							using online PDF tools that upload files to external
@@ -808,14 +810,14 @@ export default function HIPAACompliantPDFPage() {
 
 					<div className='bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700'>
 						<h3 className='text-lg font-semibold mt-0'>
-							Do I need a BAA with DocSlicer to use it for patient
+							Do I need a BAA with PDF Wonder Kit to use it for patient
 							PDFs?
 						</h3>
 						<p className='mb-0'>
-							No. Because DocSlicer processes files entirely in your
+							No. Because PDF Wonder Kit processes files entirely in your
 							browser (client-side processing), it never handles,
 							stores, or transmits PHI. No BAA is required because
-							DocSlicer never becomes a "Business Associate" under
+							PDF Wonder Kit never becomes a "Business Associate" under
 							HIPAA—it's simply a tool running on your computer, like
 							Microsoft Word or Excel.
 						</p>
@@ -851,7 +853,7 @@ export default function HIPAACompliantPDFPage() {
 				</div>
 
 				{/* Conclusion */}
-				<div className='bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800'>
+				<div className='bg-gray-50 dark:bg-gray-800/50 rounded-xl p-6 border border-gray-200 dark:border-gray-700'>
 					<h2 className='mt-0'>Protect Your Practice and Your Patients</h2>
 					<p className='text-gray-700 dark:text-gray-300 mb-4'>
 						HIPAA compliance isn't optional—it's the law. Using the
@@ -859,20 +861,7 @@ export default function HIPAACompliantPDFPage() {
 						your practice from devastating fines, and maintains the
 						trust your patients place in you.
 					</p>
-					<div className='flex flex-wrap gap-3'>
-						<Link
-							href='/'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors shadow-lg'>
-							<Shield className='h-5 w-5' />
-							Use HIPAA-Compliant Tool
-						</Link>
-						<Link
-							href='/pricing'
-							className='inline-flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg transition-colors border-2 border-gray-300 dark:border-gray-600'>
-							View Healthcare Pricing
-						</Link>
-					</div>
-					<p className='text-sm text-gray-600 dark:text-gray-400 mt-4 mb-0'>
+					<p className='text-sm text-gray-600 dark:text-gray-400 mb-0'>
 						<em>
 							Disclaimer: This article provides general information
 							about HIPAA compliance and PDF management. It is not

@@ -84,12 +84,12 @@ export function Header({ onNewDocument, currentTool }: HeaderProps) {
 							<h1 className='text-lg sm:text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent truncate'>
 								{currentTool
 									? currentTool.label
-									: 'PDF Splitter'}
+									: 'PDF Wonder Kit'}
 							</h1>
 							<p className='hidden md:block text-sm text-gray-600 dark:text-gray-400'>
 								{currentTool
 									? currentTool.description
-									: 'Split PDF documents into pages with ease'}
+									: 'Complete PDF toolkit with 18+ tools'}
 							</p>
 						</div>
 					</Link>

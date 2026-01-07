@@ -17,7 +17,7 @@ async function setupStripeProducts() {
     // Create the Premium product
     console.log('Creating Premium product...');
     const product = await stripe.products.create({
-      name: 'PDF Slicer Premium',
+      name: 'PDF Wonder Kit Premium',
       description: 'Unlimited PDFs, larger files, ZIP downloads, and no ads',
       metadata: {
         features: JSON.stringify([

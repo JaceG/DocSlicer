@@ -1,7 +1,7 @@
 # SEO & Favicon Optimization Guide
 
 ## Overview
-This document outlines all the SEO optimizations and favicon improvements made to PDF Slicer to ensure optimal visibility in Google search results and proper branding across all platforms.
+This document outlines all the SEO optimizations and favicon improvements made to PDF Wonder Kit to ensure optimal visibility in Google search results and proper branding across all platforms.
 
 ---
 
@@ -37,8 +37,8 @@ All favicons now use the site's logo (document with scissors) for consistent bra
 #### Basic Meta Information
 ```typescript
 title: {
-  default: 'PDF Slicer - Split PDF Documents with Ease | DocSlicer',
-  template: '%s | PDF Slicer'
+  default: 'PDF Wonder Kit - Split PDF Documents with Ease | PDF Wonder Kit',
+  template: '%s | PDF Wonder Kit'
 }
 ```
 
@@ -80,15 +80,15 @@ Enhanced keyword array targeting:
 openGraph: {
   type: 'website',
   locale: 'en_US',
-  url: 'https://www.docslicer.com',
-  siteName: 'PDF Slicer - DocSlicer',
-  title: 'PDF Slicer - Split PDF Documents with Ease',
+  url: 'https://www.pdfwonderkit.com',
+  siteName: 'PDF Wonder Kit - PDF Wonder Kit',
+  title: 'PDF Wonder Kit - Split PDF Documents with Ease',
   description: '100% private & secure - your files never leave your device',
   images: [{
     url: '/og-image.svg',
     width: 1200,
     height: 630,
-    alt: 'PDF Slicer - Split PDF Documents'
+    alt: 'PDF Wonder Kit - Split PDF Documents'
   }]
 }
 ```
@@ -112,7 +112,7 @@ openGraph: {
 ```typescript
 twitter: {
   card: 'summary_large_image',
-  title: 'PDF Slicer - Split PDF Documents with Ease',
+  title: 'PDF Wonder Kit - Split PDF Documents with Ease',
   description: 'Split PDFs in seconds. 100% private & secure',
   images: ['/og-image.svg'],
   creator: '@docslicer'
@@ -133,9 +133,9 @@ twitter: {
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "PDF Slicer",
-  "alternateName": "DocSlicer",
-  "url": "https://www.docslicer.com",
+  "name": "PDF Wonder Kit",
+  "alternateName": "PDF Wonder Kit",
+  "url": "https://www.pdfwonderkit.com",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web Browser",
   "offers": {
@@ -186,7 +186,7 @@ Allow: /
 Disallow: /api/
 Disallow: /dashboard/
 
-Sitemap: https://www.docslicer.com/sitemap.xml
+Sitemap: https://www.pdfwonderkit.com/sitemap.xml
 ```
 
 **Why it matters**:
@@ -202,8 +202,8 @@ Sitemap: https://www.docslicer.com/sitemap.xml
 ### Web Manifest (`/site.webmanifest`)
 ```json
 {
-  "name": "PDF Slicer - DocSlicer",
-  "short_name": "PDF Slicer",
+  "name": "PDF Wonder Kit - PDF Wonder Kit",
+  "short_name": "PDF Wonder Kit",
   "display": "standalone",
   "theme_color": "#3B82F6",
   "icons": [...]
@@ -224,12 +224,12 @@ Sitemap: https://www.docslicer.com/sitemap.xml
 
 1. **Verify Ownership**
    - Go to [Google Search Console](https://search.google.com/search-console)
-   - Add property: `https://www.docslicer.com`
+   - Add property: `https://www.pdfwonderkit.com`
    - Verify via DNS or HTML file
 
 2. **Submit Sitemap**
    ```
-   https://www.docslicer.com/sitemap.xml
+   https://www.pdfwonderkit.com/sitemap.xml
    ```
 
 3. **Request Indexing**
@@ -298,7 +298,7 @@ Sitemap: https://www.docslicer.com/sitemap.xml
 When adding new pages, update `/frontend/public/sitemap.xml`:
 ```xml
 <url>
-  <loc>https://www.docslicer.com/new-page</loc>
+  <loc>https://www.pdfwonderkit.com/new-page</loc>
   <lastmod>2026-01-XX</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.7</priority>
@@ -363,10 +363,10 @@ Each page should have unique meta:
 ## 📞 Support
 
 For questions or issues with SEO setup:
-- Email: admin@docslicer.com
+- Email: admin@pdfwonderkit.com
 - Documentation: `/markdown/SEO_OPTIMIZATION.md`
 
 ---
 
 **Last Updated**: January 5, 2026
-**Maintained By**: DocSlicer Team
+**Maintained By**: PDF Wonder Kit Team
