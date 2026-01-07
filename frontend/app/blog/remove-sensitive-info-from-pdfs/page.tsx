@@ -49,6 +49,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '11 min read',
 	category: 'Privacy',
+	author: 'PDF WonderKit Team',
+	tags: ['Privacy', 'Security', 'Metadata', 'GDPR'],
 };
 
 const hiddenData = [

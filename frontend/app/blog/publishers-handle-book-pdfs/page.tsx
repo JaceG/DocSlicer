@@ -52,6 +52,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '12 min read',
 	category: 'Industry',
+	author: 'PDF WonderKit Team',
+	tags: ['Publishing', 'Self-Publishing', 'Book Production', 'Industry'],
 };
 
 const publishingPhases = [

@@ -54,6 +54,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '13 min read',
 	category: 'Business',
+	author: 'PDF WonderKit Team',
+	tags: ['Business', 'Automation', 'Efficiency', 'Small Business'],
 };
 
 const automationOpportunities = [

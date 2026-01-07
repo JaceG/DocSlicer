@@ -55,6 +55,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '11 min read',
 	category: 'Industry',
+	author: 'PDF WonderKit Team',
+	tags: ['Architecture', 'CAD', 'Blueprints', 'Industry'],
 };
 
 const workflows = [

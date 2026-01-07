@@ -55,6 +55,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '11 min read',
 	category: 'Tutorials',
+	author: 'PDF WonderKit Team',
+	tags: ['Portfolio', 'Career', 'Professional', 'Job Search'],
 };
 
 const portfolioTypes = [

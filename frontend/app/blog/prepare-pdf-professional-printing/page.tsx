@@ -54,6 +54,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '10 min read',
 	category: 'Tutorials',
+	author: 'PDF WonderKit Team',
+	tags: ['Printing', 'Professional', 'Print-Ready', 'Tutorials'],
 };
 
 const printTypes = [

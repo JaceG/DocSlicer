@@ -46,6 +46,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '9 min read',
 	category: 'Troubleshooting',
+	author: 'PDF WonderKit Team',
+	tags: ['PDF Rotation', 'Troubleshooting', 'Scanning', 'Document Fixes'],
 };
 
 const commonCauses = [

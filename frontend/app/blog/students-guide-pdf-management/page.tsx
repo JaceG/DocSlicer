@@ -54,6 +54,8 @@ const blogPost: BlogPost = {
 		'Master digital studying with essential PDF skills. Learn to annotate textbooks, organize notes, merge assignments, and use OCR for searchable study materials.',
 	date: '2026-01-07',
 	readTime: '10 min read',
+	author: 'PDF WonderKit Team',
+	tags: ['Students', 'Education', 'Study Tips', 'Productivity'],
 	category: 'Industry',
 };
 

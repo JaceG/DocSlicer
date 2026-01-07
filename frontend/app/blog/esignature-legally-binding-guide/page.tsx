@@ -48,6 +48,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '15 min read',
 	category: 'Guides',
+	author: 'PDF WonderKit Team',
+	tags: ['E-Signatures', 'Legal', 'Digital Signing', 'Compliance'],
 };
 
 const legalFrameworks = [

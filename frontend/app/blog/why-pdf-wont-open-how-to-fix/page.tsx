@@ -47,6 +47,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '12 min read',
 	category: 'Troubleshooting',
+	author: 'PDF WonderKit Team',
+	tags: ['Troubleshooting', 'PDF Errors', 'File Corruption', 'Browser Issues'],
 };
 
 const commonErrors = [

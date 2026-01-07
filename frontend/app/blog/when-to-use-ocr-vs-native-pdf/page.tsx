@@ -47,6 +47,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '13 min read',
 	category: 'Guides',
+	author: 'PDF WonderKit Team',
+	tags: ['OCR', 'Text Recognition', 'Guides', 'Searchable PDF'],
 };
 
 const comparison = [

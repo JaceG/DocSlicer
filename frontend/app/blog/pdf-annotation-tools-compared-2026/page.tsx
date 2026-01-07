@@ -48,6 +48,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '14 min read',
 	category: 'Guides',
+	author: 'PDF WonderKit Team',
+	tags: ['Annotation Tools', 'Tool Comparison', 'Free vs Paid', 'Reviews'],
 };
 
 const comparisonTools = [

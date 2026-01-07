@@ -53,6 +53,8 @@ const blogPost: BlogPost = {
 	date: '2026-01-07',
 	readTime: '12 min read',
 	category: 'Productivity',
+	author: 'PDF WonderKit Team',
+	tags: ['Remote Work', 'Collaboration', 'Productivity', 'Teams'],
 	author: 'PDF Wonder Kit Team',
 	tags: [
 		'workflow',
