@@ -61,6 +61,7 @@ import {
 	getRemainingPdfs,
 } from '@/lib/subscription/usage';
 import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
 import {
 	Scissors,
 	Layers,
@@ -468,13 +469,19 @@ export default function HomeContent({
 								</h3>
 								<p className='text-gray-700 dark:text-gray-300 mb-2'>
 									Everything happens in your browser. We never
-									upload, store, or access your PDFs.
+									upload, store, or access your PDFs. This isn't just a promise—it's how our
+									technology works.
 								</p>
-								<p className='text-sm text-gray-600 dark:text-gray-400 italic'>
-									This isn't just a promise—it's how our
-									technology works. Complete privacy
-									guaranteed.
+								<p className='text-sm text-gray-600 dark:text-gray-400 mb-3'>
+									<strong>HIPAA-Friendly for Healthcare</strong> • <strong>Attorney-Client Privilege Safe</strong> • <strong>Complete Privacy Guaranteed</strong>
 								</p>
+								<Link 
+									href='/compliance'
+									className='inline-flex items-center gap-1 text-sm font-medium text-green-700 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 underline underline-offset-2 transition-colors'
+								>
+									Learn what this means for your industry and compliance responsibilities
+									<span className='text-xs'>→</span>
+								</Link>
 							</div>
 						</div>
 					</div>

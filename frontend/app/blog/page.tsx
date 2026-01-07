@@ -38,6 +38,501 @@ export const metadata: Metadata = {
 // Blog posts data - easily extensible for future posts
 const blogPosts = [
 	{
+		slug: 'pdf-workflows-remote-teams',
+		title: '10 Essential PDF Workflows for Remote Teams (2026)',
+		description:
+			'Streamline remote work with these 10 proven PDF workflows. Learn document collaboration, e-signatures, secure sharing, and async review processes for distributed teams.',
+		date: '2026-01-07',
+		readTime: '12 min read',
+		category: 'Productivity',
+		icon: FileText,
+		featured: true,
+		tags: [
+			'PDF workflow',
+			'remote work PDFs',
+			'document collaboration',
+			'remote team workflow',
+		],
+	},
+	{
+		slug: 'create-professional-pdf-portfolio',
+		title: 'How to Create a Professional PDF Portfolio from Scratch',
+		description:
+			'Build an impressive PDF portfolio for job applications, freelance pitches, or client presentations. Step-by-step guide to combining work samples with professional formatting.',
+		date: '2026-01-07',
+		readTime: '11 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'PDF portfolio',
+			'combine PDFs',
+			'professional portfolio',
+			'create portfolio PDF',
+		],
+	},
+	{
+		slug: 'pdf-automation-small-business',
+		title: 'PDF Automation for Small Businesses: Save 10 Hours Per Week',
+		description:
+			'Automate invoice processing, contract management, and receipt organization to save 10+ hours weekly. Proven PDF workflows for small business efficiency.',
+		date: '2026-01-07',
+		readTime: '13 min read',
+		category: 'Business',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'PDF automation',
+			'business workflow',
+			'document management',
+			'automate invoices',
+		],
+	},
+	{
+		slug: 'prepare-pdf-professional-printing',
+		title: 'How to Prepare PDFs for Professional Printing (Complete Checklist)',
+		description:
+			'Complete guide to preparing print-ready PDFs. Learn about bleed, color modes, resolution, page numbers, and professional formatting for flawless printing.',
+		date: '2026-01-07',
+		readTime: '10 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'prepare PDF for printing',
+			'print-ready PDF',
+			'PDF printing guide',
+			'commercial printing PDF',
+		],
+	},
+	{
+		slug: 'architects-pdf-management-cad-blueprints',
+		title: "Architect's Guide to PDF Management (CAD, Blueprints, Annotations)",
+		description:
+			'Master PDF workflows for architectural practice. Learn drawing markup, revision tracking, client presentations, and secure blueprint management.',
+		date: '2026-01-07',
+		readTime: '11 min read',
+		category: 'Industry',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'architect PDF',
+			'blueprint PDF',
+			'CAD to PDF',
+			'architectural drawings',
+		],
+	},
+	{
+		slug: 'accountants-organize-tax-documents',
+		title: 'How Accountants Can Organize Tax Document PDFs Efficiently',
+		description:
+			'Master tax season with efficient PDF organization. Learn client file systems, audit preparation, and secure document management for accounting practices.',
+		date: '2026-01-07',
+		readTime: '12 min read',
+		category: 'Industry',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'organize tax documents',
+			'accounting PDFs',
+			'financial document management',
+			'tax season organization',
+		],
+	},
+	{
+		slug: 'students-guide-pdf-management',
+		title: "Student's Guide to PDF Management (Notes, Textbooks, Assignments)",
+		description:
+			'Master digital studying with essential PDF skills. Learn to annotate textbooks, organize notes, merge assignments, and use OCR for searchable study materials.',
+		date: '2026-01-07',
+		readTime: '10 min read',
+		category: 'Industry',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'student PDF tools',
+			'annotate textbook',
+			'study notes',
+			'digital studying',
+		],
+	},
+	{
+		slug: 'publishers-handle-book-pdfs',
+		title: 'How Publishers Handle Book PDFs (From Manuscript to Print)',
+		description:
+			'Professional book publishing workflow using PDFs. Learn manuscript assembly, page numbering, OCR for ebooks, metadata for distribution, and print preparation.',
+		date: '2026-01-07',
+		readTime: '12 min read',
+		category: 'Industry',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'publish PDF book',
+			'ebook creation',
+			'PDF publishing',
+			'self-publishing PDF',
+		],
+	},
+	{
+		slug: 'pdf-annotation-tools-compared-2026',
+		title: 'PDF Annotation Tools Compared: Free vs. Paid (2026)',
+		description:
+			'Compare free and paid PDF annotation tools. Learn which features matter, cost-benefit analysis, and when free tools like PDF Wonder Kit are better than Adobe.',
+		date: '2026-01-07',
+		readTime: '14 min read',
+		category: 'Guides',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'PDF annotation comparison',
+			'best PDF annotator',
+			'markup tools',
+			'free PDF annotation',
+		],
+	},
+	{
+		slug: 'esignature-legally-binding-guide',
+		title: 'E-Signature Tools: Which One is Actually Legally Binding?',
+		description:
+			'Understand e-signature laws (ESIGN Act, eIDAS). Learn which digital signatures are legally binding, when they hold up in court, and compliance requirements.',
+		date: '2026-01-07',
+		readTime: '15 min read',
+		category: 'Guides',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'legally binding e-signature',
+			'digital signature laws',
+			'PDF signature legal',
+			'ESIGN Act',
+		],
+	},
+	{
+		slug: 'when-to-use-ocr-vs-native-pdf',
+		title: 'When to Use OCR vs. Native PDF Text (Complete Guide)',
+		description:
+			'Understand the difference between OCR and native PDF text. Learn when optical character recognition is necessary, accuracy expectations, and cost-benefit analysis.',
+		date: '2026-01-07',
+		readTime: '13 min read',
+		category: 'Guides',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'PDF OCR guide',
+			'searchable PDF',
+			'when to use OCR',
+			'native PDF text',
+		],
+	},
+	{
+		slug: 'why-pdf-wont-open-how-to-fix',
+		title: "Why Your PDF Won't Open (And How to Fix It)",
+		description:
+			'Troubleshoot PDF opening errors. Learn common causes (corruption, browser issues, version compatibility), quick fixes, and when to use PDF repair tools.',
+		date: '2026-01-07',
+		readTime: '12 min read',
+		category: 'Troubleshooting',
+		icon: FileText,
+		featured: false,
+		tags: [
+			"PDF won't open",
+			'fix PDF error',
+			'PDF not opening',
+			'corrupted PDF',
+		],
+	},
+	{
+		slug: 'remove-sensitive-info-from-pdfs',
+		title: 'How to Remove Sensitive Information from PDFs Before Sharing',
+		description:
+			'Protect your privacy by removing hidden metadata, author info, timestamps, and tracked changes from PDFs before sharing. GDPR compliance guide included.',
+		date: '2026-01-07',
+		readTime: '11 min read',
+		category: 'Privacy',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'remove PDF metadata',
+			'clean PDF',
+			'sanitize PDF',
+			'PDF privacy',
+		],
+	},
+	{
+		slug: 'fix-sideways-upside-down-pdf-pages',
+		title: 'How to Fix Sideways or Upside-Down PDF Pages',
+		description:
+			'Fix rotated PDF pages from scans, phone photos, or errors. Learn to rotate pages permanently, batch rotate multiple pages, and prevent rotation issues.',
+		date: '2026-01-07',
+		readTime: '9 min read',
+		category: 'Troubleshooting',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'rotate PDF',
+			'fix sideways PDF',
+			'flip PDF pages',
+			'upside down PDF',
+		],
+	},
+	{
+		slug: 'split-pdf-by-bookmarks-chapters',
+		title: 'How to Split PDFs by Chapters Using Bookmarks (Auto-Split Guide)',
+		description:
+			'Automatically split large PDFs into chapters using bookmarks. Perfect for ebooks, textbooks, course materials, and long reports.',
+		date: '2026-01-06',
+		readTime: '9 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'split pdf by bookmarks',
+			'pdf chapter splitter',
+			'split by toc',
+			'auto split pdf',
+		],
+	},
+	{
+		slug: 'remove-blank-pages-scanned-pdf',
+		title: 'How to Remove Blank Pages from Scanned PDFs Automatically',
+		description:
+			'Automatically detect and delete blank pages from scanned documents. Fix duplex scanning issues, clean up PDFs, and reduce file size.',
+		date: '2026-01-06',
+		readTime: '8 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'remove blank pages pdf',
+			'delete empty pages',
+			'clean up scanned pdf',
+			'duplex scanning',
+		],
+	},
+	{
+		slug: 'rotate-reorder-pdf-pages',
+		title: 'How to Rotate and Reorder PDF Pages (Complete Organization Guide)',
+		description:
+			'Fix scanned documents by rotating and rearranging PDF pages. Perfect for correcting orientation, organizing presentations, and cleaning up document structure.',
+		date: '2026-01-06',
+		readTime: '9 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'rotate pdf pages',
+			'reorder pdf',
+			'rearrange pdf',
+			'delete pdf pages',
+		],
+	},
+	{
+		slug: 'fix-corrupted-pdf-repair',
+		title: 'How to Fix a Corrupted PDF File (PDF Repair Guide 2026)',
+		description:
+			"Recover damaged PDFs that won't open. Fix corruption from incomplete downloads, storage errors, and crashes. Free PDF repair tool for data recovery.",
+		date: '2026-01-06',
+		readTime: '8 min read',
+		category: 'Technical',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'fix corrupted pdf',
+			'repair pdf',
+			'recover damaged pdf',
+			'pdf wont open',
+		],
+	},
+	{
+		slug: 'edit-pdf-metadata',
+		title: 'How to Edit PDF Metadata (Title, Author, Keywords)',
+		description:
+			'Change PDF properties like title, author, subject, and keywords. Essential for SEO, organization, and professional presentation.',
+		date: '2026-01-06',
+		readTime: '7 min read',
+		category: 'Technical',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'edit pdf metadata',
+			'change pdf properties',
+			'pdf info',
+			'pdf title',
+		],
+	},
+	{
+		slug: 'ocr-make-pdf-searchable',
+		title: 'How to Make Scanned PDFs Searchable with OCR',
+		description:
+			'Convert scanned documents into searchable text with OCR. Extract text, enable search, and improve accessibility.',
+		date: '2026-01-06',
+		readTime: '9 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'ocr pdf',
+			'make pdf searchable',
+			'extract text from scan',
+			'pdf ocr online',
+		],
+	},
+	{
+		slug: 'compare-two-pdf-documents',
+		title: 'How to Compare Two PDF Documents (Find Differences)',
+		description:
+			'Compare PDFs to find text changes, additions, and deletions. Essential for contract review, version control, and legal document analysis.',
+		date: '2026-01-06',
+		readTime: '8 min read',
+		category: 'Technical',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'compare pdf',
+			'pdf comparison',
+			'find pdf differences',
+			'pdf diff',
+		],
+	},
+	{
+		slug: 'how-to-add-page-numbers-to-pdf',
+		title: 'How to Add Page Numbers to a PDF (Custom Formatting Guide)',
+		description:
+			'Add professional page numbers to any PDF document. Customize position, format, font, and starting number. Perfect for academic papers, reports, and ebooks.',
+		date: '2026-01-06',
+		readTime: '8 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'add page numbers',
+			'pdf page numbering',
+			'number pdf pages',
+			'pdf pagination',
+		],
+	},
+	{
+		slug: 'how-to-add-watermark-to-pdf',
+		title: 'How to Add a Watermark to PDF (Protect Your Documents)',
+		description:
+			'Protect your PDFs with custom watermarks. Add text or image watermarks for copyright protection, draft versions, or confidential documents.',
+		date: '2026-01-06',
+		readTime: '9 min read',
+		category: 'Security',
+		icon: Shield,
+		featured: false,
+		tags: [
+			'watermark pdf',
+			'add watermark',
+			'pdf watermark tool',
+			'protect pdf',
+		],
+	},
+	{
+		slug: 'how-to-password-protect-pdf',
+		title: 'How to Password Protect a PDF (256-bit Encryption Guide)',
+		description:
+			'Secure your PDFs with strong password protection and 256-bit AES encryption. Essential for GDPR compliance, sensitive documents, and client confidentiality.',
+		date: '2026-01-06',
+		readTime: '10 min read',
+		category: 'Security',
+		icon: Shield,
+		featured: false,
+		tags: ['password protect pdf', 'encrypt pdf', 'secure pdf', 'lock pdf'],
+	},
+	{
+		slug: 'how-to-unlock-pdf-password',
+		title: 'How to Unlock a Password-Protected PDF (You Own)',
+		description:
+			'Remove password protection from PDFs you have permission to unlock. Essential for forgotten passwords, legacy documents, and workflow automation.',
+		date: '2026-01-06',
+		readTime: '8 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'unlock pdf',
+			'remove pdf password',
+			'unlock protected pdf',
+			'decrypt pdf',
+		],
+	},
+	{
+		slug: 'how-to-convert-images-to-pdf',
+		title: 'How to Convert JPG/PNG Images to PDF (Batch Conversion Guide)',
+		description:
+			'Convert photos and images to PDF in seconds. Create photo albums, digitize receipts, or merge scanned documents. Works with JPG, PNG, GIF, and WebP.',
+		date: '2026-01-06',
+		readTime: '10 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'jpg to pdf',
+			'png to pdf',
+			'convert images to pdf',
+			'photo to pdf',
+		],
+	},
+	{
+		slug: 'how-to-extract-images-from-pdf',
+		title: 'How to Extract Images from PDF Documents (Convert PDF to JPG/PNG)',
+		description:
+			'Extract high-quality images from any PDF document. Save PDF pages as JPG or PNG for social media, presentations, or editing. Free and private.',
+		date: '2026-01-06',
+		readTime: '9 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: ['pdf to jpg', 'pdf to png', 'extract images', 'pdf to image'],
+	},
+	{
+		slug: 'how-to-annotate-pdfs-free',
+		title: 'How to Annotate PDFs for Free (Highlight, Comment, Draw) - 2026 Guide',
+		description:
+			'Learn how to highlight, comment, and markup PDF documents for free. Complete guide comparing free annotation tools to expensive alternatives like Adobe Acrobat.',
+		date: '2026-01-06',
+		readTime: '11 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: ['annotate pdf', 'highlight pdf', 'pdf markup', 'pdf comments'],
+	},
+	{
+		slug: 'how-to-sign-pdf-electronically',
+		title: 'How to Sign a PDF Document Electronically (Legally Binding)',
+		description:
+			'Stop printing and scanning — sign contracts, forms, and agreements digitally in seconds. Learn how electronic signatures are legally valid and save time.',
+		date: '2026-01-06',
+		readTime: '10 min read',
+		category: 'Business',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'e-sign pdf',
+			'digital signature',
+			'electronic signature',
+			'sign pdf',
+		],
+	},
+	{
+		slug: 'how-to-fill-pdf-forms',
+		title: 'How to Fill Out PDF Forms Without Printing (Complete Guide)',
+		description:
+			'Stop printing and scanning forms. Learn how to fill out PDF forms digitally on any device, save time, and submit applications instantly.',
+		date: '2026-01-06',
+		readTime: '9 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'fill pdf form',
+			'fillable pdf',
+			'pdf form filler',
+			'complete pdf form',
+		],
+	},
+	{
 		slug: 'best-pdf-tools-privacy-security',
 		title: 'Best PDF Tools for Privacy & Security (2026)',
 		description:
@@ -46,8 +541,13 @@ const blogPosts = [
 		readTime: '10 min read',
 		category: 'Security',
 		icon: Shield,
-		featured: true,
-		tags: ['pdf security', 'privacy', 'document security', 'data protection'],
+		featured: false,
+		tags: [
+			'pdf security',
+			'privacy',
+			'document security',
+			'data protection',
+		],
 	},
 	{
 		slug: 'pdf-compression-reduce-file-size',
@@ -59,13 +559,18 @@ const blogPosts = [
 		category: 'Tutorials',
 		icon: Zap,
 		featured: false,
-		tags: ['pdf compression', 'reduce pdf size', 'compress pdf', 'optimize pdf'],
+		tags: [
+			'pdf compression',
+			'reduce pdf size',
+			'compress pdf',
+			'optimize pdf',
+		],
 	},
 	{
 		slug: 'why-convert-to-pdf-before-splitting',
-		title: 'Why You Can\'t Split EPUBs Like PDFs (And What to Do Instead)',
+		title: "Why You Can't Split EPUBs Like PDFs (And What to Do Instead)",
 		description:
-			'EPUBs and other document formats can\'t be split like PDFs due to their fundamentally different structure. Learn why conversion to PDF is necessary and how to do it properly.',
+			"EPUBs and other document formats can't be split like PDFs due to their fundamentally different structure. Learn why conversion to PDF is necessary and how to do it properly.",
 		date: '2026-01-05',
 		readTime: '7 min read',
 		category: 'Tutorials',
@@ -263,7 +768,12 @@ const blogPosts = [
 		category: 'Security',
 		icon: Shield,
 		featured: false,
-		tags: ['pdf security', 'online tools', 'desktop software', 'privacy comparison'],
+		tags: [
+			'pdf security',
+			'online tools',
+			'desktop software',
+			'privacy comparison',
+		],
 	},
 	{
 		slug: 'free-vs-paid-pdf-tools',
@@ -275,7 +785,12 @@ const blogPosts = [
 		category: 'Guides',
 		icon: FileText,
 		featured: false,
-		tags: ['pdf tools comparison', 'free pdf software', 'paid pdf tools', 'value comparison'],
+		tags: [
+			'pdf tools comparison',
+			'free pdf software',
+			'paid pdf tools',
+			'value comparison',
+		],
 	},
 	{
 		slug: 'browser-based-vs-installed-pdf-software',
@@ -287,7 +802,12 @@ const blogPosts = [
 		category: 'Guides',
 		icon: FileText,
 		featured: false,
-		tags: ['browser pdf tools', 'desktop pdf software', 'pdf comparison', 'web apps'],
+		tags: [
+			'browser pdf tools',
+			'desktop pdf software',
+			'pdf comparison',
+			'web apps',
+		],
 	},
 	{
 		slug: '5-minute-pdf-workflow-split-organize-share',
@@ -311,7 +831,12 @@ const blogPosts = [
 		category: 'Productivity',
 		icon: FileText,
 		featured: false,
-		tags: ['remote work', 'pdf organization', 'work from home', 'document management'],
+		tags: [
+			'remote work',
+			'pdf organization',
+			'work from home',
+			'document management',
+		],
 	},
 	{
 		slug: 'batch-process-multiple-pdfs',
@@ -323,7 +848,12 @@ const blogPosts = [
 		category: 'Advanced',
 		icon: Zap,
 		featured: false,
-		tags: ['batch processing', 'pdf automation', 'power user', 'productivity'],
+		tags: [
+			'batch processing',
+			'pdf automation',
+			'power user',
+			'productivity',
+		],
 	},
 ];
 
@@ -480,11 +1010,12 @@ export default function BlogIndex() {
 				{/* CTA */}
 				<section className='text-center p-12 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl shadow-xl'>
 					<h2 className='text-3xl font-bold text-white mb-4'>
-						Ready to Split Your PDF?
+						Ready to Edit Your PDF?
 					</h2>
 					<p className='text-blue-100 mb-8 text-lg max-w-xl mx-auto'>
-						Skip the complicated tutorials. Just open your file, select
-						pages, and download. It takes less than 30 seconds.
+						Skip the complicated tutorials. Just open your file,
+						select pages, and download. It takes less than 30
+						seconds.
 					</p>
 					<Link
 						href='/'

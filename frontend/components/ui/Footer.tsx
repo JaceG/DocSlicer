@@ -25,6 +25,12 @@ export function Footer() {
 							Pricing
 						</Link>
 						<Link
+							href='/compliance'
+							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors'
+						>
+							Compliance
+						</Link>
+						<Link
 							href='/terms'
 							className='text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors'
 						>

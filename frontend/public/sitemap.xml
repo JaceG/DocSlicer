@@ -52,6 +52,14 @@
     <priority>0.5</priority>
   </url>
   
+  <!-- Compliance Information -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/compliance</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
   <!-- PDF Tools -->
   <url>
     <loc>https://www.pdfwonderkit.com/split</loc>
@@ -189,9 +197,249 @@
   <!-- Blog Index -->
   <url>
     <loc>https://www.pdfwonderkit.com/blog</loc>
-    <lastmod>2026-01-05</lastmod>
+    <lastmod>2026-01-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  
+  <!-- Blog: PDF Workflows for Remote Teams -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/pdf-workflows-remote-teams</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Create Professional PDF Portfolio -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/create-professional-pdf-portfolio</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: PDF Automation for Small Business -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/pdf-automation-small-business</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Prepare PDF for Professional Printing -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/prepare-pdf-professional-printing</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Architects Guide to PDF Management -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/architects-pdf-management-cad-blueprints</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Accountants Organize Tax Documents -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/accountants-organize-tax-documents</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Students Guide to PDF Management -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/students-guide-pdf-management</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Publishers Handle Book PDFs -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/publishers-handle-book-pdfs</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: PDF Annotation Tools Compared -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/pdf-annotation-tools-compared-2026</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: E-Signature Legally Binding Guide -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/esignature-legally-binding-guide</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: When to Use OCR vs Native PDF -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/when-to-use-ocr-vs-native-pdf</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Why PDF Won't Open How to Fix -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/why-pdf-wont-open-how-to-fix</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Remove Sensitive Info from PDFs -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/remove-sensitive-info-from-pdfs</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Fix Sideways Upside Down PDF Pages -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/fix-sideways-upside-down-pdf-pages</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Split PDF by Bookmarks/Chapters -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/split-pdf-by-bookmarks-chapters</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Remove Blank Pages from Scanned PDF -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/remove-blank-pages-scanned-pdf</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Rotate and Reorder PDF Pages -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/rotate-reorder-pdf-pages</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Fix Corrupted PDF Repair -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/fix-corrupted-pdf-repair</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Edit PDF Metadata -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/edit-pdf-metadata</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: OCR Make PDF Searchable -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/ocr-make-pdf-searchable</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Compare Two PDF Documents -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/compare-two-pdf-documents</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: How to Add Page Numbers to PDF -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-add-page-numbers-to-pdf</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: How to Add Watermark to PDF -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-add-watermark-to-pdf</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: How to Password Protect PDF -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-password-protect-pdf</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: How to Unlock PDF Password -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-unlock-pdf-password</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: How to Convert Images to PDF -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-convert-images-to-pdf</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: How to Extract Images from PDF -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-extract-images-from-pdf</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: How to Annotate PDFs for Free -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-annotate-pdfs-free</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: How to Sign PDF Electronically -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-sign-pdf-electronically</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Blog: How to Fill PDF Forms -->
+  <url>
+    <loc>https://www.pdfwonderkit.com/blog/how-to-fill-pdf-forms</loc>
+    <lastmod>2026-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   
   <!-- Blog: How to Split PDF on Computer -->
