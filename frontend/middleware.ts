@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 // Define public routes that don't require authentication
 const isPublicRoute = createRouteMatcher([
@@ -35,7 +36,21 @@ const isPublicRoute = createRouteMatcher([
 	'/edit-metadata',
 ]);
 
+// Old domains that should redirect to the new domain
+const OLD_DOMAINS = ['docslicer.com', 'www.docslicer.com', 'docslicer.onrender.com'];
+const NEW_DOMAIN = 'www.pdfwonderkit.com';
+
 export default clerkMiddleware(async (auth, request) => {
+	const hostname = request.headers.get('host') || '';
+	
+	// 301 redirect from old domains to new domain
+	if (OLD_DOMAINS.some(domain => hostname.includes(domain))) {
+		const url = new URL(request.url);
+		url.hostname = NEW_DOMAIN;
+		url.protocol = 'https:';
+		return NextResponse.redirect(url.toString(), 301);
+	}
+	
 	if (!isPublicRoute(request)) {
 		await auth.protect();
 	}
