@@ -82,6 +82,8 @@ import {
 	Scan,
 	GitCompare,
 	Info,
+	Upload,
+	ChevronDown,
 } from 'lucide-react';
 import { FileUploadCompress } from '@/components/compressor/FileUploadCompress';
 import { CompressionManager } from '@/components/compressor/CompressionManager';
@@ -129,6 +131,10 @@ export default function HomeContent({
 	// Shared state
 	const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
 	const { isPremium, limits, isLoaded } = useSubscription();
+
+	// Sticky upload button state
+	const [showStickyUpload, setShowStickyUpload] = useState(false);
+	const uploadSectionRef = useRef<HTMLDivElement>(null);
 
 	// Dynamic favicon based on selected tool
 	const currentToolForFavicon = ALL_TOOLS.find((t) => t.id === appMode);
@@ -433,6 +439,38 @@ export default function HomeContent({
 		};
 	}, []); // Empty dependency array - only run on mount/unmount
 
+	// Intersection Observer to show/hide sticky upload button
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				// Show button when upload section is NOT visible
+				setShowStickyUpload(!entry.isIntersecting);
+			},
+			{
+				threshold: 0.1,
+				rootMargin: '-100px 0px 0px 0px', // Account for header
+			}
+		);
+
+		if (uploadSectionRef.current) {
+			observer.observe(uploadSectionRef.current);
+		}
+
+		return () => {
+			if (uploadSectionRef.current) {
+				observer.unobserve(uploadSectionRef.current);
+			}
+		};
+	}, [appMode]); // Re-run when app mode changes
+
+	// Function to scroll to upload section
+	const scrollToUpload = useCallback(() => {
+		uploadSectionRef.current?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start',
+		});
+	}, []);
+
 	// Get current tool info
 	const getCurrentToolInfo = () => {
 		return ALL_TOOLS.find((t) => t.id === appMode);
@@ -558,30 +596,32 @@ export default function HomeContent({
 							</div>
 						</div>
 
-						<FileUpload
-							onFileUpload={handleFileUpload}
-							minimal
-							accentColor='blue'
-							dropzoneTitle='Drop your PDF to split'
-							dropzoneSubtitle='Extract specific pages or split into multiple files'
-							features={[
-								{
-									icon: 'file',
-									title: 'Custom Ranges',
-									subtitle: 'Pages 1-5, 10-15, etc.',
-								},
-								{
-									icon: 'image',
-									title: 'Visual Preview',
-									subtitle: 'See pages first',
-								},
-								{
-									icon: 'lock',
-									title: '100% Private',
-									subtitle: 'Never leaves device',
-								},
-							]}
-						/>
+						<div ref={uploadSectionRef}>
+							<FileUpload
+								onFileUpload={handleFileUpload}
+								minimal
+								accentColor='blue'
+								dropzoneTitle='Drop your PDF to split'
+								dropzoneSubtitle='Extract specific pages or split into multiple files'
+								features={[
+									{
+										icon: 'file',
+										title: 'Custom Ranges',
+										subtitle: 'Pages 1-5, 10-15, etc.',
+									},
+									{
+										icon: 'image',
+										title: 'Visual Preview',
+										subtitle: 'See pages first',
+									},
+									{
+										icon: 'lock',
+										title: '100% Private',
+										subtitle: 'Never leaves device',
+									},
+								]}
+							/>
+						</div>
 
 						{/* Upgrade Prompt */}
 						{showUpgradePrompt && (
@@ -632,10 +672,12 @@ export default function HomeContent({
 						</div>
 
 						{showMergeUpload && (
-							<FileUploadMultiple
-								onFilesUpload={handleMergeFilesUpload}
-								existingFiles={mergeFiles}
-							/>
+							<div ref={uploadSectionRef}>
+								<FileUploadMultiple
+									onFilesUpload={handleMergeFilesUpload}
+									existingFiles={mergeFiles}
+								/>
+							</div>
 						)}
 
 						{mergeFiles.length > 0 && (
@@ -659,9 +701,11 @@ export default function HomeContent({
 						{isLoaded && !isPremium && <UsageBanner />}
 
 						{!compressFile ? (
-							<FileUploadCompress
-								onFileUpload={handleCompressFileUpload}
-							/>
+							<div ref={uploadSectionRef}>
+								<FileUploadCompress
+									onFileUpload={handleCompressFileUpload}
+								/>
+							</div>
 						) : (
 							<CompressionManager
 								file={compressFile}
@@ -681,9 +725,11 @@ export default function HomeContent({
 						{isLoaded && !isPremium && <UsageBanner />}
 
 						{!organizeFile ? (
-							<FileUploadOrganize
-								onFileUpload={handleOrganizeFileUpload}
-							/>
+							<div ref={uploadSectionRef}>
+								<FileUploadOrganize
+									onFileUpload={handleOrganizeFileUpload}
+								/>
+							</div>
 						) : (
 							<PageOrganizer
 								file={organizeFile}
@@ -699,10 +745,12 @@ export default function HomeContent({
 						{isLoaded && !isPremium && <UsageBanner />}
 
 						{showImageUpload && (
-							<ImageUpload
-								onImagesUpload={handleImagesToPdfUpload}
-								existingImages={imagesToPdfFiles}
-							/>
+							<div ref={uploadSectionRef}>
+								<ImageUpload
+									onImagesUpload={handleImagesToPdfUpload}
+									existingImages={imagesToPdfFiles}
+								/>
+							</div>
 						)}
 
 						{imagesToPdfFiles.length > 0 && (
@@ -754,30 +802,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='cyan'
-									dropzoneTitle='Drop your PDF to convert to images'
-									dropzoneSubtitle='Export each page as JPG, PNG, or WebP'
-									features={[
-										{
-											icon: 'image',
-											title: 'JPG, PNG, WebP',
-											subtitle: 'Multiple formats',
-										},
-										{
-											icon: 'zap',
-											title: 'High Quality',
-											subtitle: 'Up to 300 DPI',
-										},
-										{
-											icon: 'check',
-											title: 'Batch Export',
-											subtitle: 'All pages at once',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='cyan'
+										dropzoneTitle='Drop your PDF to convert to images'
+										dropzoneSubtitle='Export each page as JPG, PNG, or WebP'
+										features={[
+											{
+												icon: 'image',
+												title: 'JPG, PNG, WebP',
+												subtitle: 'Multiple formats',
+											},
+											{
+												icon: 'zap',
+												title: 'High Quality',
+												subtitle: 'Up to 300 DPI',
+											},
+											{
+												icon: 'check',
+												title: 'Batch Export',
+												subtitle: 'All pages at once',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<PdfToImagesManager
@@ -825,30 +875,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='rose'
-									dropzoneTitle='Drop your PDF to add page numbers'
-									dropzoneSubtitle='Customize position, style, and format'
-									features={[
-										{
-											icon: 'check',
-											title: 'Multiple Styles',
-											subtitle: '1, i, A formats',
-										},
-										{
-											icon: 'zap',
-											title: 'Custom Position',
-											subtitle: 'Header or footer',
-										},
-										{
-											icon: 'check',
-											title: 'Prefix/Suffix',
-											subtitle: '"Page X of Y"',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='rose'
+										dropzoneTitle='Drop your PDF to add page numbers'
+										dropzoneSubtitle='Customize position, style, and format'
+										features={[
+											{
+												icon: 'check',
+												title: 'Multiple Styles',
+												subtitle: '1, i, A formats',
+											},
+											{
+												icon: 'zap',
+												title: 'Custom Position',
+												subtitle: 'Header or footer',
+											},
+											{
+												icon: 'check',
+												title: 'Prefix/Suffix',
+												subtitle: '"Page X of Y"',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<PageNumbersManager
@@ -896,30 +948,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='amber'
-									dropzoneTitle='Drop your PDF to add password protection'
-									dropzoneSubtitle='Secure your document with AES-256 encryption'
-									features={[
-										{
-											icon: 'lock',
-											title: 'AES-256',
-											subtitle: 'Military-grade',
-										},
-										{
-											icon: 'shield',
-											title: 'Permissions',
-											subtitle: 'Control access',
-										},
-										{
-											icon: 'check',
-											title: 'Privacy',
-											subtitle: '100% local',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='amber'
+										dropzoneTitle='Drop your PDF to add password protection'
+										dropzoneSubtitle='Secure your document with AES-256 encryption'
+										features={[
+											{
+												icon: 'lock',
+												title: 'AES-256',
+												subtitle: 'Military-grade',
+											},
+											{
+												icon: 'shield',
+												title: 'Permissions',
+												subtitle: 'Control access',
+											},
+											{
+												icon: 'check',
+												title: 'Privacy',
+												subtitle: '100% local',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<ProtectManager
@@ -966,30 +1020,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='sky'
-									dropzoneTitle='Drop your password-protected PDF'
-									dropzoneSubtitle='Remove password from PDFs you own'
-									features={[
-										{
-											icon: 'lock',
-											title: 'Password Entry',
-											subtitle: 'Enter to unlock',
-										},
-										{
-											icon: 'check',
-											title: 'Clean Copy',
-											subtitle: 'No restrictions',
-										},
-										{
-											icon: 'shield',
-											title: 'Your Files',
-											subtitle: 'Authorized use only',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='sky'
+										dropzoneTitle='Drop your password-protected PDF'
+										dropzoneSubtitle='Remove password from PDFs you own'
+										features={[
+											{
+												icon: 'lock',
+												title: 'Password Entry',
+												subtitle: 'Enter to unlock',
+											},
+											{
+												icon: 'check',
+												title: 'Clean Copy',
+												subtitle: 'No restrictions',
+											},
+											{
+												icon: 'shield',
+												title: 'Your Files',
+												subtitle: 'Authorized use only',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<UnlockManager
@@ -1037,30 +1093,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='violet'
-									dropzoneTitle='Drop your PDF to add watermark'
-									dropzoneSubtitle='Add text or image watermarks to your document'
-									features={[
-										{
-											icon: 'file',
-											title: 'Text & Image',
-											subtitle: 'Both supported',
-										},
-										{
-											icon: 'check',
-											title: 'Custom Style',
-											subtitle: 'Font, color, size',
-										},
-										{
-											icon: 'zap',
-											title: 'All Pages',
-											subtitle: 'Applied instantly',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='violet'
+										dropzoneTitle='Drop your PDF to add watermark'
+										dropzoneSubtitle='Add text or image watermarks to your document'
+										features={[
+											{
+												icon: 'file',
+												title: 'Text & Image',
+												subtitle: 'Both supported',
+											},
+											{
+												icon: 'check',
+												title: 'Custom Style',
+												subtitle: 'Font, color, size',
+											},
+											{
+												icon: 'zap',
+												title: 'All Pages',
+												subtitle: 'Applied instantly',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<WatermarkManager
@@ -1108,30 +1166,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='teal'
-									dropzoneTitle='Drop your PDF to split by chapters'
-									dropzoneSubtitle='Automatically detect and split at bookmarks'
-									features={[
-										{
-											icon: 'file',
-											title: 'Auto-Detect',
-											subtitle: 'Reads TOC/bookmarks',
-										},
-										{
-											icon: 'zap',
-											title: 'Smart Split',
-											subtitle: 'By chapter',
-										},
-										{
-											icon: 'check',
-											title: 'ZIP Download',
-											subtitle: 'All files at once',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='teal'
+										dropzoneTitle='Drop your PDF to split by chapters'
+										dropzoneSubtitle='Automatically detect and split at bookmarks'
+										features={[
+											{
+												icon: 'file',
+												title: 'Auto-Detect',
+												subtitle: 'Reads TOC/bookmarks',
+											},
+											{
+												icon: 'zap',
+												title: 'Smart Split',
+												subtitle: 'By chapter',
+											},
+											{
+												icon: 'check',
+												title: 'ZIP Download',
+												subtitle: 'All files at once',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<BookmarkSplitManager
@@ -1178,30 +1238,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='red'
-									dropzoneTitle='Drop your PDF to detect blank pages'
-									dropzoneSubtitle='Find and remove empty pages automatically'
-									features={[
-										{
-											icon: 'zap',
-											title: 'Auto-Detect',
-											subtitle: 'Smart scanning',
-										},
-										{
-											icon: 'check',
-											title: 'Preview First',
-											subtitle: 'Review before delete',
-										},
-										{
-											icon: 'file',
-											title: 'Scan Cleanup',
-											subtitle: 'For scanned docs',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='red'
+										dropzoneTitle='Drop your PDF to detect blank pages'
+										dropzoneSubtitle='Find and remove empty pages automatically'
+										features={[
+											{
+												icon: 'zap',
+												title: 'Auto-Detect',
+												subtitle: 'Smart scanning',
+											},
+											{
+												icon: 'check',
+												title: 'Preview First',
+												subtitle: 'Review before delete',
+											},
+											{
+												icon: 'file',
+												title: 'Scan Cleanup',
+												subtitle: 'For scanned docs',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<BlankPagesManager
@@ -1249,30 +1311,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='stone'
-									dropzoneTitle='Drop your corrupted PDF to repair'
-									dropzoneSubtitle='Attempt to fix damaged or broken PDF files'
-									features={[
-										{
-											icon: 'zap',
-											title: 'Auto-Diagnose',
-											subtitle: 'Find issues',
-										},
-										{
-											icon: 'check',
-											title: 'Rebuild',
-											subtitle: 'Fix structure',
-										},
-										{
-											icon: 'shield',
-											title: 'Multiple Levels',
-											subtitle: 'Light to deep',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='stone'
+										dropzoneTitle='Drop your corrupted PDF to repair'
+										dropzoneSubtitle='Attempt to fix damaged or broken PDF files'
+										features={[
+											{
+												icon: 'zap',
+												title: 'Auto-Diagnose',
+												subtitle: 'Find issues',
+											},
+											{
+												icon: 'check',
+												title: 'Rebuild',
+												subtitle: 'Fix structure',
+											},
+											{
+												icon: 'shield',
+												title: 'Multiple Levels',
+												subtitle: 'Light to deep',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<RepairManager
@@ -1321,31 +1385,33 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='pink'
-									dropzoneTitle='Drop your PDF to annotate'
-									dropzoneSubtitle='Add highlights, comments, and shapes'
-									features={[
-										{
-											icon: 'sparkle',
-											title: 'Highlights',
-											subtitle: 'Mark important text',
-											highlight: true,
-										},
-										{
-											icon: 'file',
-											title: 'Comments',
-											subtitle: 'Add notes anywhere',
-										},
-										{
-											icon: 'check',
-											title: 'Shapes',
-											subtitle: 'Arrows, boxes, circles',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='pink'
+										dropzoneTitle='Drop your PDF to annotate'
+										dropzoneSubtitle='Add highlights, comments, and shapes'
+										features={[
+											{
+												icon: 'sparkle',
+												title: 'Highlights',
+												subtitle: 'Mark important text',
+												highlight: true,
+											},
+											{
+												icon: 'file',
+												title: 'Comments',
+												subtitle: 'Add notes anywhere',
+											},
+											{
+												icon: 'check',
+												title: 'Shapes',
+												subtitle: 'Arrows, boxes, circles',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<AnnotateManager
@@ -1396,30 +1462,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='lime'
-									dropzoneTitle='Drop your PDF to add signature'
-									dropzoneSubtitle='Draw, type, or upload your signature'
-									features={[
-										{
-											icon: 'check',
-											title: 'Draw',
-											subtitle: 'Mouse or touch',
-										},
-										{
-											icon: 'file',
-											title: 'Type',
-											subtitle: 'Signature fonts',
-										},
-										{
-											icon: 'image',
-											title: 'Upload',
-											subtitle: 'Existing signature',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='lime'
+										dropzoneTitle='Drop your PDF to add signature'
+										dropzoneSubtitle='Draw, type, or upload your signature'
+										features={[
+											{
+												icon: 'check',
+												title: 'Draw',
+												subtitle: 'Mouse or touch',
+											},
+											{
+												icon: 'file',
+												title: 'Type',
+												subtitle: 'Signature fonts',
+											},
+											{
+												icon: 'image',
+												title: 'Upload',
+												subtitle: 'Existing signature',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<SignManager
@@ -1467,30 +1535,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='fuchsia'
-									dropzoneTitle='Drop your PDF form to fill'
-									dropzoneSubtitle='Complete interactive PDF forms easily'
-									features={[
-										{
-											icon: 'zap',
-											title: 'Auto-Detect',
-											subtitle: 'Finds form fields',
-										},
-										{
-											icon: 'check',
-											title: 'All Field Types',
-											subtitle: 'Text, checkbox, etc',
-										},
-										{
-											icon: 'file',
-											title: 'Download',
-											subtitle: 'Filled & flattened',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='fuchsia'
+										dropzoneTitle='Drop your PDF form to fill'
+										dropzoneSubtitle='Complete interactive PDF forms easily'
+										features={[
+											{
+												icon: 'zap',
+												title: 'Auto-Detect',
+												subtitle: 'Finds form fields',
+											},
+											{
+												icon: 'check',
+												title: 'All Field Types',
+												subtitle: 'Text, checkbox, etc',
+											},
+											{
+												icon: 'file',
+												title: 'Download',
+												subtitle: 'Filled & flattened',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<FormsManager
@@ -1541,31 +1611,33 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='yellow'
-									dropzoneTitle='Drop your scanned PDF for OCR'
-									dropzoneSubtitle='Make text searchable and selectable'
-									features={[
-										{
-											icon: 'zap',
-											title: '12+ Languages',
-											subtitle: 'Multi-language OCR',
-										},
-										{
-											icon: 'sparkle',
-											title: 'Searchable',
-											subtitle: 'Find text easily',
-											highlight: true,
-										},
-										{
-											icon: 'check',
-											title: 'Copy Text',
-											subtitle: 'From any scan',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='yellow'
+										dropzoneTitle='Drop your scanned PDF for OCR'
+										dropzoneSubtitle='Make text searchable and selectable'
+										features={[
+											{
+												icon: 'zap',
+												title: '12+ Languages',
+												subtitle: 'Multi-language OCR',
+											},
+											{
+												icon: 'sparkle',
+												title: 'Searchable',
+												subtitle: 'Find text easily',
+												highlight: true,
+											},
+											{
+												icon: 'check',
+												title: 'Copy Text',
+												subtitle: 'From any scan',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<OcrManager
@@ -1613,30 +1685,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='slate'
-									dropzoneTitle='Drop the first PDF to compare'
-									dropzoneSubtitle='Find differences between two PDF documents'
-									features={[
-										{
-											icon: 'zap',
-											title: 'Visual Diff',
-											subtitle: 'Highlight changes',
-										},
-										{
-											icon: 'file',
-											title: 'Text Compare',
-											subtitle: 'Content analysis',
-										},
-										{
-											icon: 'check',
-											title: 'Report',
-											subtitle: 'Export differences',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='slate'
+										dropzoneTitle='Drop the first PDF to compare'
+										dropzoneSubtitle='Find differences between two PDF documents'
+										features={[
+											{
+												icon: 'zap',
+												title: 'Visual Diff',
+												subtitle: 'Highlight changes',
+											},
+											{
+												icon: 'file',
+												title: 'Text Compare',
+												subtitle: 'Content analysis',
+											},
+											{
+												icon: 'check',
+												title: 'Report',
+												subtitle: 'Export differences',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<CompareManager
@@ -1687,30 +1761,32 @@ export default function HomeContent({
 										</div>
 									</div>
 								</div>
-								<FileUpload
-									onFileUpload={handleFileUpload}
-									minimal
-									accentColor='zinc'
-									dropzoneTitle='Drop your PDF to edit metadata'
-									dropzoneSubtitle='Change title, author, and document properties'
-									features={[
-										{
-											icon: 'file',
-											title: 'Edit Properties',
-											subtitle: 'Title, author, etc',
-										},
-										{
-											icon: 'check',
-											title: 'Add Keywords',
-											subtitle: 'For better search',
-										},
-										{
-											icon: 'shield',
-											title: 'Clear All',
-											subtitle: 'Privacy mode',
-										},
-									]}
-								/>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='zinc'
+										dropzoneTitle='Drop your PDF to edit metadata'
+										dropzoneSubtitle='Change title, author, and document properties'
+										features={[
+											{
+												icon: 'file',
+												title: 'Edit Properties',
+												subtitle: 'Title, author, etc',
+											},
+											{
+												icon: 'check',
+												title: 'Add Keywords',
+												subtitle: 'For better search',
+											},
+											{
+												icon: 'shield',
+												title: 'Clear All',
+												subtitle: 'Privacy mode',
+											},
+										]}
+									/>
+								</div>
 							</>
 						) : (
 							<MetadataManager
@@ -1774,6 +1850,37 @@ export default function HomeContent({
 					imagesToPdfFiles.length > 0
 				}
 			/>
+
+			{/* Sticky Open PDF Button */}
+			{showStickyUpload &&
+				!uploadedFile &&
+				!compressFile &&
+				!organizeFile &&
+				mergeFiles.length === 0 &&
+				imagesToPdfFiles.length === 0 && (
+					<button
+						onClick={scrollToUpload}
+						className={cn(
+							'fixed bottom-8 right-8 z-50',
+							'flex items-center gap-3 px-6 py-4 rounded-full',
+							'text-white font-semibold text-lg',
+							'shadow-2xl hover:shadow-3xl',
+							'transform transition-all duration-300 ease-out',
+							'hover:scale-105 active:scale-95',
+							'animate-bounce-slow',
+							currentTool?.activeClasses ||
+								'bg-blue-600 hover:bg-blue-700'
+						)}
+						style={{
+							animation: 'bounce-gentle 2s ease-in-out infinite',
+						}}>
+						<Upload className='w-6 h-6' />
+						<span className='hidden sm:inline'>
+							Open PDF
+						</span>
+						<ChevronDown className='w-5 h-5 animate-pulse' />
+					</button>
+				)}
 
 			<Footer />
 		</div>
