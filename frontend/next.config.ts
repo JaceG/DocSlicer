@@ -35,6 +35,16 @@ const nextConfig: NextConfig = {
 
 		return [
 			{
+				// Ensure all pages are indexable in production
+				source: '/:path*',
+				headers: [
+					{
+						key: 'X-Robots-Tag',
+						value: isDev ? 'noindex, nofollow' : 'index, follow',
+					},
+				],
+			},
+			{
 				source: '/_next/static/(.*)',
 				headers: [
 					{
