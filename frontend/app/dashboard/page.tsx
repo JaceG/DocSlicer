@@ -25,7 +25,7 @@ import {
 	getCompareProcessedThisMonth,
 	getMetadataProcessedThisMonth,
 } from '@/lib/subscription/usage';
-import { ALL_TOOLS } from '@/lib/tools/config';
+import { ALL_TOOLS, TOOLS_COUNT } from '@/lib/tools/config';
 import {
 	CheckCircle,
 	Crown,
@@ -53,7 +53,9 @@ function DashboardLoading() {
 		<div className='min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/20 to-indigo-50/30 dark:from-gray-900 dark:via-blue-950/20 dark:to-indigo-950/30 flex items-center justify-center'>
 			<div className='text-center'>
 				<div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto'></div>
-				<p className='mt-4 text-gray-600 dark:text-gray-400'>Loading...</p>
+				<p className='mt-4 text-gray-600 dark:text-gray-400'>
+					Loading...
+				</p>
 			</div>
 		</div>
 	);
@@ -78,25 +80,101 @@ function DashboardContent() {
 		if (typeof window !== 'undefined') {
 			// Gather usage for all tools
 			const usage: ToolUsage[] = [
-				{ id: 'split', used: getPdfsProcessedThisMonth(), limit: limits.maxPdfsPerMonth },
-				{ id: 'merge', used: getMergesProcessedThisMonth(), limit: limits.maxMergesPerMonth },
-				{ id: 'compress', used: getCompressionsProcessedThisMonth(), limit: limits.maxCompressionsPerMonth },
-				{ id: 'organize', used: getOrganizeProcessedThisMonth(), limit: limits.maxOrganizePerMonth },
-				{ id: 'images-to-pdf', used: getConversionsProcessedThisMonth(), limit: limits.maxConversionsPerMonth },
-				{ id: 'pdf-to-images', used: getConversionsProcessedThisMonth(), limit: limits.maxConversionsPerMonth },
-				{ id: 'page-numbers', used: getPageNumbersProcessedThisMonth(), limit: limits.maxPageNumbersPerMonth },
-				{ id: 'protect', used: getProtectProcessedThisMonth(), limit: limits.maxProtectPerMonth },
-				{ id: 'unlock', used: getUnlockProcessedThisMonth(), limit: limits.maxUnlockPerMonth },
-				{ id: 'watermark', used: getWatermarkProcessedThisMonth(), limit: limits.maxWatermarkPerMonth },
-				{ id: 'split-bookmarks', used: getBookmarkSplitProcessedThisMonth(), limit: limits.maxBookmarkSplitPerMonth },
-				{ id: 'remove-blanks', used: getBlankRemovalProcessedThisMonth(), limit: limits.maxBlankRemovalPerMonth },
-				{ id: 'repair', used: getRepairProcessedThisMonth(), limit: limits.maxRepairPerMonth },
-				{ id: 'annotate', used: getAnnotateProcessedThisMonth(), limit: limits.maxAnnotatePerMonth },
-				{ id: 'sign', used: getSignProcessedThisMonth(), limit: limits.maxSignPerMonth },
-				{ id: 'forms', used: getFormsProcessedThisMonth(), limit: limits.maxFormsPerMonth },
-				{ id: 'ocr', used: getOcrProcessedThisMonth(), limit: limits.maxOcrPerMonth },
-				{ id: 'compare', used: getCompareProcessedThisMonth(), limit: limits.maxComparePerMonth },
-				{ id: 'metadata', used: getMetadataProcessedThisMonth(), limit: limits.maxMetadataPerMonth },
+				{
+					id: 'split',
+					used: getPdfsProcessedThisMonth(),
+					limit: limits.maxPdfsPerMonth,
+				},
+				{
+					id: 'merge',
+					used: getMergesProcessedThisMonth(),
+					limit: limits.maxMergesPerMonth,
+				},
+				{
+					id: 'compress',
+					used: getCompressionsProcessedThisMonth(),
+					limit: limits.maxCompressionsPerMonth,
+				},
+				{
+					id: 'organize',
+					used: getOrganizeProcessedThisMonth(),
+					limit: limits.maxOrganizePerMonth,
+				},
+				{
+					id: 'images-to-pdf',
+					used: getConversionsProcessedThisMonth(),
+					limit: limits.maxConversionsPerMonth,
+				},
+				{
+					id: 'pdf-to-images',
+					used: getConversionsProcessedThisMonth(),
+					limit: limits.maxConversionsPerMonth,
+				},
+				{
+					id: 'page-numbers',
+					used: getPageNumbersProcessedThisMonth(),
+					limit: limits.maxPageNumbersPerMonth,
+				},
+				{
+					id: 'protect',
+					used: getProtectProcessedThisMonth(),
+					limit: limits.maxProtectPerMonth,
+				},
+				{
+					id: 'unlock',
+					used: getUnlockProcessedThisMonth(),
+					limit: limits.maxUnlockPerMonth,
+				},
+				{
+					id: 'watermark',
+					used: getWatermarkProcessedThisMonth(),
+					limit: limits.maxWatermarkPerMonth,
+				},
+				{
+					id: 'split-bookmarks',
+					used: getBookmarkSplitProcessedThisMonth(),
+					limit: limits.maxBookmarkSplitPerMonth,
+				},
+				{
+					id: 'remove-blanks',
+					used: getBlankRemovalProcessedThisMonth(),
+					limit: limits.maxBlankRemovalPerMonth,
+				},
+				{
+					id: 'repair',
+					used: getRepairProcessedThisMonth(),
+					limit: limits.maxRepairPerMonth,
+				},
+				{
+					id: 'annotate',
+					used: getAnnotateProcessedThisMonth(),
+					limit: limits.maxAnnotatePerMonth,
+				},
+				{
+					id: 'sign',
+					used: getSignProcessedThisMonth(),
+					limit: limits.maxSignPerMonth,
+				},
+				{
+					id: 'forms',
+					used: getFormsProcessedThisMonth(),
+					limit: limits.maxFormsPerMonth,
+				},
+				{
+					id: 'ocr',
+					used: getOcrProcessedThisMonth(),
+					limit: limits.maxOcrPerMonth,
+				},
+				{
+					id: 'compare',
+					used: getCompareProcessedThisMonth(),
+					limit: limits.maxComparePerMonth,
+				},
+				{
+					id: 'metadata',
+					used: getMetadataProcessedThisMonth(),
+					limit: limits.maxMetadataPerMonth,
+				},
 			];
 			setUsageData(usage);
 			setTotalOperations(usage.reduce((sum, u) => sum + u.used, 0));
@@ -152,8 +230,8 @@ function DashboardContent() {
 		},
 	];
 
-	const getToolConfig = (id: string) => ALL_TOOLS.find(t => t.id === id);
-	const getToolUsage = (id: string) => usageData.find(u => u.id === id);
+	const getToolConfig = (id: string) => ALL_TOOLS.find((t) => t.id === id);
+	const getToolUsage = (id: string) => usageData.find((u) => u.id === id);
 
 	return (
 		<main className='min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800'>
@@ -172,7 +250,8 @@ function DashboardContent() {
 									Welcome to Premium! 🎉
 								</p>
 								<p className='text-green-700 dark:text-green-300'>
-									You now have unlimited access to all 19 PDF tools.
+									You now have unlimited access to all{' '}
+									{TOOLS_COUNT} PDF tools.
 								</p>
 							</div>
 						</div>
@@ -184,7 +263,11 @@ function DashboardContent() {
 							Dashboard
 						</h1>
 						<p className='text-lg text-gray-600 dark:text-gray-400'>
-							Welcome back, {user.firstName || user.emailAddresses[0]?.emailAddress?.split('@')[0]}
+							Welcome back,{' '}
+							{user.firstName ||
+								user.emailAddresses[0]?.emailAddress?.split(
+									'@'
+								)[0]}
 						</p>
 					</div>
 
@@ -197,8 +280,7 @@ function DashboardContent() {
 									isPremium
 										? 'bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white'
 										: 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700'
-								}`}
-							>
+								}`}>
 								<div className='flex items-start justify-between mb-6'>
 									<div>
 										<div className='flex items-center gap-3 mb-2'>
@@ -212,24 +294,28 @@ function DashboardContent() {
 												</div>
 											)}
 											<h2 className='text-2xl md:text-3xl font-bold'>
-												{isPremium ? 'Premium Plan' : 'Free Plan'}
+												{isPremium
+													? 'Premium Plan'
+													: 'Free Plan'}
 											</h2>
 										</div>
 										<p
 											className={`text-lg ${
-												isPremium ? 'text-blue-100' : 'text-gray-600 dark:text-gray-400'
-											}`}
-										>
+												isPremium
+													? 'text-blue-100'
+													: 'text-gray-600 dark:text-gray-400'
+											}`}>
 											{isPremium
-												? 'Unlimited access to all 19 PDF tools'
+												? `Unlimited access to all ${TOOLS_COUNT} PDF tools`
 												: 'Upgrade to unlock unlimited operations'}
 										</p>
 									</div>
 									{!isPremium && (
 										<button
-											onClick={() => router.push('/pricing')}
-											className='bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl flex items-center gap-2'
-										>
+											onClick={() =>
+												router.push('/pricing')
+											}
+											className='bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl flex items-center gap-2'>
 											<Sparkles className='w-5 h-5' />
 											Upgrade
 										</button>
@@ -245,15 +331,25 @@ function DashboardContent() {
 										light={isPremium}
 									/>
 									<BenefitItem
-										icon={<TrendingUp className='w-5 h-5' />}
+										icon={
+											<TrendingUp className='w-5 h-5' />
+										}
 										label='Monthly Ops'
-										value={isPremium ? 'Unlimited' : 'Limited'}
+										value={
+											isPremium ? 'Unlimited' : 'Limited'
+										}
 										light={isPremium}
 									/>
 									<BenefitItem
-										icon={<CheckCircle className='w-5 h-5' />}
+										icon={
+											<CheckCircle className='w-5 h-5' />
+										}
 										label='ZIP Downloads'
-										value={limits.hasZipDownload ? 'Enabled' : 'Not Available'}
+										value={
+											limits.hasZipDownload
+												? 'Enabled'
+												: 'Not Available'
+										}
 										light={isPremium}
 									/>
 									<BenefitItem
@@ -269,21 +365,32 @@ function DashboardContent() {
 										<button
 											onClick={async () => {
 												try {
-													const response = await fetch('/api/create-portal-session', {
-														method: 'POST',
-													});
-													const data = await response.json();
+													const response =
+														await fetch(
+															'/api/create-portal-session',
+															{
+																method: 'POST',
+															}
+														);
+													const data =
+														await response.json();
 													if (data.url) {
-														window.location.href = data.url;
+														window.location.href =
+															data.url;
 													}
 												} catch (error) {
-													console.error('Error:', error);
-													alert('Failed to open billing portal');
+													console.error(
+														'Error:',
+														error
+													);
+													alert(
+														'Failed to open billing portal'
+													);
 												}
 											}}
-											className='text-white/90 hover:text-white font-medium flex items-center gap-2 transition-colors'
-										>
-											Manage Billing <ChevronRight className='w-4 h-4' />
+											className='text-white/90 hover:text-white font-medium flex items-center gap-2 transition-colors'>
+											Manage Billing{' '}
+											<ChevronRight className='w-4 h-4' />
 										</button>
 									</div>
 								)}
@@ -298,22 +405,34 @@ function DashboardContent() {
 							</h3>
 							<div className='space-y-6'>
 								<div className='text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl'>
-									<p className='text-sm text-gray-600 dark:text-gray-400 mb-1'>Total Operations</p>
+									<p className='text-sm text-gray-600 dark:text-gray-400 mb-1'>
+										Total Operations
+									</p>
 									<p className='text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent'>
 										{totalOperations}
 									</p>
 								</div>
 								<div className='grid grid-cols-2 gap-3'>
 									<div className='text-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg'>
-										<p className='text-2xl font-bold text-gray-900 dark:text-white'>19</p>
-										<p className='text-xs text-gray-600 dark:text-gray-400'>Tools Available</p>
+										<p className='text-2xl font-bold text-gray-900 dark:text-white'>
+											{TOOLS_COUNT}
+										</p>
+										<p className='text-xs text-gray-600 dark:text-gray-400'>
+											Tools Available
+										</p>
 									</div>
 									<div className='text-center p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg'>
 										<p className='text-2xl font-bold text-gray-900 dark:text-white'>
-											{isPremium ? '∞' : usageData.filter(u => u.used > 0).length}
+											{isPremium
+												? '∞'
+												: usageData.filter(
+														(u) => u.used > 0
+												  ).length}
 										</p>
 										<p className='text-xs text-gray-600 dark:text-gray-400'>
-											{isPremium ? 'Unlimited' : 'Tools Used'}
+											{isPremium
+												? 'Unlimited'
+												: 'Tools Used'}
 										</p>
 									</div>
 								</div>
@@ -329,17 +448,21 @@ function DashboardContent() {
 							</h3>
 							<Link
 								href='/'
-								className='text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 text-sm'
-							>
-								View All Tools <ArrowRight className='w-4 h-4' />
+								className='text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 text-sm'>
+								View All Tools{' '}
+								<ArrowRight className='w-4 h-4' />
 							</Link>
 						</div>
 						<div className='grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 gap-3'>
 							{ALL_TOOLS.slice(0, 18).map((tool) => {
 								const Icon = tool.icon;
 								const usage = getToolUsage(tool.id);
-								const isAtLimit = !isPremium && usage && usage.limit > 0 && usage.used >= usage.limit;
-								
+								const isAtLimit =
+									!isPremium &&
+									usage &&
+									usage.limit > 0 &&
+									usage.used >= usage.limit;
+
 								return (
 									<Link
 										key={tool.id}
@@ -348,11 +471,9 @@ function DashboardContent() {
 											isAtLimit
 												? 'bg-red-50 dark:bg-red-900/20 opacity-60'
 												: 'hover:bg-gray-50 dark:hover:bg-gray-700/50'
-										}`}
-									>
+										}`}>
 										<div
-											className={`w-10 h-10 ${tool.colorClass} rounded-xl flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform`}
-										>
+											className={`w-10 h-10 ${tool.colorClass} rounded-xl flex items-center justify-center mb-2 shadow-lg group-hover:scale-110 transition-transform`}>
 											<Icon className='w-5 h-5 text-white' />
 										</div>
 										<span className='text-xs font-medium text-gray-700 dark:text-gray-300 text-center leading-tight'>
@@ -361,10 +482,14 @@ function DashboardContent() {
 										{!isPremium && usage && (
 											<span
 												className={`text-[10px] mt-1 ${
-													isAtLimit ? 'text-red-500' : 'text-gray-400'
-												}`}
-											>
-												{usage.used}/{usage.limit === -1 ? '∞' : usage.limit}
+													isAtLimit
+														? 'text-red-500'
+														: 'text-gray-400'
+												}`}>
+												{usage.used}/
+												{usage.limit === -1
+													? '∞'
+													: usage.limit}
 											</span>
 										)}
 									</Link>
@@ -382,8 +507,7 @@ function DashboardContent() {
 							{toolCategories.map((category) => (
 								<div
 									key={category.name}
-									className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700'
-								>
+									className='bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700'>
 									<div className='mb-4'>
 										<h4 className='font-bold text-gray-900 dark:text-white'>
 											{category.name}
@@ -402,50 +526,66 @@ function DashboardContent() {
 											const percentage =
 												usage.limit === -1
 													? 0
-													: Math.min(100, (usage.used / usage.limit) * 100);
-											const isAtLimit = usage.limit > 0 && usage.used >= usage.limit;
+													: Math.min(
+															100,
+															(usage.used /
+																usage.limit) *
+																100
+													  );
+											const isAtLimit =
+												usage.limit > 0 &&
+												usage.used >= usage.limit;
 
 											return (
-												<div key={toolId} className='group'>
+												<div
+													key={toolId}
+													className='group'>
 													<div className='flex items-center gap-3 mb-1.5'>
 														<div
-															className={`w-8 h-8 ${tool.colorClass} rounded-lg flex items-center justify-center shadow`}
-														>
+															className={`w-8 h-8 ${tool.colorClass} rounded-lg flex items-center justify-center shadow`}>
 															<Icon className='w-4 h-4 text-white' />
 														</div>
 														<div className='flex-1 min-w-0'>
 															<div className='flex items-center justify-between'>
 																<span className='text-sm font-medium text-gray-700 dark:text-gray-300 truncate'>
-																	{tool.shortLabel}
+																	{
+																		tool.shortLabel
+																	}
 																</span>
 																<span
 																	className={`text-xs font-medium ${
-																		isAtLimit && !isPremium
+																		isAtLimit &&
+																		!isPremium
 																			? 'text-red-500'
 																			: 'text-gray-500 dark:text-gray-400'
-																	}`}
-																>
+																	}`}>
 																	{isPremium
 																		? `${usage.used} used`
-																		: usage.limit === -1
+																		: usage.limit ===
+																		  -1
 																		? `${usage.used}`
 																		: `${usage.used}/${usage.limit}`}
 																</span>
 															</div>
-															{!isPremium && usage.limit > 0 && (
-																<div className='h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden mt-1'>
-																	<div
-																		className={`h-full rounded-full transition-all ${
-																			isAtLimit
-																				? 'bg-red-500'
-																				: percentage > 66
-																				? 'bg-yellow-500'
-																				: 'bg-green-500'
-																		}`}
-																		style={{ width: `${percentage}%` }}
-																	/>
-																</div>
-															)}
+															{!isPremium &&
+																usage.limit >
+																	0 && (
+																	<div className='h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden mt-1'>
+																		<div
+																			className={`h-full rounded-full transition-all ${
+																				isAtLimit
+																					? 'bg-red-500'
+																					: percentage >
+																					  66
+																					? 'bg-yellow-500'
+																					: 'bg-green-500'
+																			}`}
+																			style={{
+																				width: `${percentage}%`,
+																			}}
+																		/>
+																	</div>
+																)}
 														</div>
 													</div>
 												</div>
@@ -466,14 +606,14 @@ function DashboardContent() {
 										Unlock Unlimited PDF Operations
 									</h3>
 									<p className='text-blue-100 max-w-xl'>
-										Upgrade to Premium for unlimited access to all 19 tools, larger file sizes,
-										ZIP downloads, and an ad-free experience.
+										Upgrade to Premium for unlimited access
+										to all {TOOLS_COUNT} tools, larger file sizes, ZIP
+										downloads, and an ad-free experience.
 									</p>
 								</div>
 								<button
 									onClick={() => router.push('/pricing')}
-									className='bg-white text-indigo-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap'
-								>
+									className='bg-white text-indigo-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl flex items-center gap-2 whitespace-nowrap'>
 									<Crown className='w-5 h-5' />
 									View Premium Plans
 								</button>
@@ -502,23 +642,29 @@ function BenefitItem({
 	return (
 		<div
 			className={`flex items-center gap-3 p-3 rounded-xl ${
-				light ? 'bg-white/10 backdrop-blur' : 'bg-gray-50 dark:bg-gray-700/50'
-			}`}
-		>
-			<div className={light ? 'text-white' : 'text-blue-600 dark:text-blue-400'}>{icon}</div>
+				light
+					? 'bg-white/10 backdrop-blur'
+					: 'bg-gray-50 dark:bg-gray-700/50'
+			}`}>
+			<div
+				className={
+					light ? 'text-white' : 'text-blue-600 dark:text-blue-400'
+				}>
+				{icon}
+			</div>
 			<div>
 				<p
 					className={`text-xs ${
-						light ? 'text-white/70' : 'text-gray-500 dark:text-gray-400'
-					}`}
-				>
+						light
+							? 'text-white/70'
+							: 'text-gray-500 dark:text-gray-400'
+					}`}>
 					{label}
 				</p>
 				<p
 					className={`text-sm font-semibold ${
 						light ? 'text-white' : 'text-gray-900 dark:text-white'
-					}`}
-				>
+					}`}>
 					{value}
 				</p>
 			</div>

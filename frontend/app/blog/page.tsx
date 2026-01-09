@@ -38,6 +38,40 @@ export const metadata: Metadata = {
 // Blog posts data - easily extensible for future posts
 const blogPosts = [
 	{
+		slug: 'how-to-convert-pdf-to-html',
+		title: 'How to Convert PDF to HTML (Complete Guide 2026)',
+		description:
+			'Convert PDF documents to clean, responsive HTML with extracted text and images. Learn the best methods, tools, and tips for creating web-ready content from PDFs.',
+		date: '2026-01-08',
+		readTime: '11 min read',
+		category: 'Tutorials',
+		icon: FileText,
+		featured: true,
+		tags: [
+			'PDF to HTML',
+			'convert PDF',
+			'HTML conversion',
+			'web content',
+		],
+	},
+	{
+		slug: 'pdf-to-html-vs-pdf-to-image',
+		title: 'PDF to HTML vs PDF to Image: Which Should You Choose?',
+		description:
+			'Comparing PDF conversion options: when to convert to HTML for text and SEO, and when images are better. Make the right choice for your use case.',
+		date: '2026-01-08',
+		readTime: '8 min read',
+		category: 'Guides',
+		icon: FileText,
+		featured: false,
+		tags: [
+			'PDF to HTML',
+			'PDF to image',
+			'conversion comparison',
+			'PDF export',
+		],
+	},
+	{
 		slug: 'pdf-workflows-remote-teams',
 		title: '10 Essential PDF Workflows for Remote Teams (2026)',
 		description:
@@ -46,7 +80,7 @@ const blogPosts = [
 		readTime: '12 min read',
 		category: 'Productivity',
 		icon: FileText,
-		featured: true,
+		featured: false,
 		tags: [
 			'PDF workflow',
 			'remote work PDFs',

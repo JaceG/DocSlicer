@@ -1,4 +1,5 @@
 import { Header } from '@/components/ui/Header';
+import { TOOLS_COUNT } from '@/lib/tools/config';
 
 export default function TermsPage() {
 	return (
@@ -29,7 +30,7 @@ export default function TermsPage() {
 							2. Description of Service
 						</h2>
 						<p>
-							PDF Wonder Kit provides a comprehensive web-based PDF toolkit with 18+ tools including split, merge, compress, protect, sign, annotate, OCR, and more. The service operates entirely in your browser for security and privacy.
+							PDF Wonder Kit provides a comprehensive web-based PDF toolkit with {TOOLS_COUNT} tools including split, merge, compress, convert to HTML, protect, sign, annotate, OCR, and more. The service operates entirely in your browser for security and privacy.
 						</p>
 					</section>
 

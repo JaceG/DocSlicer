@@ -116,7 +116,8 @@ export type AppMode =
 	| 'forms'
 	| 'ocr'
 	| 'compare'
-	| 'metadata';
+	| 'metadata'
+	| 'pdf-to-html';
 
 // Compression functionality types
 export type CompressionLevel = 'screen' | 'ebook' | 'printer' | 'prepress';
@@ -738,4 +739,63 @@ export interface MetadataTask {
 	outputUrl?: string;
 	blobKey?: string;
 	error?: string;
+}
+
+// ===== PDF TO HTML TYPES =====
+
+export type HtmlOutputMode = 'single-file' | 'zip-package';
+export type HtmlTheme = 'modern' | 'classic' | 'minimal' | 'dark';
+export type ImageExtractionMode = 'embedded' | 'render-pages' | 'both';
+
+export interface PdfToHtmlSettings {
+	outputMode: HtmlOutputMode;
+	theme: HtmlTheme;
+	extractText: boolean;
+	extractImages: ImageExtractionMode;
+	imageFormat: 'png' | 'jpg' | 'webp';
+	imageQuality: number; // 0-100
+	imageScale: number; // 1-3
+	includePageNumbers: boolean;
+	pageSelection: 'all' | 'range' | 'specific';
+	pageRange?: { start: number; end: number };
+	specificPages?: number[];
+}
+
+export interface ExtractedImage {
+	id: string;
+	pageNumber: number;
+	imageIndex: number;
+	dataUrl: string;
+	fileName: string;
+	width: number;
+	height: number;
+	blob?: Blob;
+}
+
+export interface ExtractedPage {
+	pageNumber: number;
+	text: string;
+	images: ExtractedImage[];
+	renderedImage?: ExtractedImage; // Full page render
+}
+
+export interface PdfToHtmlTask {
+	id: string;
+	file: UploadedFile;
+	settings: PdfToHtmlSettings;
+	extractedPages: ExtractedPage[];
+	outputFileName: string;
+	status: 'pending' | 'extracting-text' | 'extracting-images' | 'generating-html' | 'completed' | 'error';
+	progress?: number;
+	currentPage?: number;
+	htmlContent?: string;
+	outputUrl?: string;
+	zipUrl?: string;
+	blobKey?: string;
+	error?: string;
+	stats?: {
+		totalPages: number;
+		totalImages: number;
+		totalCharacters: number;
+	};
 }

@@ -30,6 +30,7 @@ import { FormsManager } from '@/components/forms/FormsManager';
 import { OcrManager } from '@/components/ocr/OcrManager';
 import { CompareManager } from '@/components/compare/CompareManager';
 import { MetadataManager } from '@/components/metadata/MetadataManager';
+import { PdfToHtmlManager } from '@/components/pdfToHtml/PdfToHtmlManager';
 import { useDynamicFavicon } from '@/hooks/useDynamicFavicon';
 import { ALL_TOOLS, getToolById } from '@/lib/tools/config';
 import {
@@ -82,6 +83,7 @@ import {
 	Scan,
 	GitCompare,
 	Info,
+	Code,
 	Upload,
 	ChevronDown,
 } from 'lucide-react';
@@ -1790,6 +1792,79 @@ export default function HomeContent({
 							</>
 						) : (
 							<MetadataManager
+								file={uploadedFile}
+								onReset={handlePdfToolReset}
+							/>
+						)}
+					</div>
+				)}
+
+				{/* PDF to HTML Mode */}
+				{appMode === 'pdf-to-html' && (
+					<div className='max-w-4xl mx-auto space-y-8'>
+						{isLoaded && !isPremium && <UsageBanner />}
+
+						{!uploadedFile ? (
+							<>
+								<div className='bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border-2 border-orange-200 dark:border-orange-800 rounded-xl p-6'>
+									<div className='flex items-start gap-4'>
+										<div className='bg-gradient-to-br from-orange-500 to-red-500 rounded-full p-3 flex-shrink-0'>
+											<Code className='w-6 h-6 text-white' />
+										</div>
+										<div>
+											<h3 className='text-lg font-bold text-gray-900 dark:text-white mb-2'>
+												🌐 PDF to HTML Converter
+											</h3>
+											<p className='text-gray-700 dark:text-gray-300 mb-2'>
+												Convert your PDF to a beautiful, self-contained HTML document with text and images.
+											</p>
+											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
+												<li>
+													• <strong>Extract text</strong> – Searchable, copyable text content
+												</li>
+												<li>
+													• <strong>Extract images</strong> – Embedded or as separate files
+												</li>
+												<li>
+													• <strong>Choose themes</strong> – Modern, Classic, Minimal, or Dark
+												</li>
+												<li>
+													• <strong>Single HTML or ZIP</strong> – With images folder
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+								<div ref={uploadSectionRef}>
+									<FileUpload
+										onFileUpload={handleFileUpload}
+										minimal
+										accentColor='orange'
+										dropzoneTitle='Drop your PDF to convert to HTML'
+										dropzoneSubtitle='Create web pages with text and images'
+										features={[
+											{
+												icon: 'file',
+												title: 'Text & Images',
+												subtitle: 'Full extraction',
+											},
+											{
+												icon: 'sparkle',
+												title: '4 Themes',
+												subtitle: 'Beautiful styles',
+												highlight: true,
+											},
+											{
+												icon: 'check',
+												title: 'ZIP or HTML',
+												subtitle: 'Your choice',
+											},
+										]}
+									/>
+								</div>
+							</>
+						) : (
+							<PdfToHtmlManager
 								file={uploadedFile}
 								onReset={handlePdfToolReset}
 							/>

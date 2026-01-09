@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
-import { ToolConfig } from '@/lib/tools/config';
+import { ToolConfig, TOOLS_COUNT } from '@/lib/tools/config';
 
 interface HeaderProps {
 	onNewDocument?: () => void;
@@ -89,7 +89,7 @@ export function Header({ onNewDocument, currentTool }: HeaderProps) {
 							<p className='hidden md:block text-sm text-gray-600 dark:text-gray-400'>
 								{currentTool
 									? currentTool.description
-									: 'Complete PDF toolkit with 18+ tools'}
+									: `Complete PDF toolkit with ${TOOLS_COUNT} tools`}
 							</p>
 						</div>
 					</Link>

@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-green.svg)
 
-A comprehensive **18-in-1 PDF toolkit** with everything you need to work with PDFs professionally. Split, merge, compress, protect, annotate, sign, and more—all with **100% client-side processing** for maximum privacy.
+A comprehensive **20-in-1 PDF toolkit** with everything you need to work with PDFs professionally. Split, merge, compress, protect, annotate, sign, convert to HTML, and more—all with **100% client-side processing** for maximum privacy.
 
 🔒 **Your files never leave your device** - Everything happens in your browser!
 
@@ -16,7 +16,7 @@ A comprehensive **18-in-1 PDF toolkit** with everything you need to work with PD
 
 [View Pricing](https://www.pdfwonderkit.com/pricing)
 
-## ✨ All 18 Tools Included
+## ✨ All 20 Tools Included
 
 ### 📄 Document Manipulation
 1. **✂️ Split PDF** - Extract specific pages or split into multiple files
@@ -44,8 +44,9 @@ A comprehensive **18-in-1 PDF toolkit** with everything you need to work with PD
 ### 🖼️ Conversion & OCR
 16. **🖼️ Images to PDF** - Convert JPG/PNG/WebP to PDF with reordering
 17. **📸 PDF to Images** - Export pages as high-quality JPG/PNG/WebP
-18. **🔍 OCR** - Make scanned PDFs searchable (12+ languages, Tesseract.js)
-19. **📊 Compare PDFs** - Visual diff and text comparison between documents
+18. **🌐 PDF to HTML** - Convert PDFs to responsive HTML with text & images (4 themes)
+19. **🔍 OCR** - Make scanned PDFs searchable (12+ languages, Tesseract.js)
+20. **📊 Compare PDFs** - Visual diff and text comparison between documents
 
 ### Universal Features
 - **Drag & Drop Upload**: Seamless file upload with visual feedback and validation
@@ -130,7 +131,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## 🎯 Usage
 
 ### Simple 3-Step Process
-1. **Choose Tool**: Select from 18+ PDF tools based on your needs
+1. **Choose Tool**: Select from 20 PDF tools based on your needs
 2. **Upload**: Drag & drop your PDF file(s) (Free: 25MB, Premium: 100MB)
 3. **Process & Download**: Apply changes and download instantly
 
@@ -140,6 +141,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Compress PDF**: Upload → Choose quality → Compress → Download
 - **Sign Document**: Upload → Draw/type signature → Place → Download
 - **OCR Scan**: Upload scanned PDF → Select language → Process → Download searchable PDF
+- **PDF to HTML**: Upload → Choose theme → Extract text/images → Download HTML or ZIP
 
 ### Free vs Premium
 
@@ -251,10 +253,11 @@ pdf-epub-slicer/
 
 ## 🔮 Roadmap
 
-- [x] 18+ PDF tools implemented
+- [x] 20 PDF tools implemented
 - [x] OCR for scanned documents (12+ languages)
 - [x] Merge, split, compress PDFs
 - [x] Digital signatures and form filling
+- [x] PDF to HTML conversion with themes
 - [ ] API access for developers
 - [ ] Desktop app (Electron)
 - [ ] Advanced batch file processing

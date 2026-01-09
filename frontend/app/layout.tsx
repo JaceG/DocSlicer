@@ -4,6 +4,7 @@ import './globals.css';
 import HotjarProvider from '../components/analytics/HotjarProvider';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { ClerkProvider } from '@clerk/nextjs';
+import { TOOLS_COUNT } from '@/lib/tools/config';
 // import AdSenseProvider from '../components/analytics/AdSenseProvider';
 
 const inter = Inter({
@@ -14,11 +15,10 @@ const inter = Inter({
 export const metadata: Metadata = {
 	metadataBase: new URL('https://www.pdfwonderkit.com'),
 	title: {
-		default: 'PDF Wonder Kit - Complete PDF Toolkit | 18 Tools in One',
+		default: `PDF Wonder Kit - Complete PDF Toolkit | ${TOOLS_COUNT} Tools in One`,
 		template: '%s | PDF Wonder Kit',
 	},
-	description:
-		'Complete PDF toolkit with 18+ tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device. Free plan available.',
+	description: `Complete PDF toolkit with ${TOOLS_COUNT} tools: split, merge, compress, convert to HTML, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device. Free plan available.`,
 	keywords: [
 		'PDF toolkit',
 		'PDF tools',
@@ -51,8 +51,7 @@ export const metadata: Metadata = {
 		url: 'https://www.pdfwonderkit.com',
 		siteName: 'PDF Wonder Kit',
 		title: 'PDF Wonder Kit - Complete PDF Toolkit',
-		description:
-			'Complete PDF toolkit with 18+ tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device.',
+		description: `Complete PDF toolkit with ${TOOLS_COUNT} tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device.`,
 		images: [
 			{
 				url: '/og-image.svg',
@@ -65,8 +64,7 @@ export const metadata: Metadata = {
 	twitter: {
 		card: 'summary_large_image',
 		title: 'PDF Wonder Kit - Complete PDF Toolkit',
-		description:
-			'18+ PDF tools in one: split, merge, compress, sign, annotate, OCR & more. 100% private & secure - your files never leave your device.',
+		description: `${TOOLS_COUNT} PDF tools in one: split, merge, compress, sign, annotate, OCR & more. 100% private & secure - your files never leave your device.`,
 		images: ['/og-image.svg'],
 		creator: '@pdfwonderkit',
 	},
@@ -107,8 +105,7 @@ const jsonLd = {
 	name: 'PDF Wonder Kit',
 	alternateName: 'PDFWonderKit',
 	url: 'https://www.pdfwonderkit.com',
-		description:
-			'Complete PDF toolkit with 18+ tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device.',
+		description: `Complete PDF toolkit with ${TOOLS_COUNT} tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device.`,
 		applicationCategory: 'BusinessApplication',
 		operatingSystem: 'Web Browser',
 		offers: {
@@ -123,7 +120,7 @@ const jsonLd = {
 			ratingCount: '267',
 		},
 		featureList: [
-			'18+ PDF tools in one platform',
+			`${TOOLS_COUNT} PDF tools in one platform`,
 			'Split, merge, compress PDFs',
 			'Sign and annotate documents',
 			'OCR for scanned PDFs (12+ languages)',

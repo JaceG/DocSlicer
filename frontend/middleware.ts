@@ -34,6 +34,7 @@ const isPublicRoute = createRouteMatcher([
 	'/ocr',
 	'/compare',
 	'/edit-metadata',
+	'/pdf-to-html',
 ]);
 
 // Old domains that should redirect to the new domain

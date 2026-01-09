@@ -5,6 +5,7 @@ import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/ui/Header';
 import { Footer } from '@/components/ui/Footer';
+import { TOOLS_COUNT } from '@/lib/tools/config';
 import {
 	CheckCircle,
 	Sparkles,
@@ -76,6 +77,12 @@ const TOOL_CATEGORIES = [
 			{
 				name: 'PDF to Images',
 				icon: FileImage,
+				freeLimit: '3/month',
+				premium: 'Unlimited',
+			},
+			{
+				name: 'PDF to HTML',
+				icon: FileText,
 				freeLimit: '3/month',
 				premium: 'Unlimited',
 			},
@@ -179,10 +186,8 @@ const TOOL_CATEGORIES = [
 	},
 ];
 
-const ALL_TOOLS_COUNT = TOOL_CATEGORIES.reduce(
-	(acc, cat) => acc + cat.tools.length,
-	0
-);
+// Use centralized TOOLS_COUNT from config for consistency
+// TOOL_CATEGORIES is kept for displaying tools by category on this page
 
 export default function PricingPage() {
 	const { isSignedIn } = useUser();
@@ -237,8 +242,8 @@ export default function PricingPage() {
 							Simple, Transparent Pricing
 						</h1>
 						<p className='text-xl text-gray-600 dark:text-gray-300 mb-2'>
-							Access all {ALL_TOOLS_COUNT} PDF tools with one
-							simple plan
+							Access all {TOOLS_COUNT} PDF tools with one simple
+							plan
 						</p>
 						<div className='flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400'>
 							<Shield className='w-4 h-4' />
@@ -299,7 +304,7 @@ export default function PricingPage() {
 
 							<ul className='space-y-3 mb-8'>
 								<Feature
-									text={`Access to all ${ALL_TOOLS_COUNT} PDF tools`}
+									text={`Access to all ${TOOLS_COUNT} PDF tools`}
 								/>
 								<Feature text='3 operations per tool per month' />
 								<Feature text='25MB file size limit' />
@@ -356,7 +361,7 @@ export default function PricingPage() {
 
 							<ul className='space-y-3 mb-8'>
 								<Feature
-									text={`Unlimited access to all ${ALL_TOOLS_COUNT} tools`}
+									text={`Unlimited access to all ${TOOLS_COUNT} tools`}
 									light
 								/>
 								<Feature
@@ -403,7 +408,7 @@ export default function PricingPage() {
 					{/* Tool Categories */}
 					<div className='mb-16'>
 						<h2 className='text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white'>
-							All {ALL_TOOLS_COUNT} Tools Included
+							All {TOOLS_COUNT} Tools Included
 						</h2>
 						<div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
 							{TOOL_CATEGORIES.map((category) => (
@@ -457,8 +462,8 @@ export default function PricingPage() {
 									<tbody className='divide-y divide-gray-200 dark:divide-gray-700'>
 										<ComparisonRow
 											feature='PDF Tools Access'
-											free={`All ${ALL_TOOLS_COUNT} tools`}
-											premium={`All ${ALL_TOOLS_COUNT} tools`}
+											free={`All ${TOOLS_COUNT} tools`}
+											premium={`All ${TOOLS_COUNT} tools`}
 										/>
 										<ComparisonRow
 											feature='Monthly Operations (per tool)'

@@ -18,6 +18,7 @@ import {
 	Scan,
 	GitCompare,
 	Info,
+	Code,
 	LucideIcon,
 } from 'lucide-react';
 import { AppMode } from '@/types';
@@ -390,6 +391,25 @@ export const ALL_TOOLS: ToolConfig[] = [
 			'update PDF info',
 		],
 	},
+	{
+		id: 'pdf-to-html',
+		slug: 'pdf-to-html',
+		label: 'PDF to HTML Converter',
+		shortLabel: 'PDF→HTML',
+		description: 'Convert PDF to HTML with text and images',
+		longDescription:
+			'Convert PDF documents to clean HTML with extracted text and images. Choose between embedded base64 images or separate files. 100% private browser processing.',
+		icon: Code,
+		activeClasses: 'bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 ring-orange-400',
+		colorClass: 'bg-gradient-to-br from-orange-500 to-red-500',
+		keywords: [
+			'PDF to HTML',
+			'convert PDF to HTML',
+			'PDF HTML converter',
+			'extract PDF text',
+			'PDF to web page',
+		],
+	},
 ];
 
 // Get tool by slug (for routing)
@@ -406,3 +426,6 @@ export function getToolById(id: AppMode): ToolConfig | undefined {
 export function getAllToolSlugs(): string[] {
 	return ALL_TOOLS.map((tool) => tool.slug);
 }
+
+// Total tool count (for dynamic display across the app)
+export const TOOLS_COUNT = ALL_TOOLS.length;
