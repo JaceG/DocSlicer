@@ -1839,7 +1839,7 @@ export default function HomeContent({
 									<FileUpload
 										onFileUpload={handleFileUpload}
 										minimal
-										accentColor='orange'
+										accentColor='amber'
 										dropzoneTitle='Drop your PDF to convert to HTML'
 										dropzoneSubtitle='Create web pages with text and images'
 										features={[
