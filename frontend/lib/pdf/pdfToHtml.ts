@@ -308,12 +308,9 @@ async function extractEmbeddedImages(
 		
 		let imageIndex = 0;
 		
-		for (let i = 0; i < opList.fnArray.length; i++) {
-			// Check for image operations
-			if (
-				opList.fnArray[i] === pdfjsLib.OPS.paintImageXObject ||
-				opList.fnArray[i] === pdfjsLib.OPS.paintJpegXObject
-			) {
+	for (let i = 0; i < opList.fnArray.length; i++) {
+		// Check for image operations
+		if (opList.fnArray[i] === pdfjsLib.OPS.paintImageXObject) {
 				try {
 					const imgName = opList.argsArray[i][0];
 					const imgData = await page.objs.get(imgName);
