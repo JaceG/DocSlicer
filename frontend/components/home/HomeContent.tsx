@@ -509,17 +509,26 @@ export default function HomeContent({
 								</h3>
 								<p className='text-gray-700 dark:text-gray-300 mb-2'>
 									Everything happens in your browser. We never
-									upload, store, or access your PDFs. This isn't just a promise—it's how our
-									technology works.
+									upload, store, or access your PDFs. This
+									isn't just a promise—it's how our technology
+									works.
 								</p>
 								<p className='text-sm text-gray-600 dark:text-gray-400 mb-3'>
-									<strong>HIPAA-Friendly for Healthcare</strong> • <strong>Attorney-Client Privilege Safe</strong> • <strong>Complete Privacy Guaranteed</strong>
+									<strong>
+										HIPAA-Friendly for Healthcare
+									</strong>{' '}
+									•{' '}
+									<strong>
+										Attorney-Client Privilege Safe
+									</strong>{' '}
+									•{' '}
+									<strong>Complete Privacy Guaranteed</strong>
 								</p>
-								<Link 
+								<Link
 									href='/compliance'
-									className='inline-flex items-center gap-1 text-sm font-medium text-green-700 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 underline underline-offset-2 transition-colors'
-								>
-									Learn what this means for your industry and compliance responsibilities
+									className='inline-flex items-center gap-1 text-sm font-medium text-green-700 dark:text-green-400 hover:text-green-800 dark:hover:text-green-300 underline underline-offset-2 transition-colors'>
+									Learn what this means for your industry and
+									compliance responsibilities
 									<span className='text-xs'>→</span>
 								</Link>
 							</div>
@@ -1256,7 +1265,8 @@ export default function HomeContent({
 											{
 												icon: 'check',
 												title: 'Preview First',
-												subtitle: 'Review before delete',
+												subtitle:
+													'Review before delete',
 											},
 											{
 												icon: 'file',
@@ -1409,7 +1419,8 @@ export default function HomeContent({
 											{
 												icon: 'check',
 												title: 'Shapes',
-												subtitle: 'Arrows, boxes, circles',
+												subtitle:
+													'Arrows, boxes, circles',
 											},
 										]}
 									/>
@@ -1816,20 +1827,41 @@ export default function HomeContent({
 												🌐 PDF to HTML Converter
 											</h3>
 											<p className='text-gray-700 dark:text-gray-300 mb-2'>
-												Convert your PDF to a beautiful, self-contained HTML document with text and images.
+												Convert your PDF to a beautiful,
+												self-contained HTML document
+												with text and images.
 											</p>
 											<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
 												<li>
-													• <strong>Extract text</strong> – Searchable, copyable text content
+													•{' '}
+													<strong>
+														Extract text
+													</strong>{' '}
+													– Searchable, copyable text
+													content
 												</li>
 												<li>
-													• <strong>Extract images</strong> – Embedded or as separate files
+													•{' '}
+													<strong>
+														Extract images
+													</strong>{' '}
+													– Embedded or as separate
+													files
 												</li>
 												<li>
-													• <strong>Choose themes</strong> – Modern, Classic, Minimal, or Dark
+													•{' '}
+													<strong>
+														Choose themes
+													</strong>{' '}
+													– Modern, Classic, Minimal,
+													or Dark
 												</li>
 												<li>
-													• <strong>Single HTML or ZIP</strong> – With images folder
+													•{' '}
+													<strong>
+														Single HTML or ZIP
+													</strong>{' '}
+													– With images folder
 												</li>
 											</ul>
 										</div>
@@ -1950,9 +1982,7 @@ export default function HomeContent({
 							animation: 'bounce-gentle 2s ease-in-out infinite',
 						}}>
 						<Upload className='w-6 h-6' />
-						<span className='hidden sm:inline'>
-							Open PDF
-						</span>
+						<span className='hidden sm:inline'>Open PDF</span>
 						<ChevronDown className='w-5 h-5 animate-pulse' />
 					</button>
 				)}
