@@ -24,6 +24,11 @@ export function Header({ onNewDocument, currentTool }: HeaderProps) {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const menuRef = useRef<HTMLDivElement>(null);
 
+	// Debug: Log Clerk state
+	useEffect(() => {
+		console.log('Clerk Auth State:', { isLoaded, isSignedIn });
+	}, [isLoaded, isSignedIn]);
+
 	// Close menu when clicking outside
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -96,6 +101,10 @@ export function Header({ onNewDocument, currentTool }: HeaderProps) {
 
 					{/* Desktop Navigation */}
 					<div className='hidden md:flex items-center space-x-3'>
+						{/* TEMP DEBUG */}
+						<div className='px-3 py-1 bg-yellow-200 text-black text-xs rounded'>
+							isLoaded: {String(isLoaded)} | isSignedIn: {String(isSignedIn)}
+						</div>
 						{isLoaded && (
 							<>
 								{isSignedIn ? (
@@ -148,6 +157,10 @@ export function Header({ onNewDocument, currentTool }: HeaderProps) {
 
 					{/* Mobile: User button (when signed in) + Hamburger */}
 					<div className='flex md:hidden items-center space-x-2'>
+						{/* TEMP DEBUG - Mobile */}
+						<div className='px-2 py-1 bg-yellow-200 text-black text-xs rounded'>
+							{String(isLoaded)}/{String(isSignedIn)}
+						</div>
 						{isLoaded && isSignedIn && (
 							<UserButton
 								appearance={{

@@ -9,11 +9,9 @@ const initPDFJS = async () => {
 		try {
 			pdfjsLib = await import('pdfjs-dist');
 
-			// Configure PDF.js worker with fallback
+			// Configure PDF.js worker with local file to avoid CORS issues
 			if (pdfjsLib.GlobalWorkerOptions) {
-				// Use reliable CDN worker that matches our version
-				pdfjsLib.GlobalWorkerOptions.workerSrc =
-					'https://unpkg.com/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs';
+				pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.min.mjs';
 			}
 		} catch (error) {
 			console.error('Failed to load PDF.js:', error);
@@ -69,7 +67,9 @@ export class PDFViewer {
 			}
 		} catch (error) {
 			console.error('Failed to load PDF document:', error);
-			throw new Error('Failed to load PDF document');
+			// Preserve the original error message if available
+			const errorMessage = error instanceof Error ? error.message : 'Failed to load PDF document';
+			throw new Error(`Failed to load PDF document: ${errorMessage}`);
 		}
 	}
 

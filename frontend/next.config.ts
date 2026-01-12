@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
 	// Compression
 	compress: true,
 
+	// Increase body size limit for PDF uploads (default is 1MB)
+	serverActions: {
+		bodySizeLimit: '100mb', // Allow up to 100MB for PDF uploads
+	},
+
 	webpack: (config, { isServer }) => {
 		// Fix for PDF.js in browser
 		if (!isServer) {
