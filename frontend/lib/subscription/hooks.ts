@@ -9,33 +9,30 @@ import { SubscriptionStatus, SubscriptionTier, TIER_LIMITS, UsageLimits } from '
 export function useSubscription() {
 	const { user, isLoaded } = useUser();
 
-	// In development mode (localhost), bypass limits for testing
-	const isDev = typeof window !== 'undefined' && window.location.hostname === 'localhost';
-	
 	if (!isLoaded) {
 		return {
 			isLoaded: false,
 			subscription: null,
-			limits: isDev ? TIER_LIMITS.premium : TIER_LIMITS.free,
-			isPremium: isDev,
+			limits: TIER_LIMITS.free,
+			isPremium: false,
 		};
 	}
 
-	// If no user, return free tier (or premium in dev)
+	// If no user, return free tier
 	if (!user) {
 		return {
 			isLoaded: true,
-			subscription: { tier: (isDev ? 'premium' : 'free') as SubscriptionTier },
-			limits: isDev ? TIER_LIMITS.premium : TIER_LIMITS.free,
-			isPremium: isDev,
+			subscription: { tier: 'free' as SubscriptionTier },
+			limits: TIER_LIMITS.free,
+			isPremium: false,
 		};
 	}
 
 	// Get subscription data from Clerk public metadata
 	const subscriptionData = user.publicMetadata.subscription as SubscriptionStatus | undefined;
 	const subscription: SubscriptionStatus = subscriptionData || { tier: 'free' };
-	const isPremium = isDev || subscription.tier === 'premium'; // Dev mode = premium
-	const limits = isDev ? TIER_LIMITS.premium : TIER_LIMITS[subscription.tier];
+	const isPremium = subscription.tier === 'premium';
+	const limits = TIER_LIMITS[subscription.tier];
 
 	return {
 		isLoaded: true,
