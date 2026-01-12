@@ -257,66 +257,6 @@ function DashboardContent() {
 						</div>
 					)}
 
-					{/* Development Tools (Only in Development) */}
-					{process.env.NODE_ENV === 'development' && (
-						<div className='mb-6 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30 border-2 border-yellow-300 dark:border-yellow-700 rounded-xl p-5'>
-							<div className='flex items-start justify-between gap-4'>
-								<div>
-									<p className='font-bold text-lg text-yellow-900 dark:text-yellow-100 mb-1'>
-										🔧 Development Tools
-									</p>
-									<p className='text-sm text-yellow-700 dark:text-yellow-300'>
-										Quick actions for testing (only visible in dev mode)
-									</p>
-								</div>
-								<div className='flex gap-2'>
-									<button
-										onClick={async () => {
-											try {
-												const response = await fetch('/api/dev/upgrade-to-premium', {
-													method: 'POST',
-												});
-												const data = await response.json();
-												if (data.success) {
-													alert(data.message);
-													window.location.reload();
-												} else {
-													alert(data.error || 'Failed to upgrade');
-												}
-											} catch (error) {
-												console.error('Error:', error);
-												alert('Failed to upgrade to premium');
-											}
-										}}
-										className='px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow'>
-										↑ Upgrade to Premium
-									</button>
-									<button
-										onClick={async () => {
-											try {
-												const response = await fetch('/api/dev/upgrade-to-premium', {
-													method: 'DELETE',
-												});
-												const data = await response.json();
-												if (data.success) {
-													alert(data.message);
-													window.location.reload();
-												} else {
-													alert(data.error || 'Failed to downgrade');
-												}
-											} catch (error) {
-												console.error('Error:', error);
-												alert('Failed to downgrade to free');
-											}
-										}}
-										className='px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-all shadow'>
-										↓ Downgrade to Free
-									</button>
-								</div>
-							</div>
-						</div>
-					)}
-
 					{/* Page Header */}
 					<div className='mb-8'>
 						<h1 className='text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2'>
