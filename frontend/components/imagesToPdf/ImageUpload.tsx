@@ -141,10 +141,17 @@ export function ImageUpload({ onImagesUpload, existingImages = [] }: ImageUpload
 						</div>
 						<p className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
 							{existingImages.length > 0 
-								? 'Add more images or click to browse'
-								: 'Drop images here or click to browse'}
+								? 'Drag & drop to add more images'
+								: 'Drag & drop your images'}
 						</p>
-						<p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+						<p className="text-gray-600 dark:text-gray-400 mb-1">
+							or{' '}
+							<span className="text-blue-600 dark:text-blue-400 font-medium underline">
+								browse files
+							</span>{' '}
+							to upload
+						</p>
+						<p className="text-sm text-gray-500 dark:text-gray-500 mb-6">
 							JPG, PNG, GIF, WebP, BMP • Multiple files supported
 						</p>
 

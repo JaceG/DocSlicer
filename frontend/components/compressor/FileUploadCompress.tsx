@@ -31,8 +31,8 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 
 	const compressionsRemaining = isLoaded
 		? getRemainingCompressions(limits.maxCompressionsPerMonth)
-		: 0;
-	const hasCompressAccess = isPremium || compressionsRemaining > 0;
+		: limits.maxCompressionsPerMonth; // Default to limit when not loaded
+	const hasCompressAccess = !isLoaded || isPremium || compressionsRemaining > 0;
 
 	const onDrop = useCallback(
 		async (acceptedFiles: File[]) => {
@@ -172,6 +172,13 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 								: 'Drag & drop your PDF to compress'}
 						</p>
 						<p className='text-gray-600 dark:text-gray-400'>
+							or{' '}
+							<span className='text-blue-600 dark:text-blue-400 font-medium underline'>
+								browse files
+							</span>{' '}
+							to upload
+						</p>
+						<p className='text-sm text-gray-500 dark:text-gray-500'>
 							Reduce file size while maintaining quality
 						</p>
 					</div>

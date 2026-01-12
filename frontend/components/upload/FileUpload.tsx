@@ -405,7 +405,7 @@ export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue'
 							{dropzoneSubtitle || (
 								<>
 									or{' '}
-									<span className={cn('font-semibold transition-colors', ACCENT_TEXT_COLORS[accentColor])}>
+									<span className='text-blue-600 dark:text-blue-400 font-medium underline'>
 										browse files
 									</span>{' '}
 									to upload

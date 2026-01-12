@@ -134,9 +134,16 @@ export function FileUploadOrganize({ onFileUpload }: FileUploadOrganizeProps) {
 							<Upload className="h-8 w-8 text-white" />
 						</div>
 						<p className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-							Drop your PDF here or click to browse
+							Drag & drop your PDF to organize
 						</p>
-						<p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+						<p className="text-gray-600 dark:text-gray-400 mb-1">
+							or{' '}
+							<span className="text-blue-600 dark:text-blue-400 font-medium underline">
+								browse files
+							</span>{' '}
+							to upload
+						</p>
+						<p className="text-sm text-gray-500 dark:text-gray-500 mb-6">
 							Supports PDF files up to 100MB
 						</p>
 

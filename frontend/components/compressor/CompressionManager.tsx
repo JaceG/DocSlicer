@@ -44,8 +44,8 @@ export function CompressionManager({ file, onReset }: CompressionManagerProps) {
 
 	const compressionsRemaining = isLoaded
 		? getRemainingCompressions(limits.maxCompressionsPerMonth)
-		: 0;
-	const hasCompressAccess = isPremium || compressionsRemaining > 0;
+		: limits.maxCompressionsPerMonth; // Default to limit when not loaded
+	const hasCompressAccess = !isLoaded || isPremium || compressionsRemaining > 0;
 
 	const isProcessing = compressTask?.status === 'processing';
 	const isCompleted = compressTask?.status === 'completed';
