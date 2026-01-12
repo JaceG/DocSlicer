@@ -607,8 +607,9 @@ function DashboardContent() {
 									</h3>
 									<p className='text-blue-100 max-w-xl'>
 										Upgrade to Premium for unlimited access
-										to all {TOOLS_COUNT} tools, larger file sizes, ZIP
-										downloads, and an ad-free experience.
+										to all {TOOLS_COUNT} tools, larger file
+										sizes, ZIP downloads, and an ad-free
+										experience.
 									</p>
 								</div>
 								<button

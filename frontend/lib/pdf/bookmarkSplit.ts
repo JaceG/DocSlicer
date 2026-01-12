@@ -4,7 +4,10 @@ import { PdfBookmark, BookmarkSplitSettings } from '@/types';
 import JSZip from 'jszip';
 
 // Blob store for split PDFs
-const bookmarkSplitBlobStore = new Map<string, { blob: Blob; url: string; timestamp: number }>();
+const bookmarkSplitBlobStore = new Map<
+	string,
+	{ blob: Blob; url: string; timestamp: number }
+>();
 
 /**
  * Extract bookmarks from a PDF using pdfjs-dist
@@ -13,10 +16,9 @@ const bookmarkSplitBlobStore = new Map<string, { blob: Blob; url: string; timest
 export async function extractBookmarks(file: File): Promise<PdfBookmark[]> {
 	// Dynamically import pdfjs-dist to avoid SSR issues
 	const pdfjsLib = await import('pdfjs-dist');
-	
+
 	// Set worker
-	pdfjsLib.GlobalWorkerOptions.workerSrc = 
-		'https://unpkg.com/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs';
+	pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.min.mjs';
 
 	const arrayBuffer = await file.arrayBuffer();
 	const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
@@ -31,7 +33,7 @@ export async function extractBookmarks(file: File): Promise<PdfBookmark[]> {
 
 	// Recursive function to process outline items
 	async function processOutlineItem(
-		item: any, 
+		item: any,
 		level: number
 	): Promise<PdfBookmark | null> {
 		let pageNumber = 1;
@@ -62,7 +64,10 @@ export async function extractBookmarks(file: File): Promise<PdfBookmark[]> {
 
 		if (item.items && item.items.length > 0) {
 			for (const child of item.items) {
-				const childBookmark = await processOutlineItem(child, level + 1);
+				const childBookmark = await processOutlineItem(
+					child,
+					level + 1
+				);
 				if (childBookmark) {
 					bookmark.children!.push(childBookmark);
 				}
@@ -86,7 +91,7 @@ export async function extractBookmarks(file: File): Promise<PdfBookmark[]> {
  * Get flat list of bookmarks up to a certain level
  */
 export function flattenBookmarks(
-	bookmarks: PdfBookmark[], 
+	bookmarks: PdfBookmark[],
 	maxLevel: number = 0
 ): PdfBookmark[] {
 	const result: PdfBookmark[] = [];
@@ -115,7 +120,13 @@ export async function splitByBookmarks(
 	settings: BookmarkSplitSettings,
 	totalPages: number,
 	onProgress?: (progress: number) => void
-): Promise<Array<{ name: string; url: string; pageRange: { start: number; end: number } }>> {
+): Promise<
+	Array<{
+		name: string;
+		url: string;
+		pageRange: { start: number; end: number };
+	}>
+> {
 	onProgress?.(10);
 
 	const arrayBuffer = await file.arrayBuffer();
@@ -124,12 +135,16 @@ export async function splitByBookmarks(
 
 	// Get bookmarks at the specified level
 	const flatBookmarks = flattenBookmarks(bookmarks, settings.splitLevel);
-	
+
 	if (flatBookmarks.length === 0) {
 		throw new Error('No bookmarks found at the specified level');
 	}
 
-	const outputFiles: Array<{ name: string; url: string; pageRange: { start: number; end: number } }> = [];
+	const outputFiles: Array<{
+		name: string;
+		url: string;
+		pageRange: { start: number; end: number };
+	}> = [];
 
 	for (let i = 0; i < flatBookmarks.length; i++) {
 		const bookmark = flatBookmarks[i];
@@ -144,25 +159,37 @@ export async function splitByBookmarks(
 		const newPdf = await PDFDocument.create();
 		const pages = await newPdf.copyPages(
 			sourcePdf,
-			Array.from({ length: endPage - startPage + 1 }, (_, idx) => startPage - 1 + idx)
+			Array.from(
+				{ length: endPage - startPage + 1 },
+				(_, idx) => startPage - 1 + idx
+			)
 		);
 
-		pages.forEach(page => newPdf.addPage(page));
+		pages.forEach((page) => newPdf.addPage(page));
 
 		const pdfBytes = await newPdf.save();
-		const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+		const blob = new Blob([new Uint8Array(pdfBytes)], {
+			type: 'application/pdf',
+		});
 		const url = URL.createObjectURL(blob);
 
 		// Generate filename based on settings
 		let fileName: string;
-		const sanitizedTitle = bookmark.title.replace(/[^a-zA-Z0-9\s-]/g, '').trim();
-		
+		const sanitizedTitle = bookmark.title
+			.replace(/[^a-zA-Z0-9\s-]/g, '')
+			.trim();
+
 		switch (settings.namingPattern) {
 			case 'number-title':
-				fileName = `${String(i + 1).padStart(2, '0')}_${sanitizedTitle}.pdf`;
+				fileName = `${String(i + 1).padStart(
+					2,
+					'0'
+				)}_${sanitizedTitle}.pdf`;
 				break;
 			case 'custom':
-				fileName = `${settings.customPrefix || 'section'}_${i + 1}_${sanitizedTitle}.pdf`;
+				fileName = `${settings.customPrefix || 'section'}_${
+					i + 1
+				}_${sanitizedTitle}.pdf`;
 				break;
 			case 'title':
 			default:
@@ -171,7 +198,11 @@ export async function splitByBookmarks(
 		}
 
 		const blobKey = `bookmark_split_${Date.now()}_${i}`;
-		bookmarkSplitBlobStore.set(blobKey, { blob, url, timestamp: Date.now() });
+		bookmarkSplitBlobStore.set(blobKey, {
+			blob,
+			url,
+			timestamp: Date.now(),
+		});
 
 		outputFiles.push({
 			name: fileName,

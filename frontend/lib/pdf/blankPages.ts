@@ -3,7 +3,10 @@ import { PDFDocument } from 'pdf-lib';
 import { BlankPageSettings, BlankPageInfo } from '@/types';
 
 // Blob store for processed PDFs
-const blankPagesRemovalBlobStore = new Map<string, { blob: Blob; url: string; timestamp: number }>();
+const blankPagesRemovalBlobStore = new Map<
+	string,
+	{ blob: Blob; url: string; timestamp: number }
+>();
 
 /**
  * Analyze a page to determine if it's blank
@@ -51,10 +54,14 @@ async function analyzePageBlankness(
 		if (r >= threshold && g >= threshold && b >= threshold) {
 			whitePixels++;
 		}
-		
+
 		// For solid color detection, check if all channels are similar
 		if (settings.detectSolidColorPages) {
-			const diff = Math.max(Math.abs(r - g), Math.abs(g - b), Math.abs(r - b));
+			const diff = Math.max(
+				Math.abs(r - g),
+				Math.abs(g - b),
+				Math.abs(r - b)
+			);
 			if (diff < 10 && (r > 240 || r < 15)) {
 				nearWhitePixels++;
 			}
@@ -69,9 +76,17 @@ async function analyzePageBlankness(
 	const thumbnailCanvas = document.createElement('canvas');
 	const thumbnailSize = 100;
 	thumbnailCanvas.width = thumbnailSize;
-	thumbnailCanvas.height = Math.round(thumbnailSize * (viewport.height / viewport.width));
+	thumbnailCanvas.height = Math.round(
+		thumbnailSize * (viewport.height / viewport.width)
+	);
 	const thumbnailCtx = thumbnailCanvas.getContext('2d')!;
-	thumbnailCtx.drawImage(canvas, 0, 0, thumbnailCanvas.width, thumbnailCanvas.height);
+	thumbnailCtx.drawImage(
+		canvas,
+		0,
+		0,
+		thumbnailCanvas.width,
+		thumbnailCanvas.height
+	);
 	const thumbnail = thumbnailCanvas.toDataURL('image/jpeg', 0.6);
 
 	return {
@@ -94,8 +109,7 @@ export async function detectBlankPages(
 
 	// Dynamically import pdfjs-dist
 	const pdfjsLib = await import('pdfjs-dist');
-	pdfjsLib.GlobalWorkerOptions.workerSrc = 
-		'https://unpkg.com/pdfjs-dist@4.0.379/build/pdf.worker.min.mjs';
+	pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.min.mjs';
 
 	const arrayBuffer = await file.arrayBuffer();
 	const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
@@ -108,7 +122,7 @@ export async function detectBlankPages(
 	for (let i = 1; i <= totalPages; i++) {
 		const pageInfo = await analyzePageBlankness(pdfDocument, i, settings);
 		blankPages.push(pageInfo);
-		onProgress?.(15 + ((i / totalPages) * 80));
+		onProgress?.(15 + (i / totalPages) * 80);
 	}
 
 	onProgress?.(100);
@@ -146,22 +160,30 @@ export async function removePages(
 
 	const newPdf = await PDFDocument.create();
 	const copiedPages = await newPdf.copyPages(sourcePdf, pagesToKeep);
-	copiedPages.forEach(page => newPdf.addPage(page));
+	copiedPages.forEach((page) => newPdf.addPage(page));
 
 	onProgress?.(70);
 
 	const pdfBytes = await newPdf.save();
-	const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
+	const blob = new Blob([new Uint8Array(pdfBytes)], {
+		type: 'application/pdf',
+	});
 	const url = URL.createObjectURL(blob);
-	const blobKey = `blank_removed_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+	const blobKey = `blank_removed_${Date.now()}_${Math.random()
+		.toString(36)
+		.substr(2, 9)}`;
 
-	blankPagesRemovalBlobStore.set(blobKey, { blob, url, timestamp: Date.now() });
+	blankPagesRemovalBlobStore.set(blobKey, {
+		blob,
+		url,
+		timestamp: Date.now(),
+	});
 	onProgress?.(100);
 
-	return { 
-		url, 
-		blobKey, 
-		removedCount: pagesToRemove.size 
+	return {
+		url,
+		blobKey,
+		removedCount: pagesToRemove.size,
 	};
 }
 

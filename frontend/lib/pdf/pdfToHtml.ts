@@ -36,7 +36,11 @@ export interface PdfToHtmlResult {
 export async function convertPdfToHtml(
 	file: UploadedFile,
 	settings: PdfToHtmlSettings,
-	onProgress?: (progress: number, status: string, currentPage?: number) => void
+	onProgress?: (
+		progress: number,
+		status: string,
+		currentPage?: number
+	) => void
 ): Promise<PdfToHtmlResult> {
 	try {
 		onProgress?.(5, 'Loading PDF...');
@@ -54,13 +58,24 @@ export async function convertPdfToHtml(
 		// Determine which pages to process
 		let pagesToProcess: number[] = [];
 		if (settings.pageSelection === 'all') {
-			pagesToProcess = Array.from({ length: totalPages }, (_, i) => i + 1);
+			pagesToProcess = Array.from(
+				{ length: totalPages },
+				(_, i) => i + 1
+			);
 		} else if (settings.pageSelection === 'range' && settings.pageRange) {
 			const start = Math.max(1, settings.pageRange.start);
 			const end = Math.min(totalPages, settings.pageRange.end);
-			pagesToProcess = Array.from({ length: end - start + 1 }, (_, i) => start + i);
-		} else if (settings.pageSelection === 'specific' && settings.specificPages) {
-			pagesToProcess = settings.specificPages.filter(p => p >= 1 && p <= totalPages);
+			pagesToProcess = Array.from(
+				{ length: end - start + 1 },
+				(_, i) => start + i
+			);
+		} else if (
+			settings.pageSelection === 'specific' &&
+			settings.specificPages
+		) {
+			pagesToProcess = settings.specificPages.filter(
+				(p) => p >= 1 && p <= totalPages
+			);
 		}
 
 		if (pagesToProcess.length === 0) {
@@ -78,8 +93,12 @@ export async function convertPdfToHtml(
 		for (let i = 0; i < pagesToProcess.length; i++) {
 			const pageNum = pagesToProcess[i];
 			const progressBase = 10 + (i / pagesToProcess.length) * 60;
-			
-			onProgress?.(progressBase, `Processing page ${pageNum}...`, pageNum);
+
+			onProgress?.(
+				progressBase,
+				`Processing page ${pageNum}...`,
+				pageNum
+			);
 
 			const page = await pdf.getPage(pageNum);
 			const extractedPage: ExtractedPage = {
@@ -92,36 +111,125 @@ export async function convertPdfToHtml(
 			if (settings.extractText) {
 				try {
 					const textContent = await page.getTextContent();
-					const textItems = textContent.items as Array<{ str: string; transform?: number[] }>;
-					
-					// Group text by approximate Y position for better line breaks
-					const lines: Map<number, string[]> = new Map();
-					
+					const textItems = textContent.items as Array<{
+						str: string;
+						transform?: number[];
+						width?: number;
+						height?: number;
+					}>;
+
+					// Group text items by line with better positioning
+					const lines: Map<
+						number,
+						Array<{
+							x: number;
+							str: string;
+							width: number;
+							height: number;
+						}>
+					> = new Map();
+
 					for (const item of textItems) {
-						if (item.str) {
-							// Use transform to get Y position, round to group lines
-							const yPos = item.transform ? Math.round(item.transform[5] / 10) * 10 : 0;
-							if (!lines.has(yPos)) {
-								lines.set(yPos, []);
+						if (item.str && item.str.trim()) {
+							// Get position and dimensions
+							const x = item.transform ? item.transform[4] : 0;
+							const y = item.transform ? item.transform[5] : 0;
+							const width = item.width || 0;
+							const height =
+								item.height || item.transform
+									? Math.abs(item.transform[3])
+									: 12;
+
+							// Round Y to group into lines (using height for better grouping)
+							const lineY =
+								Math.round(y / Math.max(height * 0.5, 5)) *
+								Math.max(height * 0.5, 5);
+
+							if (!lines.has(lineY)) {
+								lines.set(lineY, []);
 							}
-							lines.get(yPos)!.push(item.str);
+							lines
+								.get(lineY)!
+								.push({ x, str: item.str, width, height });
 						}
 					}
-					
-					// Sort by Y position (descending for top-to-bottom reading)
+
+					// Sort lines by Y position (descending for top-to-bottom reading)
 					const sortedLines = Array.from(lines.entries())
 						.sort((a, b) => b[0] - a[0])
-						.map(([, texts]) => texts.join(' '));
+						.map(([, items]) => {
+							// Sort items within each line by X position (left to right)
+							items.sort((a, b) => a.x - b.x);
+
+							// Join items with appropriate spacing
+							let lineText = '';
+							for (let i = 0; i < items.length; i++) {
+								const item = items[i];
+								const nextItem = items[i + 1];
+
+								// Add the text
+								lineText += item.str;
+
+								// Decide if we need a space before next item
+								if (nextItem) {
+									const gap =
+										nextItem.x - (item.x + item.width);
+									const avgCharWidth =
+										item.width /
+										Math.max(item.str.length, 1);
+
+									// Check if there's already a space at the end/start
+									const hasSpace =
+										/\s$/.test(item.str) ||
+										/^\s/.test(nextItem.str);
+
+									// Add space if gap is significant and no space exists
+									if (!hasSpace && gap > avgCharWidth * 0.3) {
+										lineText += ' ';
+									}
+								}
+							}
+
+							return lineText.trim();
+						});
 					
-					extractedPage.text = sortedLines.join('\n');
+					// Post-process lines to fix spacing issues
+					const processedLines = sortedLines.map(line => {
+						// FIRST: Fix letter-spaced text (e.g., "H i t m o n t o p" -> "Hitmontop")
+						// This handles PDFs that render each character separately
+						line = collapseLetterSpacing(line);
+						
+						// THEN: Add spaces for CamelCase
+						// e.g., "HitmontopTyrogue" -> "Hitmontop Tyrogue"
+						line = line.replace(/([a-z])([A-Z])/g, '$1 $2');
+						
+						// Add spaces between word-like patterns
+						// e.g., "Route1Route2" -> "Route1 Route2"
+						line = line.replace(/([a-zA-Z])(\d+[A-Z])/g, '$1 $2');
+						line = line.replace(/(\d)([A-Z][a-z])/g, '$1 $2');
+						
+						return line;
+					});
+
+					// Join lines, filtering empty ones
+					extractedPage.text = processedLines
+						.filter((line) => line.trim())
+						.join('\n');
+
 					totalCharacters += extractedPage.text.length;
 				} catch (textError) {
-					console.warn(`Failed to extract text from page ${pageNum}:`, textError);
+					console.warn(
+						`Failed to extract text from page ${pageNum}:`,
+						textError
+					);
 				}
 			}
 
 			// Extract/render images based on mode
-			if (settings.extractImages === 'render-pages' || settings.extractImages === 'both') {
+			if (
+				settings.extractImages === 'render-pages' ||
+				settings.extractImages === 'both'
+			) {
 				try {
 					const renderedImage = await renderPageAsImage(
 						page,
@@ -133,11 +241,17 @@ export async function convertPdfToHtml(
 					extractedPage.renderedImage = renderedImage;
 					totalImages++;
 				} catch (renderError) {
-					console.warn(`Failed to render page ${pageNum}:`, renderError);
+					console.warn(
+						`Failed to render page ${pageNum}:`,
+						renderError
+					);
 				}
 			}
 
-			if (settings.extractImages === 'embedded' || settings.extractImages === 'both') {
+			if (
+				settings.extractImages === 'embedded' ||
+				settings.extractImages === 'both'
+			) {
 				try {
 					const embeddedImages = await extractEmbeddedImages(
 						page,
@@ -148,7 +262,10 @@ export async function convertPdfToHtml(
 					extractedPage.images = embeddedImages;
 					totalImages += embeddedImages.length;
 				} catch (imgError) {
-					console.warn(`Failed to extract images from page ${pageNum}:`, imgError);
+					console.warn(
+						`Failed to extract images from page ${pageNum}:`,
+						imgError
+					);
 				}
 			}
 
@@ -158,12 +275,11 @@ export async function convertPdfToHtml(
 		onProgress?.(75, 'Generating HTML...');
 
 		// Generate HTML content
-		const htmlContent = generateHtml(
-			extractedPages,
-			settings,
-			file.name,
-			{ totalPages: pagesToProcess.length, totalImages, totalCharacters }
-		);
+		const htmlContent = generateHtml(extractedPages, settings, file.name, {
+			totalPages: pagesToProcess.length,
+			totalImages,
+			totalCharacters,
+		});
 
 		onProgress?.(85, 'Packaging output...');
 
@@ -187,7 +303,11 @@ export async function convertPdfToHtml(
 				extractedPages,
 				settings,
 				file.name,
-				{ totalPages: pagesToProcess.length, totalImages, totalCharacters },
+				{
+					totalPages: pagesToProcess.length,
+					totalImages,
+					totalCharacters,
+				},
 				true // Use relative paths
 			);
 
@@ -198,7 +318,10 @@ export async function convertPdfToHtml(
 			if (imagesFolder) {
 				for (const page of extractedPages) {
 					if (page.renderedImage?.blob) {
-						imagesFolder.file(page.renderedImage.fileName, page.renderedImage.blob);
+						imagesFolder.file(
+							page.renderedImage.fileName,
+							page.renderedImage.blob
+						);
 					}
 					for (const img of page.images) {
 						if (img.blob) {
@@ -232,7 +355,10 @@ export async function convertPdfToHtml(
 		console.error('PDF to HTML conversion error:', error);
 		return {
 			success: false,
-			error: error instanceof Error ? error.message : 'Failed to convert PDF to HTML',
+			error:
+				error instanceof Error
+					? error.message
+					: 'Failed to convert PDF to HTML',
 		};
 	}
 }
@@ -248,11 +374,11 @@ async function renderPageAsImage(
 	quality: number
 ): Promise<ExtractedImage> {
 	const viewport = page.getViewport({ scale });
-	
+
 	const canvas = document.createElement('canvas');
 	canvas.width = viewport.width;
 	canvas.height = viewport.height;
-	
+
 	const context = canvas.getContext('2d');
 	if (!context) {
 		throw new Error('Failed to get canvas context');
@@ -301,45 +427,61 @@ async function extractEmbeddedImages(
 	quality: number
 ): Promise<ExtractedImage[]> {
 	const images: ExtractedImage[] = [];
-	
+
 	try {
 		const pdfjsLib = await import('pdfjs-dist');
 		const opList = await page.getOperatorList();
-		
+
 		let imageIndex = 0;
-		
-	for (let i = 0; i < opList.fnArray.length; i++) {
-		// Check for image operations
-		if (opList.fnArray[i] === pdfjsLib.OPS.paintImageXObject) {
+
+		for (let i = 0; i < opList.fnArray.length; i++) {
+			// Check for image operations
+			if (opList.fnArray[i] === pdfjsLib.OPS.paintImageXObject) {
 				try {
 					const imgName = opList.argsArray[i][0];
 					const imgData = await page.objs.get(imgName);
-					
+
 					if (imgData && imgData.data) {
 						// Create canvas from image data
 						const canvas = document.createElement('canvas');
 						canvas.width = imgData.width;
 						canvas.height = imgData.height;
-						
+
 						const ctx = canvas.getContext('2d');
 						if (ctx) {
-							const imageData = ctx.createImageData(imgData.width, imgData.height);
-							
+							const imageData = ctx.createImageData(
+								imgData.width,
+								imgData.height
+							);
+
 							// Copy pixel data - handle different formats
-							if (imgData.data.length === imgData.width * imgData.height * 4) {
+							if (
+								imgData.data.length ===
+								imgData.width * imgData.height * 4
+							) {
 								// RGBA format
 								imageData.data.set(imgData.data);
-							} else if (imgData.data.length === imgData.width * imgData.height * 3) {
+							} else if (
+								imgData.data.length ===
+								imgData.width * imgData.height * 3
+							) {
 								// RGB format - convert to RGBA
-								for (let j = 0; j < imgData.width * imgData.height; j++) {
+								for (
+									let j = 0;
+									j < imgData.width * imgData.height;
+									j++
+								) {
 									imageData.data[j * 4] = imgData.data[j * 3];
-									imageData.data[j * 4 + 1] = imgData.data[j * 3 + 1];
-									imageData.data[j * 4 + 2] = imgData.data[j * 3 + 2];
+									imageData.data[j * 4 + 1] =
+										imgData.data[j * 3 + 1];
+									imageData.data[j * 4 + 2] =
+										imgData.data[j * 3 + 2];
 									imageData.data[j * 4 + 3] = 255;
 								}
 							} else {
 								// Grayscale or other format
-								const pixelCount = imgData.width * imgData.height;
+								const pixelCount =
+									imgData.width * imgData.height;
 								for (let j = 0; j < pixelCount; j++) {
 									const value = imgData.data[j] || 0;
 									imageData.data[j * 4] = value;
@@ -348,24 +490,30 @@ async function extractEmbeddedImages(
 									imageData.data[j * 4 + 3] = 255;
 								}
 							}
-							
+
 							ctx.putImageData(imageData, 0, 0);
-							
+
 							const mimeTypes: Record<string, string> = {
 								png: 'image/png',
 								jpg: 'image/jpeg',
 								webp: 'image/webp',
 							};
-							
+
 							const mimeType = mimeTypes[format];
-							const qualityValue = format === 'png' ? undefined : quality / 100;
-							const dataUrl = canvas.toDataURL(mimeType, qualityValue);
-							
+							const qualityValue =
+								format === 'png' ? undefined : quality / 100;
+							const dataUrl = canvas.toDataURL(
+								mimeType,
+								qualityValue
+							);
+
 							const response = await fetch(dataUrl);
 							const blob = await response.blob();
-							
-							const fileName = `page_${pageNum}_img_${imageIndex + 1}.${format}`;
-							
+
+							const fileName = `page_${pageNum}_img_${
+								imageIndex + 1
+							}.${format}`;
+
 							images.push({
 								id: `embedded_${pageNum}_${imageIndex}`,
 								pageNumber: pageNum,
@@ -376,19 +524,22 @@ async function extractEmbeddedImages(
 								height: imgData.height,
 								blob,
 							});
-							
+
 							imageIndex++;
 						}
 					}
 				} catch (imgError) {
-					console.warn(`Failed to extract image ${imageIndex} from page ${pageNum}:`, imgError);
+					console.warn(
+						`Failed to extract image ${imageIndex} from page ${pageNum}:`,
+						imgError
+					);
 				}
 			}
 		}
 	} catch (error) {
 		console.warn(`Error accessing page operator list:`, error);
 	}
-	
+
 	return images;
 }
 
@@ -404,15 +555,15 @@ function generateHtml(
 ): string {
 	const title = fileName.replace(/\.pdf$/i, '');
 	const css = getThemeStyles(settings.theme);
-	
+
 	let pagesHtml = '';
-	
+
 	for (const page of pages) {
 		let pageContent = '';
-		
+
 		// Add rendered page image if available
 		if (page.renderedImage) {
-			const imgSrc = useRelativePaths 
+			const imgSrc = useRelativePaths
 				? `images/${page.renderedImage.fileName}`
 				: page.renderedImage.dataUrl;
 			pageContent += `
@@ -420,43 +571,64 @@ function generateHtml(
 				<img src="${imgSrc}" alt="Page ${page.pageNumber}" class="rendered-page" />
 			</div>`;
 		}
-		
+
 		// Add extracted text if available
 		if (page.text && settings.extractText) {
-			const escapedText = escapeHtml(page.text);
+			// Split into paragraphs (double newline = paragraph break)
+			const paragraphs = page.text.split(/\n\n+/);
+			const paragraphsHtml = paragraphs
+				.map((p) => {
+					const lines = p.split('\n');
+					// If multiple lines in paragraph, join with <br>
+					const content = lines
+						.map((line) => escapeHtml(line))
+						.join('<br>\n');
+					return `<p>${content}</p>`;
+				})
+				.join('\n');
+
 			pageContent += `
 			<div class="page-text">
-				<pre>${escapedText}</pre>
+				${paragraphsHtml}
 			</div>`;
 		}
-		
+
 		// Add embedded images if available
 		if (page.images.length > 0) {
 			pageContent += `<div class="embedded-images">`;
 			for (const img of page.images) {
-				const imgSrc = useRelativePaths 
+				const imgSrc = useRelativePaths
 					? `images/${img.fileName}`
 					: img.dataUrl;
 				pageContent += `
 				<figure class="embedded-image">
-					<img src="${imgSrc}" alt="Image ${img.imageIndex + 1} from page ${page.pageNumber}" />
+					<img src="${imgSrc}" alt="Image ${img.imageIndex + 1} from page ${
+					page.pageNumber
+				}" />
 					<figcaption>Image ${img.imageIndex + 1}</figcaption>
 				</figure>`;
 			}
 			pageContent += `</div>`;
 		}
-		
+
 		pagesHtml += `
 		<article class="page" id="page-${page.pageNumber}">
 			<header class="page-header">
-				${settings.includePageNumbers ? `<span class="page-number">Page ${page.pageNumber}</span>` : ''}
+				${
+					settings.includePageNumbers
+						? `<span class="page-number">Page ${page.pageNumber}</span>`
+						: ''
+				}
 			</header>
 			<div class="page-content">
-				${pageContent || '<p class="no-content">No extractable content on this page</p>'}
+				${
+					pageContent ||
+					'<p class="no-content">No extractable content on this page</p>'
+				}
 			</div>
 		</article>`;
 	}
-	
+
 	return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -474,14 +646,26 @@ ${css}
 		<h1>${escapeHtml(title)}</h1>
 		<div class="document-stats">
 			<span>${stats.totalPages} page${stats.totalPages !== 1 ? 's' : ''}</span>
-			${stats.totalImages > 0 ? `<span>${stats.totalImages} image${stats.totalImages !== 1 ? 's' : ''}</span>` : ''}
-			${stats.totalCharacters > 0 ? `<span>${stats.totalCharacters.toLocaleString()} characters</span>` : ''}
+			${
+				stats.totalImages > 0
+					? `<span>${stats.totalImages} image${
+							stats.totalImages !== 1 ? 's' : ''
+					  }</span>`
+					: ''
+			}
+			${
+				stats.totalCharacters > 0
+					? `<span>${stats.totalCharacters.toLocaleString()} characters</span>`
+					: ''
+			}
 		</div>
 	</header>
 	
 	<nav class="page-nav">
 		<span>Jump to page:</span>
-		${pages.map(p => `<a href="#page-${p.pageNumber}">${p.pageNumber}</a>`).join('')}
+		${pages
+			.map((p) => `<a href="#page-${p.pageNumber}">${p.pageNumber}</a>`)
+			.join('')}
 	</nav>
 	
 	<main class="document-content">
@@ -595,17 +779,21 @@ function getThemeStyles(theme: HtmlTheme): string {
 		.page-content {
 			padding: 1.5rem;
 		}
-		.page-text pre {
-			white-space: pre-wrap;
-			word-wrap: break-word;
-			font-family: 'JetBrains Mono', 'Fira Code', monospace;
-			font-size: 0.9rem;
-			line-height: 1.8;
-			background: #f8fafc;
-			padding: 1.5rem;
-			border-radius: 0.5rem;
-			border-left: 4px solid var(--accent);
-			overflow-x: auto;
+		.page-text {
+			padding: 1rem;
+		}
+		.page-text p {
+			margin: 0 0 1.25rem 0;
+			line-height: 1.9;
+			text-align: left;
+		}
+		.page-text p:last-child {
+			margin-bottom: 0;
+		}
+		.page-text br {
+			display: block;
+			content: "";
+			margin-top: 0.5rem;
 		}
 		.rendered-page {
 			max-width: 100%;
@@ -652,7 +840,7 @@ function getThemeStyles(theme: HtmlTheme): string {
 			color: var(--accent);
 		}
 		`,
-		
+
 		classic: `
 		:root {
 			--bg-primary: #f5f5dc;
@@ -737,15 +925,21 @@ function getThemeStyles(theme: HtmlTheme): string {
 		.page-content {
 			padding: 1.5rem;
 		}
-		.page-text pre {
-			white-space: pre-wrap;
-			word-wrap: break-word;
-			font-family: 'Courier New', monospace;
-			font-size: 0.95rem;
+		.page-text {
+			padding: 1rem;
+		}
+		.page-text p {
+			margin: 0 0 1.25rem 0;
 			line-height: 1.9;
-			background: #f9f6ef;
-			padding: 1.5rem;
-			border-left: 3px solid var(--accent);
+			text-align: left;
+		}
+		.page-text p:last-child {
+			margin-bottom: 0;
+		}
+		.page-text br {
+			display: block;
+			content: "";
+			margin-top: 0.5rem;
 		}
 		.rendered-page {
 			max-width: 100%;
@@ -792,7 +986,7 @@ function getThemeStyles(theme: HtmlTheme): string {
 			color: var(--accent);
 		}
 		`,
-		
+
 		minimal: `
 		body {
 			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -852,15 +1046,20 @@ function getThemeStyles(theme: HtmlTheme): string {
 			text-transform: uppercase;
 			letter-spacing: 0.05em;
 		}
-		.page-text pre {
-			white-space: pre-wrap;
-			word-wrap: break-word;
-			font-family: 'SF Mono', 'Monaco', monospace;
-			font-size: 0.875rem;
-			line-height: 1.7;
-			background: #f9f9f9;
-			padding: 1rem;
-			border-radius: 4px;
+		.page-text {
+			padding: 0.5rem 0;
+		}
+		.page-text p {
+			margin: 0 0 1.25rem 0;
+			line-height: 1.8;
+		}
+		.page-text p:last-child {
+			margin-bottom: 0;
+		}
+		.page-text br {
+			display: block;
+			content: "";
+			margin-top: 0.4rem;
 		}
 		.rendered-page {
 			max-width: 100%;
@@ -898,7 +1097,7 @@ function getThemeStyles(theme: HtmlTheme): string {
 			color: #0066cc;
 		}
 		`,
-		
+
 		dark: `
 		:root {
 			--bg-primary: #0f172a;
@@ -990,18 +1189,22 @@ function getThemeStyles(theme: HtmlTheme): string {
 		.page-content {
 			padding: 1.5rem;
 		}
-		.page-text pre {
-			white-space: pre-wrap;
-			word-wrap: break-word;
-			font-family: 'JetBrains Mono', 'Fira Code', monospace;
-			font-size: 0.9rem;
-			line-height: 1.8;
-			background: rgba(0,0,0,0.3);
-			padding: 1.5rem;
-			border-radius: 0.5rem;
-			border-left: 4px solid var(--accent);
-			overflow-x: auto;
+		.page-text {
+			padding: 1rem;
+		}
+		.page-text p {
+			margin: 0 0 1.25rem 0;
+			line-height: 1.9;
+			text-align: left;
 			color: #e2e8f0;
+		}
+		.page-text p:last-child {
+			margin-bottom: 0;
+		}
+		.page-text br {
+			display: block;
+			content: "";
+			margin-top: 0.5rem;
 		}
 		.rendered-page {
 			max-width: 100%;
@@ -1047,8 +1250,53 @@ function getThemeStyles(theme: HtmlTheme): string {
 		}
 		`,
 	};
-	
+
 	return themes[theme];
+}
+
+/**
+ * Collapse letter-spaced text (e.g., "H i t m o n t o p" -> "Hitmontop")
+ * This handles PDFs that render each character as a separate positioned element
+ */
+function collapseLetterSpacing(text: string): string {
+	// Split into words by multiple spaces (actual word boundaries)
+	const parts = text.split(/  +/);
+	
+	const processedParts = parts.map(part => {
+		// Check if this part looks like letter-spaced text
+		// Pattern: mostly single characters separated by single spaces
+		const chars = part.split(' ');
+		
+		// Count how many are single alphanumeric characters
+		const singleCharCount = chars.filter(c => c.length === 1 && /[A-Za-z0-9]/.test(c)).length;
+		
+		// If more than 60% are single chars and we have at least 4 items, it's letter-spaced
+		if (chars.length >= 4 && singleCharCount >= chars.length * 0.6) {
+			// Collapse: join without spaces
+			return chars.join('');
+		}
+		
+		// Also handle mixed cases like "J yn x" (some grouped, some not)
+		// If we have any single-char sequences, try to detect and fix
+		let result = part;
+		
+		// Find sequences of "X Y Z" (single letters with spaces) and collapse them
+		// This regex matches 3+ single letters/digits separated by single spaces
+		result = result.replace(/\b([A-Za-z0-9]) ([A-Za-z0-9]) ([A-Za-z0-9])(?: ([A-Za-z0-9]))*/g, (match) => {
+			// Only collapse if most characters in the match are single chars
+			const matchChars = match.split(' ');
+			const singleCount = matchChars.filter(c => c.length === 1).length;
+			if (singleCount >= matchChars.length * 0.7) {
+				return match.replace(/ /g, '');
+			}
+			return match;
+		});
+		
+		return result;
+	});
+	
+	// Rejoin with single spaces (since we split on multiple spaces)
+	return processedParts.join(' ');
 }
 
 /**
@@ -1062,7 +1310,7 @@ function escapeHtml(text: string): string {
 		'"': '&quot;',
 		"'": '&#39;',
 	};
-	return text.replace(/[&<>"']/g, char => htmlEntities[char]);
+	return text.replace(/[&<>"']/g, (char) => htmlEntities[char]);
 }
 
 /**

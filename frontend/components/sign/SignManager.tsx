@@ -51,12 +51,21 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 	const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 	
 	const [isDrawing, setIsDrawing] = useState(false);
+	const [currentPreviewPage, setCurrentPreviewPage] = useState(1);
+	const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+	const [tempDragPosition, setTempDragPosition] = useState<{ x: number; y: number } | null>(null);
+	const [resizingIndex, setResizingIndex] = useState<number | null>(null);
+	const [resizeCorner, setResizeCorner] = useState<'tl' | 'tr' | 'bl' | 'br' | null>(null);
+	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 	
 	const { isPremium, limits } = useSubscription();
 	const router = useRouter();
 	
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const previewCanvasRef = useRef<HTMLCanvasElement>(null);
+	const pdfLayerRef = useRef<ImageData | null>(null);
+	const tempPlacementsRef = useRef<SignaturePlacement[]>([]);
 
 	// Initialize canvas for drawing
 	useEffect(() => {
@@ -74,6 +83,55 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 		ctx.lineJoin = 'round';
 	}, []);
 
+	// Render PDF preview with signature placements
+	useEffect(() => {
+		if (!signature) return;
+
+		const renderPreview = async () => {
+			const canvas = previewCanvasRef.current;
+			if (!canvas) return;
+
+			try {
+				// Dynamically import PDF.js
+				const pdfjsLib = await import('pdfjs-dist');
+				pdfjsLib.GlobalWorkerOptions.workerSrc = '/js/pdf.worker.min.mjs';
+
+				// Load the PDF
+				const arrayBuffer = await file.file.arrayBuffer();
+				const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+				const pdfDocument = await loadingTask.promise;
+
+				// Get the current preview page
+				const page = await pdfDocument.getPage(currentPreviewPage);
+				const viewport = page.getViewport({ scale: 1 });
+
+				// Set canvas dimensions
+				canvas.width = viewport.width;
+				canvas.height = viewport.height;
+
+				// Render the page
+				const ctx = canvas.getContext('2d');
+				if (!ctx) return;
+
+				await page.render({
+					canvasContext: ctx,
+					viewport: viewport,
+				}).promise;
+
+				// Save the PDF layer (without signatures) for fast redrawing during drag/resize
+				pdfLayerRef.current = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+				// Draw signatures on top
+				redrawSignatures();
+			} catch (error) {
+				console.error('Failed to render PDF preview:', error);
+			}
+		};
+
+		renderPreview();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [file, signature, currentPreviewPage, placements]);
+
 	const handleDrawStart = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
 		setIsDrawing(true);
 		const canvas = canvasRef.current;
@@ -83,8 +141,11 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 		if (!ctx) return;
 		
 		const rect = canvas.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
+		// Scale coordinates to match canvas internal dimensions
+		const scaleX = canvas.width / rect.width;
+		const scaleY = canvas.height / rect.height;
+		const x = (e.clientX - rect.left) * scaleX;
+		const y = (e.clientY - rect.top) * scaleY;
 		
 		ctx.beginPath();
 		ctx.moveTo(x, y);
@@ -100,8 +161,11 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 		if (!ctx) return;
 		
 		const rect = canvas.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
+		// Scale coordinates to match canvas internal dimensions
+		const scaleX = canvas.width / rect.width;
+		const scaleY = canvas.height / rect.height;
+		const x = (e.clientX - rect.left) * scaleX;
+		const y = (e.clientY - rect.top) * scaleY;
 		
 		ctx.lineTo(x, y);
 		ctx.stroke();
@@ -154,19 +218,220 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 		}
 	}, []);
 
-	const handleAddPlacement = useCallback(() => {
+	// Get mouse coordinates scaled to canvas
+	const getCanvasCoords = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+		const canvas = previewCanvasRef.current;
+		if (!canvas) return null;
+		
+		const rect = canvas.getBoundingClientRect();
+		const scaleX = canvas.width / rect.width;
+		const scaleY = canvas.height / rect.height;
+		return {
+			x: (e.clientX - rect.left) * scaleX,
+			y: (e.clientY - rect.top) * scaleY
+		};
+	}, []);
+
+	// Check if clicking on a resize handle
+	const getResizeHandle = useCallback((x: number, y: number, placement: SignaturePlacement) => {
+		const handleSize = 12;
+		const corners = [
+			{ corner: 'tl' as const, cx: placement.x, cy: placement.y },
+			{ corner: 'tr' as const, cx: placement.x + placement.width, cy: placement.y },
+			{ corner: 'bl' as const, cx: placement.x, cy: placement.y + placement.height },
+			{ corner: 'br' as const, cx: placement.x + placement.width, cy: placement.y + placement.height },
+		];
+		
+		for (const { corner, cx, cy } of corners) {
+			if (Math.abs(x - cx) <= handleSize && Math.abs(y - cy) <= handleSize) {
+				return corner;
+			}
+		}
+		return null;
+	}, []);
+
+	// Handle mouse down on preview
+	const handlePreviewMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
 		if (!signature) return;
 		
+		const coords = getCanvasCoords(e);
+		if (!coords) return;
+		
+		// Check for resize handles first
+		for (let i = placements.length - 1; i >= 0; i--) {
+			const p = placements[i];
+			if (p.pageNumber !== currentPreviewPage) continue;
+			
+			const handle = getResizeHandle(coords.x, coords.y, p);
+			if (handle) {
+				setResizingIndex(i);
+				setResizeCorner(handle);
+				return;
+			}
+		}
+		
+		// Check for dragging
+		for (let i = placements.length - 1; i >= 0; i--) {
+			const p = placements[i];
+			if (p.pageNumber !== currentPreviewPage) continue;
+			
+			if (coords.x >= p.x && coords.x <= p.x + p.width &&
+				coords.y >= p.y && coords.y <= p.y + p.height) {
+				setDraggingIndex(i);
+				setTempDragPosition({ x: coords.x - p.x, y: coords.y - p.y });
+				return;
+			}
+		}
+		
+		// Add new placement
 		const newPlacement: SignaturePlacement = {
-			pageNumber: 1,
-			x: 100,
-			y: 600,
+			pageNumber: currentPreviewPage,
+			x: coords.x - 75,
+			y: coords.y - 25,
 			width: 150,
 			height: 50,
 		};
-		
 		setPlacements(prev => [...prev, newPlacement]);
-	}, [signature]);
+	}, [signature, currentPreviewPage, placements, getCanvasCoords, getResizeHandle]);
+	
+	const redrawSignatures = useCallback(() => {
+		const canvas = previewCanvasRef.current;
+		if (!canvas || !signature || !pdfLayerRef.current) return;
+		
+		const ctx = canvas.getContext('2d');
+		if (!ctx) return;
+		
+		// Restore PDF layer
+		ctx.putImageData(pdfLayerRef.current, 0, 0);
+		
+		// Draw signatures
+		const currentPlacements = tempPlacementsRef.current.length > 0 ? tempPlacementsRef.current : placements;
+		const pagePlacements = currentPlacements.filter(p => p.pageNumber === currentPreviewPage);
+		
+		if (signature.dataUrl && pagePlacements.length > 0) {
+			const img = new Image();
+			img.src = signature.dataUrl;
+			
+			pagePlacements.forEach((placement, idx) => {
+				ctx.save();
+				
+				const globalIdx = placements.indexOf(placement) >= 0 ? placements.indexOf(placement) : 
+								  tempPlacementsRef.current.indexOf(placement);
+				const isActive = globalIdx === hoveredIndex || globalIdx === draggingIndex || globalIdx === resizingIndex;
+				
+				// Draw signature
+				ctx.globalAlpha = 0.85;
+				ctx.drawImage(img, placement.x, placement.y, placement.width, placement.height);
+				
+				// Draw border
+				ctx.globalAlpha = 1;
+				ctx.strokeStyle = isActive ? '#3B82F6' : '#94A3B8';
+				ctx.lineWidth = isActive ? 2 : 1;
+				ctx.setLineDash(isActive ? [5, 5] : []);
+				ctx.strokeRect(placement.x, placement.y, placement.width, placement.height);
+				
+				// Draw corner handles
+				if (isActive) {
+					ctx.fillStyle = '#3B82F6';
+					ctx.strokeStyle = '#FFFFFF';
+					ctx.lineWidth = 2;
+					ctx.setLineDash([]);
+					const handleSize = 10;
+					
+					const corners = [
+						[placement.x, placement.y],
+						[placement.x + placement.width, placement.y],
+						[placement.x, placement.y + placement.height],
+						[placement.x + placement.width, placement.y + placement.height],
+					];
+					
+					corners.forEach(([cx, cy]) => {
+						ctx.fillRect(cx - handleSize/2, cy - handleSize/2, handleSize, handleSize);
+						ctx.strokeRect(cx - handleSize/2, cy - handleSize/2, handleSize, handleSize);
+					});
+				}
+				
+				ctx.restore();
+			});
+		}
+	}, [signature, placements, currentPreviewPage, hoveredIndex, draggingIndex, resizingIndex]);
+
+	const handlePreviewMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+		const coords = getCanvasCoords(e);
+		if (!coords) return;
+		
+		// Handle resizing
+		if (resizingIndex !== null && resizeCorner) {
+			const placement = placements[resizingIndex];
+			let newPlacement = { ...placement };
+			
+			if (resizeCorner === 'br') {
+				newPlacement.width = Math.max(50, coords.x - placement.x);
+				newPlacement.height = Math.max(20, coords.y - placement.y);
+			} else if (resizeCorner === 'tr') {
+				newPlacement.width = Math.max(50, coords.x - placement.x);
+				newPlacement.y = coords.y;
+				newPlacement.height = Math.max(20, placement.y + placement.height - coords.y);
+			} else if (resizeCorner === 'bl') {
+				newPlacement.x = coords.x;
+				newPlacement.width = Math.max(50, placement.x + placement.width - coords.x);
+				newPlacement.height = Math.max(20, coords.y - placement.y);
+			} else if (resizeCorner === 'tl') {
+				newPlacement.x = coords.x;
+				newPlacement.y = coords.y;
+				newPlacement.width = Math.max(50, placement.x + placement.width - coords.x);
+				newPlacement.height = Math.max(20, placement.y + placement.height - coords.y);
+			}
+			
+			tempPlacementsRef.current = placements.map((p, i) => i === resizingIndex ? newPlacement : p);
+			redrawSignatures();
+			return;
+		}
+		
+		// Handle dragging
+		if (draggingIndex !== null && tempDragPosition) {
+			const newX = coords.x - tempDragPosition.x;
+			const newY = coords.y - tempDragPosition.y;
+			
+			tempPlacementsRef.current = placements.map((p, i) => 
+				i === draggingIndex ? { ...p, x: newX, y: newY } : p
+			);
+			redrawSignatures();
+			return;
+		}
+		
+		// Update hover state for cursor
+		let foundHover = false;
+		for (let i = placements.length - 1; i >= 0; i--) {
+			const p = placements[i];
+			if (p.pageNumber !== currentPreviewPage) continue;
+			
+			if (getResizeHandle(coords.x, coords.y, p)) {
+				setHoveredIndex(i);
+				foundHover = true;
+				break;
+			} else if (coords.x >= p.x && coords.x <= p.x + p.width &&
+					   coords.y >= p.y && coords.y <= p.y + p.height) {
+				setHoveredIndex(i);
+				foundHover = true;
+				break;
+			}
+		}
+		if (!foundHover) setHoveredIndex(null);
+	}, [draggingIndex, tempDragPosition, resizingIndex, resizeCorner, placements, currentPreviewPage, getCanvasCoords, getResizeHandle, redrawSignatures]);
+	
+	const handlePreviewMouseUp = useCallback(() => {
+		// Commit temporary changes to actual placements
+		if (tempPlacementsRef.current.length > 0) {
+			setPlacements(tempPlacementsRef.current);
+			tempPlacementsRef.current = [];
+		}
+		
+		setDraggingIndex(null);
+		setTempDragPosition(null);
+		setResizingIndex(null);
+		setResizeCorner(null);
+	}, []);
 
 	const handleRemovePlacement = useCallback((index: number) => {
 		setPlacements(prev => prev.filter((_, i) => i !== index));
@@ -404,39 +669,50 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 			{/* Placement Settings */}
 			{signature && (
 				<div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
-					<h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-						Signature Placement
-					</h3>
-
-					{/* Placements List */}
-					<div className="space-y-3 mb-4">
-						{placements.map((placement, index) => (
-							<div
-								key={index}
-								className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg"
-							>
-								<div className="flex items-center gap-4">
-									<Move className="h-5 w-5 text-gray-400" />
-									<span className="text-sm text-gray-600 dark:text-gray-300">
-										Page {placement.pageNumber} at ({Math.round(placement.x)}, {Math.round(placement.y)})
-									</span>
-								</div>
-								<button
-									onClick={() => handleRemovePlacement(index)}
-									className="p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
-								>
-									<Trash2 className="h-4 w-4" />
-								</button>
-							</div>
-						))}
+					<div className="flex items-center justify-between mb-4">
+						<h3 className="text-lg font-medium text-gray-900 dark:text-white">
+							Signature Placement
+						</h3>
+						{placements.length > 0 && (
+							<span className="text-sm text-gray-500 dark:text-gray-400">
+								{placements.length} placement{placements.length !== 1 ? 's' : ''}
+							</span>
+						)}
 					</div>
 
-					<button
-						onClick={handleAddPlacement}
-						className="w-full py-2 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg text-gray-500 hover:border-blue-500 hover:text-blue-500 transition-colors"
-					>
-						+ Add Signature Placement
-					</button>
+					<div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+						<p className="text-sm text-blue-800 dark:text-blue-200">
+							<strong>How to place signatures:</strong>
+						</p>
+						<ul className="text-sm text-blue-700 dark:text-blue-300 mt-2 space-y-1">
+							<li>• <strong>Click</strong> anywhere on the PDF to add a signature</li>
+							<li>• <strong>Drag</strong> the center to move signatures</li>
+							<li>• <strong>Drag corners</strong> to resize signatures</li>
+							<li>• <strong>Trash icon</strong> to remove a signature</li>
+						</ul>
+					</div>
+
+					{placements.length > 0 && (
+						<div className="space-y-2">
+							{placements.map((placement, index) => (
+								<div
+									key={index}
+									className="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-900 rounded-lg"
+								>
+									<span className="text-sm text-gray-600 dark:text-gray-300">
+										Page {placement.pageNumber} • Signature #{index + 1}
+									</span>
+									<button
+										onClick={() => handleRemovePlacement(index)}
+										className="p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
+										title="Remove this placement"
+									>
+										<Trash2 className="h-4 w-4" />
+									</button>
+								</div>
+							))}
+						</div>
+					)}
 
 					{/* Date Options */}
 					<div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
@@ -485,6 +761,34 @@ export function SignManager({ file, onReset }: SignManagerProps) {
 							</div>
 						)}
 					</div>
+				</div>
+			)}
+
+			{/* PDF Preview with Interactive Signature Placement */}
+			{signature && (
+				<div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+					<h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+						PDF Preview - Click to Place Signature
+					</h3>
+					<div className="relative bg-gray-100 dark:bg-gray-900 rounded-lg overflow-hidden flex justify-center">
+						<canvas
+							ref={previewCanvasRef}
+							className={cn(
+								"max-w-full h-auto",
+								hoveredIndex !== null ? "cursor-move" : "cursor-crosshair"
+							)}
+							onMouseDown={handlePreviewMouseDown}
+							onMouseMove={handlePreviewMouseMove}
+							onMouseUp={handlePreviewMouseUp}
+							onMouseLeave={handlePreviewMouseUp}
+						/>
+					</div>
+					<p className="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">
+						{placements.length === 0 
+							? 'Click anywhere on the PDF to place your signature'
+							: `Page ${currentPreviewPage} • ${placements.filter(p => p.pageNumber === currentPreviewPage).length} signature(s) on this page`
+						}
+					</p>
 				</div>
 			)}
 

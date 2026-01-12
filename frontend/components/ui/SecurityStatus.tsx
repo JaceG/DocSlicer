@@ -53,15 +53,18 @@ export function SecurityStatus({
 	if (!show || !stats) return null;
 
 	const getStatusColor = () => {
-		if (stats.memoryUsage > SECURITY_CONFIG.MAX_MEMORY_USAGE_MB * 0.8)
+		// Red if any hard limits are hit
+		if (stats.fileCount >= SECURITY_CONFIG.MAX_FILES_PER_SESSION)
 			return 'red';
-		if (
-			stats.totalBlobSizeMB >
-			SECURITY_CONFIG.MAX_BLOB_STORE_SIZE_MB * 0.8
-		)
-			return 'amber';
+		if (stats.uploadsRemaining === 0 || stats.slicesRemaining === 0)
+			return 'red';
+
+		// Amber if approaching limits
 		if (stats.fileCount > SECURITY_CONFIG.MAX_FILES_PER_SESSION * 0.8)
 			return 'amber';
+		if (stats.uploadsRemaining <= 1 || stats.slicesRemaining <= 2)
+			return 'amber';
+
 		return 'green';
 	};
 
@@ -106,6 +109,23 @@ export function SecurityStatus({
 					</div>
 
 					<div className='space-y-3 text-xs'>
+						{/* Client-Side Processing Info */}
+						<div className='bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3'>
+							<div className='flex items-start space-x-2'>
+								<Info className='h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0' />
+								<div className='text-blue-800 dark:text-blue-200'>
+									<p className='font-medium mb-1'>
+										100% Private
+									</p>
+									<p className='text-xs text-blue-700 dark:text-blue-300'>
+										All PDF processing happens in your
+										browser. No files are uploaded to
+										servers.
+									</p>
+								</div>
+							</div>
+						</div>
+
 						{/* File Limits */}
 						<div className='space-y-1'>
 							<div className='flex justify-between'>
@@ -140,151 +160,64 @@ export function SecurityStatus({
 									}}
 								/>
 							</div>
-						</div>
-
-						{/* Memory Usage */}
-						<div className='space-y-1'>
-							<div className='flex justify-between'>
-								<span className='text-gray-600 dark:text-gray-400'>
-									Memory usage:
-								</span>
-								<span
-									className={`font-medium ${
-										stats.memoryUsage >=
-										SECURITY_CONFIG.MAX_MEMORY_USAGE_MB
-											? 'text-red-600 dark:text-red-400'
-											: 'text-gray-900 dark:text-gray-100'
-									}`}>
-									{stats.memoryUsage}MB/
-									{SECURITY_CONFIG.MAX_MEMORY_USAGE_MB}MB
-								</span>
-							</div>
-							<div className='w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5'>
-								<div
-									className={`h-1.5 rounded-full transition-all duration-300 ${
-										stats.memoryUsage >=
-										SECURITY_CONFIG.MAX_MEMORY_USAGE_MB
-											? 'bg-red-500'
-											: stats.memoryUsage >=
-											  SECURITY_CONFIG.MAX_MEMORY_USAGE_MB *
-													0.8
-											? 'bg-amber-500'
-											: 'bg-green-500'
-									}`}
-									style={{
-										width: `${Math.min(
-											100,
-											(stats.memoryUsage /
-												SECURITY_CONFIG.MAX_MEMORY_USAGE_MB) *
-												100
-										)}%`,
-									}}
-								/>
-							</div>
-						</div>
-
-						{/* Blob Storage */}
-						<div className='space-y-1'>
-							<div className='flex justify-between'>
-								<span className='text-gray-600 dark:text-gray-400'>
-									Storage used:
-								</span>
-								<span
-									className={`font-medium ${
-										stats.totalBlobSizeMB >=
-										stats.maxBlobSizeMB
-											? 'text-red-600 dark:text-red-400'
-											: 'text-gray-900 dark:text-gray-100'
-									}`}>
-									{stats.totalBlobSizeMB}MB/
-									{stats.maxBlobSizeMB}MB
-								</span>
-							</div>
-							<div className='w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5'>
-								<div
-									className={`h-1.5 rounded-full transition-all duration-300 ${
-										stats.totalBlobSizeMB >=
-										stats.maxBlobSizeMB
-											? 'bg-red-500'
-											: stats.totalBlobSizeMB >=
-											  stats.maxBlobSizeMB * 0.8
-											? 'bg-amber-500'
-											: 'bg-green-500'
-									}`}
-									style={{
-										width: `${Math.min(
-											100,
-											(stats.totalBlobSizeMB /
-												stats.maxBlobSizeMB) *
-												100
-										)}%`,
-									}}
-								/>
-							</div>
+							<p className='text-[10px] text-gray-500 dark:text-gray-500 mt-1'>
+								Maximum files you can work with at once
+							</p>
 						</div>
 
 						{/* Rate Limits */}
-						<div className='grid grid-cols-2 gap-2 pt-2 border-t border-gray-200 dark:border-gray-700'>
-							<div className='text-center p-2 bg-gray-50 dark:bg-gray-800 rounded'>
-								<div className='text-gray-600 dark:text-gray-400'>
-									Uploads Left
-								</div>
-								<div
-									className={`font-bold ${
-										stats.uploadsRemaining === 0
-											? 'text-red-600 dark:text-red-400'
-											: 'text-gray-900 dark:text-gray-100'
-									}`}>
-									{stats.uploadsRemaining}
-								</div>
-							</div>
-							<div className='text-center p-2 bg-gray-50 dark:bg-gray-800 rounded'>
-								<div className='text-gray-600 dark:text-gray-400'>
-									Slices Left
-								</div>
-								<div
-									className={`font-bold ${
-										stats.slicesRemaining === 0
-											? 'text-red-600 dark:text-red-400'
-											: 'text-gray-900 dark:text-gray-100'
-									}`}>
-									{stats.slicesRemaining}
-								</div>
-							</div>
-						</div>
-
-						{/* Active Operations */}
 						<div className='pt-2 border-t border-gray-200 dark:border-gray-700'>
-							<div className='flex justify-between'>
-								<span className='text-gray-600 dark:text-gray-400'>
-									Active operations:
-								</span>
-								<span className='font-medium text-gray-900 dark:text-gray-100'>
-									{stats.activeSources}
-								</span>
+							<p className='text-gray-600 dark:text-gray-400 mb-2 font-medium'>
+								Rate Limits (per minute)
+							</p>
+							<div className='space-y-2'>
+								<div className='flex justify-between items-center'>
+									<span className='text-gray-600 dark:text-gray-400'>
+										Upload requests:
+									</span>
+									<span
+										className={`font-medium ${
+											stats.uploadsRemaining === 0
+												? 'text-red-600 dark:text-red-400'
+												: 'text-gray-900 dark:text-gray-100'
+										}`}>
+										{stats.uploadsRemaining} left
+									</span>
+								</div>
+								<div className='flex justify-between items-center'>
+									<span className='text-gray-600 dark:text-gray-400'>
+										Processing operations:
+									</span>
+									<span
+										className={`font-medium ${
+											stats.slicesRemaining === 0
+												? 'text-red-600 dark:text-red-400'
+												: 'text-gray-900 dark:text-gray-100'
+										}`}>
+										{stats.slicesRemaining} left
+									</span>
+								</div>
 							</div>
+							<p className='text-[10px] text-gray-500 dark:text-gray-500 mt-2'>
+								Limits reset every 60 seconds
+							</p>
 						</div>
 
-						{/* Security Tips */}
-						<div className='pt-2 border-t border-gray-200 dark:border-gray-700 space-y-1'>
-							<div className='flex items-start space-x-2'>
-								<Info className='h-3 w-3 text-blue-500 mt-0.5 flex-shrink-0' />
-								<span className='text-gray-600 dark:text-gray-400'>
-									All processing happens in your browser - no
-									data is sent to servers
-								</span>
-							</div>
-							{stats.totalBlobSizeMB >
-								stats.maxBlobSizeMB * 0.7 && (
+						{/* Warnings */}
+						{(stats.fileCount >= stats.maxFiles ||
+							stats.uploadsRemaining === 0 ||
+							stats.slicesRemaining === 0) && (
+							<div className='pt-2 border-t border-gray-200 dark:border-gray-700'>
 								<div className='flex items-start space-x-2'>
 									<AlertTriangle className='h-3 w-3 text-amber-500 mt-0.5 flex-shrink-0' />
 									<span className='text-amber-600 dark:text-amber-400'>
-										Consider downloading and clearing
-										completed slices to free memory
+										{stats.fileCount >= stats.maxFiles
+											? 'Maximum file limit reached. Refresh to start over.'
+											: 'Rate limit reached. Please wait a moment.'}
 									</span>
 								</div>
-							)}
-						</div>
+							</div>
+						)}
 					</div>
 				</div>
 			)}
