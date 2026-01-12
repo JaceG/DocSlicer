@@ -132,13 +132,12 @@ export async function convertPdfToHtml(
 					for (const item of textItems) {
 						if (item.str && item.str.trim()) {
 							// Get position and dimensions
-							const x = item.transform ? item.transform[4] : 0;
-							const y = item.transform ? item.transform[5] : 0;
-							const width = item.width || 0;
-							const height =
-								item.height || item.transform
-									? Math.abs(item.transform[3])
-									: 12;
+						const x = item.transform ? item.transform[4] : 0;
+						const y = item.transform ? item.transform[5] : 0;
+						const width = item.width || 0;
+						const height =
+							item.height ||
+							(item.transform ? Math.abs(item.transform[3]) : 12);
 
 							// Round Y to group into lines (using height for better grouping)
 							const lineY =
