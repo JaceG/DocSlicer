@@ -36,7 +36,15 @@ import { useSubscription } from '@/lib/subscription/hooks';
 import { detectFileType, requiresConversion } from '@/lib/conversion/utils';
 
 export interface DropzoneFeature {
-	icon: 'check' | 'sparkle' | 'shield' | 'zap' | 'lock' | 'image' | 'file' | 'clock';
+	icon:
+		| 'check'
+		| 'sparkle'
+		| 'shield'
+		| 'zap'
+		| 'lock'
+		| 'image'
+		| 'file'
+		| 'clock';
 	title: string;
 	subtitle: string;
 	highlight?: boolean;
@@ -47,7 +55,22 @@ interface FileUploadProps {
 	/** When true, hides the hero section (title, description) - useful when tool has its own description */
 	minimal?: boolean;
 	/** Custom accent color for the dropzone (e.g., 'pink', 'lime', 'yellow') */
-	accentColor?: 'blue' | 'pink' | 'lime' | 'fuchsia' | 'yellow' | 'slate' | 'zinc' | 'cyan' | 'rose' | 'amber' | 'sky' | 'violet' | 'teal' | 'red' | 'stone';
+	accentColor?:
+		| 'blue'
+		| 'pink'
+		| 'lime'
+		| 'fuchsia'
+		| 'yellow'
+		| 'slate'
+		| 'zinc'
+		| 'cyan'
+		| 'rose'
+		| 'amber'
+		| 'sky'
+		| 'violet'
+		| 'teal'
+		| 'red'
+		| 'stone';
 	/** Custom title for the dropzone */
 	dropzoneTitle?: string;
 	/** Custom subtitle for the dropzone */
@@ -60,7 +83,8 @@ const ACCENT_COLORS = {
 	blue: 'hover:border-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-950/20',
 	pink: 'hover:border-pink-400 hover:bg-pink-50/50 dark:hover:bg-pink-950/20',
 	lime: 'hover:border-lime-400 hover:bg-lime-50/50 dark:hover:bg-lime-950/20',
-	fuchsia: 'hover:border-fuchsia-400 hover:bg-fuchsia-50/50 dark:hover:bg-fuchsia-950/20',
+	fuchsia:
+		'hover:border-fuchsia-400 hover:bg-fuchsia-50/50 dark:hover:bg-fuchsia-950/20',
 	yellow: 'hover:border-yellow-400 hover:bg-yellow-50/50 dark:hover:bg-yellow-950/20',
 	slate: 'hover:border-slate-400 hover:bg-slate-50/50 dark:hover:bg-slate-950/20',
 	zinc: 'hover:border-zinc-400 hover:bg-zinc-50/50 dark:hover:bg-zinc-950/20',
@@ -78,7 +102,8 @@ const ACCENT_ICON_COLORS = {
 	blue: 'from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30',
 	pink: 'from-pink-100 to-pink-200 dark:from-pink-900/30 dark:to-pink-800/30',
 	lime: 'from-lime-100 to-lime-200 dark:from-lime-900/30 dark:to-lime-800/30',
-	fuchsia: 'from-fuchsia-100 to-fuchsia-200 dark:from-fuchsia-900/30 dark:to-fuchsia-800/30',
+	fuchsia:
+		'from-fuchsia-100 to-fuchsia-200 dark:from-fuchsia-900/30 dark:to-fuchsia-800/30',
 	yellow: 'from-yellow-100 to-yellow-200 dark:from-yellow-900/30 dark:to-yellow-800/30',
 	slate: 'from-slate-100 to-slate-200 dark:from-slate-900/30 dark:to-slate-800/30',
 	zinc: 'from-zinc-100 to-zinc-200 dark:from-zinc-900/30 dark:to-zinc-800/30',
@@ -123,12 +148,24 @@ const FEATURE_ICONS = {
 
 const DEFAULT_FEATURES: DropzoneFeature[] = [
 	{ icon: 'check', title: 'PDF Support', subtitle: 'All versions' },
-	{ icon: 'sparkle', title: 'Auto-Convert', subtitle: 'EPUB, DOCX, etc', highlight: true },
+	{
+		icon: 'sparkle',
+		title: 'Auto-Convert',
+		subtitle: 'EPUB, DOCX, etc',
+		highlight: true,
+	},
 	{ icon: 'check', title: 'Previews', subtitle: 'Visual selection' },
 	{ icon: 'check', title: 'Up to 25MB', subtitle: '100MB with Premium' },
 ];
 
-export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue', dropzoneTitle, dropzoneSubtitle, features }: FileUploadProps) {
+export function FileUpload({
+	onFileUpload,
+	minimal = false,
+	accentColor = 'blue',
+	dropzoneTitle,
+	dropzoneSubtitle,
+	features,
+}: FileUploadProps) {
 	const [error, setError] = useState<string | null>(null);
 	const [isProcessing, setIsProcessing] = useState(false);
 	const [securityWarning, setSecurityWarning] = useState<string | null>(null);
@@ -171,12 +208,12 @@ export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue'
 					convertedFrom: fileTypeToConvert || undefined,
 				};
 
-			// Extract page count from converted PDF
-			const { PDFViewer } = await import('@/lib/pdf/viewer');
-			const pdfViewer = new PDFViewer();
-			await pdfViewer.loadDocument(pdfFile);
-			uploadedFile.pageCount = pdfViewer.getPageCount();
-			pdfViewer.destroy();
+				// Extract page count from converted PDF
+				const { PDFViewer } = await import('@/lib/pdf/viewer');
+				const pdfViewer = new PDFViewer();
+				await pdfViewer.loadDocument(pdfFile);
+				uploadedFile.pageCount = pdfViewer.getPageCount();
+				pdfViewer.destroy();
 
 				onFileUpload(uploadedFile);
 			} catch (err) {
@@ -263,15 +300,15 @@ export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue'
 					)
 				);
 
-			if (fileType === 'pdf') {
-				try {
-					const { PDFViewer } = await import('@/lib/pdf/viewer');
-					const pdfViewer = new PDFViewer();
-					await Promise.race([
-						pdfViewer.loadDocument(file),
-						timeoutPromise,
-					]);
-					uploadedFile.pageCount = pdfViewer.getPageCount();
+				if (fileType === 'pdf') {
+					try {
+						const { PDFViewer } = await import('@/lib/pdf/viewer');
+						const pdfViewer = new PDFViewer();
+						await Promise.race([
+							pdfViewer.loadDocument(file),
+							timeoutPromise,
+						]);
+						uploadedFile.pageCount = pdfViewer.getPageCount();
 
 						// Validate document limits
 						const limitsCheck =
@@ -367,9 +404,9 @@ export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue'
 						PDF Document Slicer
 					</h1>
 					<p className='text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto'>
-						Upload your PDF document to split it into separate files by
-						page ranges. Perfect for extracting chapters, sections, or
-						specific pages.
+						Upload your PDF document to split it into separate files
+						by page ranges. Perfect for extracting chapters,
+						sections, or specific pages.
 					</p>
 				</div>
 			)}
@@ -390,8 +427,17 @@ export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue'
 
 				<div className='flex flex-col items-center justify-center space-y-6'>
 					<div className='relative'>
-						<div className={cn('w-24 h-24 rounded-2xl bg-gradient-to-br flex items-center justify-center', ACCENT_ICON_COLORS[accentColor])}>
-							<Upload className={cn('h-12 w-12', ACCENT_TEXT_COLORS[accentColor])} />
+						<div
+							className={cn(
+								'w-24 h-24 rounded-2xl bg-gradient-to-br flex items-center justify-center',
+								ACCENT_ICON_COLORS[accentColor]
+							)}>
+							<Upload
+								className={cn(
+									'h-12 w-12',
+									ACCENT_TEXT_COLORS[accentColor]
+								)}
+							/>
 						</div>
 					</div>
 
@@ -399,19 +445,20 @@ export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue'
 						<p className='text-xl font-semibold text-gray-900 dark:text-gray-100'>
 							{isDragActive
 								? 'Drop your file here'
-								: (dropzoneTitle || 'Drag & drop your document')}
+								: dropzoneTitle || 'Drag & drop your document'}
 						</p>
 						<p className='text-gray-600 dark:text-gray-400'>
-							{dropzoneSubtitle || (
-								<>
-									or{' '}
-									<span className='text-blue-600 dark:text-blue-400 font-medium underline'>
-										browse files
-									</span>{' '}
-									to upload
-								</>
-							)}
+							or{' '}
+							<span className='text-blue-600 dark:text-blue-400 font-medium underline'>
+								browse files
+							</span>{' '}
+							to upload
 						</p>
+						{dropzoneSubtitle && (
+							<p className='text-sm text-gray-500 dark:text-gray-500'>
+								{dropzoneSubtitle}
+							</p>
+						)}
 						{!dropzoneSubtitle && (
 							<p className='text-sm text-gray-500 dark:text-gray-500'>
 								PDF, EPUB, DOCX, TXT, images, and more
@@ -420,46 +467,52 @@ export function FileUpload({ onFileUpload, minimal = false, accentColor = 'blue'
 					</div>
 
 					{/* Features Grid */}
-					<div className={cn(
-						'grid grid-cols-1 gap-4 mt-8 w-full',
-						(features || DEFAULT_FEATURES).length === 3 ? 'md:grid-cols-3 max-w-2xl' : 'md:grid-cols-4 max-w-3xl'
-					)}>
-						{(features || DEFAULT_FEATURES).map((feature, index) => {
-							const IconComponent = FEATURE_ICONS[feature.icon];
-							return (
-								<div
-									key={index}
-									className={cn(
-										'flex items-center space-x-3 p-4 rounded-xl',
-										feature.highlight
-											? 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-800'
-											: 'bg-gray-50 dark:bg-gray-800/50'
-									)}>
-									<IconComponent
+					<div
+						className={cn(
+							'grid grid-cols-1 gap-4 mt-8 w-full',
+							(features || DEFAULT_FEATURES).length === 3
+								? 'md:grid-cols-3 max-w-2xl'
+								: 'md:grid-cols-4 max-w-3xl'
+						)}>
+						{(features || DEFAULT_FEATURES).map(
+							(feature, index) => {
+								const IconComponent =
+									FEATURE_ICONS[feature.icon];
+								return (
+									<div
+										key={index}
 										className={cn(
-											'h-5 w-5 flex-shrink-0',
+											'flex items-center space-x-3 p-4 rounded-xl',
 											feature.highlight
-												? 'text-purple-600 dark:text-purple-400'
-												: 'text-green-600 dark:text-green-400'
-										)}
-									/>
-									<div className='text-left'>
-										<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
-											{feature.title}
-										</p>
-										<p
+												? 'bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-800'
+												: 'bg-gray-50 dark:bg-gray-800/50'
+										)}>
+										<IconComponent
 											className={cn(
-												'text-xs',
+												'h-5 w-5 flex-shrink-0',
 												feature.highlight
 													? 'text-purple-600 dark:text-purple-400'
-													: 'text-gray-600 dark:text-gray-400'
-											)}>
-											{feature.subtitle}
-										</p>
+													: 'text-green-600 dark:text-green-400'
+											)}
+										/>
+										<div className='text-left'>
+											<p className='text-sm font-medium text-gray-900 dark:text-gray-100'>
+												{feature.title}
+											</p>
+											<p
+												className={cn(
+													'text-xs',
+													feature.highlight
+														? 'text-purple-600 dark:text-purple-400'
+														: 'text-gray-600 dark:text-gray-400'
+												)}>
+												{feature.subtitle}
+											</p>
+										</div>
 									</div>
-								</div>
-							);
-						})}
+								);
+							}
+						)}
 					</div>
 				</div>
 

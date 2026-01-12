@@ -32,7 +32,8 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 	const compressionsRemaining = isLoaded
 		? getRemainingCompressions(limits.maxCompressionsPerMonth)
 		: limits.maxCompressionsPerMonth; // Default to limit when not loaded
-	const hasCompressAccess = !isLoaded || isPremium || compressionsRemaining > 0;
+	const hasCompressAccess =
+		!isLoaded || isPremium || compressionsRemaining > 0;
 
 	const onDrop = useCallback(
 		async (acceptedFiles: File[]) => {
@@ -70,7 +71,9 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 				const pageCount = pdfDoc.getPageCount();
 
 				const compressFile: CompressFile = {
-					id: `compress-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+					id: `compress-${Date.now()}-${Math.random()
+						.toString(36)
+						.substring(2, 9)}`,
 					name: file.name,
 					file,
 					size: file.size,
@@ -110,12 +113,23 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 							📦 Compress PDF
 						</h3>
 						<p className='text-gray-700 dark:text-gray-300 mb-2'>
-							Reduce PDF file size while maintaining quality. Perfect for email attachments, web uploads, or saving storage space.
+							Reduce PDF file size while maintaining quality.
+							Perfect for email attachments, web uploads, or
+							saving storage space.
 						</p>
 						<ul className='text-sm text-gray-600 dark:text-gray-400 space-y-1'>
-							<li>• <strong>Multiple levels</strong> – Screen, ebook, or print quality</li>
-							<li>• <strong>100% private</strong> – Compression happens locally in your browser</li>
-							<li>• <strong>Fast processing</strong> – Results in seconds, not minutes</li>
+							<li>
+								• <strong>Multiple levels</strong> – Screen,
+								ebook, or print quality
+							</li>
+							<li>
+								• <strong>100% private</strong> – Compression
+								happens locally in your browser
+							</li>
+							<li>
+								• <strong>Fast processing</strong> – Results in
+								seconds, not minutes
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -133,13 +147,14 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 								Compression Limit Reached
 							</h3>
 							<p className='text-sm text-orange-700 dark:text-orange-300 mb-3'>
-								You've used your {limits.maxCompressionsPerMonth} free
-								compressions this month. Upgrade for unlimited access!
+								You've used your{' '}
+								{limits.maxCompressionsPerMonth} free
+								compressions this month. Upgrade for unlimited
+								access!
 							</p>
 							<Link
 								href='/pricing'
-								className='inline-flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-lg transition-colors'
-							>
+								className='inline-flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white text-sm font-medium rounded-lg transition-colors'>
 								<Sparkles className='h-4 w-4' />
 								Upgrade to Premium — $2/month
 							</Link>
@@ -158,8 +173,7 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 						: 'border-gray-300 dark:border-gray-700',
 					isProcessing && 'cursor-not-allowed opacity-70',
 					!hasCompressAccess && 'cursor-not-allowed opacity-70'
-				)}
-			>
+				)}>
 				<input {...getInputProps()} />
 				<div className='flex flex-col items-center justify-center space-y-6'>
 					<div className='p-4 bg-green-100 dark:bg-green-900/30 rounded-full'>
@@ -193,7 +207,9 @@ export function FileUploadCompress({ onFileUpload }: FileUploadCompressProps) {
 					{isProcessing && (
 						<div className='flex items-center space-x-2 text-green-600 dark:text-green-400'>
 							<Loader2 className='h-5 w-5 animate-spin' />
-							<p className='text-sm font-medium'>Processing PDF...</p>
+							<p className='text-sm font-medium'>
+								Processing PDF...
+							</p>
 						</div>
 					)}
 
