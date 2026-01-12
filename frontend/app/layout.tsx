@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 		description: `Complete PDF toolkit with ${TOOLS_COUNT} tools: split, merge, compress, protect, sign, annotate, OCR, and more. 100% private & secure - your files never leave your device.`,
 		images: [
 			{
-				url: '/og-image.svg',
+				url: '/og-image.png',
 				width: 1200,
 				height: 630,
 				alt: 'PDF Wonder Kit - Complete PDF Toolkit',
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
 		card: 'summary_large_image',
 		title: 'PDF Wonder Kit - Complete PDF Toolkit',
 		description: `${TOOLS_COUNT} PDF tools in one: split, merge, compress, sign, annotate, OCR & more. 100% private & secure - your files never leave your device.`,
-		images: ['/og-image.svg'],
+		images: ['/og-image.png'],
 		creator: '@pdfwonderkit',
 	},
 	robots: {
