@@ -101,6 +101,12 @@ export function Header({ onNewDocument, currentTool }: HeaderProps) {
 
 					{/* Desktop Navigation */}
 					<div className='hidden md:flex items-center space-x-3'>
+						{/* DEV MODE INDICATOR */}
+						{typeof window !== 'undefined' && window.location.hostname === 'localhost' && (
+							<div className='px-3 py-1 bg-green-500 text-white text-xs font-bold rounded shadow-lg'>
+								🔓 DEV MODE - Unlimited Access
+							</div>
+						)}
 						{/* TEMP DEBUG */}
 						<div className='px-3 py-1 bg-yellow-200 text-black text-xs rounded'>
 							isLoaded: {String(isLoaded)} | isSignedIn: {String(isSignedIn)}
@@ -157,6 +163,12 @@ export function Header({ onNewDocument, currentTool }: HeaderProps) {
 
 					{/* Mobile: User button (when signed in) + Hamburger */}
 					<div className='flex md:hidden items-center space-x-2'>
+						{/* DEV MODE INDICATOR - Mobile */}
+						{typeof window !== 'undefined' && window.location.hostname === 'localhost' && (
+							<div className='px-2 py-1 bg-green-500 text-white text-xs font-bold rounded'>
+								🔓 DEV
+							</div>
+						)}
 						{/* TEMP DEBUG - Mobile */}
 						<div className='px-2 py-1 bg-yellow-200 text-black text-xs rounded'>
 							{String(isLoaded)}/{String(isSignedIn)}
