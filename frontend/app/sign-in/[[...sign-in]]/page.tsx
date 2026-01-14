@@ -1,4 +1,17 @@
 import { SignIn } from '@clerk/nextjs';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: 'Sign In',
+	description: 'Sign in to PDF Wonder Kit to access your account and premium features.',
+	alternates: {
+		canonical: 'https://www.pdfwonderkit.com/sign-in',
+	},
+	robots: {
+		index: false, // Don't index sign-in pages to avoid duplicate content with query params
+		follow: true,
+	},
+};
 
 export default function SignInPage() {
 	return (

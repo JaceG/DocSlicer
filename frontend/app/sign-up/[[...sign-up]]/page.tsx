@@ -1,4 +1,17 @@
 import { SignUp } from '@clerk/nextjs';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+	title: 'Sign Up',
+	description: 'Create a PDF Wonder Kit account to access premium PDF tools and track your usage.',
+	alternates: {
+		canonical: 'https://www.pdfwonderkit.com/sign-up',
+	},
+	robots: {
+		index: false, // Don't index sign-up pages to avoid duplicate content with query params
+		follow: true,
+	},
+};
 
 export default function SignUpPage() {
 	return (

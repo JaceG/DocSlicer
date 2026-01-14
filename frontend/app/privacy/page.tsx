@@ -1,4 +1,13 @@
+import { Metadata } from 'next';
 import { Header } from '@/components/ui/Header';
+
+export const metadata: Metadata = {
+	title: 'Privacy Policy',
+	description: 'Read the Privacy Policy for PDF Wonder Kit. Learn how we protect your data, what we collect, and your rights. All PDF processing happens in your browser - your files never leave your device.',
+	alternates: {
+		canonical: 'https://www.pdfwonderkit.com/privacy',
+	},
+};
 
 export default function PrivacyPage() {
 	return (

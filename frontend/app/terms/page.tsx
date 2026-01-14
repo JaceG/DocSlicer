@@ -1,5 +1,14 @@
+import { Metadata } from 'next';
 import { Header } from '@/components/ui/Header';
 import { TOOLS_COUNT } from '@/lib/tools/config';
+
+export const metadata: Metadata = {
+	title: 'Terms of Service',
+	description: 'Read the Terms of Service for PDF Wonder Kit. Learn about our usage policies, subscription plans, privacy practices, and user rights.',
+	alternates: {
+		canonical: 'https://www.pdfwonderkit.com/terms',
+	},
+};
 
 export default function TermsPage() {
 	return (

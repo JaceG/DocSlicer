@@ -34,22 +34,13 @@ const nextConfig: NextConfig = {
 		ignoreBuildErrors: false,
 	},
 
-	// Headers for caching - disable in development to avoid stale assets
+	// Headers for caching and security
 	async headers() {
 		const isDev = process.env.NODE_ENV === 'development';
 
 		return [
 			{
-				// Ensure all pages are indexable in production
-				source: '/:path*',
-				headers: [
-					{
-						key: 'X-Robots-Tag',
-						value: isDev ? 'noindex, nofollow' : 'index, follow',
-					},
-				],
-			},
-			{
+				// Cache static assets
 				source: '/_next/static/(.*)',
 				headers: [
 					{
@@ -66,6 +57,20 @@ const nextConfig: NextConfig = {
 					{
 						key: 'Cache-Control',
 						value: isDev ? 'no-cache' : 'public, max-age=86400',
+					},
+				],
+			},
+			{
+				// Serve webmanifest with correct content type
+				source: '/site.webmanifest',
+				headers: [
+					{
+						key: 'Content-Type',
+						value: 'application/manifest+json',
+					},
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=86400',
 					},
 				],
 			},
