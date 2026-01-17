@@ -7,6 +7,23 @@ const nextConfig: NextConfig = {
 	// Compression
 	compress: true,
 
+	// SEO: Redirect non-www to www for canonical URL consistency
+	async redirects() {
+		return [
+			{
+				source: '/:path*',
+				has: [
+					{
+						type: 'host',
+						value: 'pdfwonderkit.com',
+					},
+				],
+				destination: 'https://www.pdfwonderkit.com/:path*',
+				permanent: true, // 301 redirect for SEO
+			},
+		];
+	},
+
 	// Increase body size limit for PDF uploads (default is 1MB)
 	serverActions: {
 		bodySizeLimit: '100mb', // Allow up to 100MB for PDF uploads
