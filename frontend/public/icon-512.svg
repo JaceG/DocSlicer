@@ -1,0 +1,40 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#EEF2FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DBEAFE;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="doc512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="scissors512" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg512)"/>
+  
+  <!-- Main document icon -->
+  <rect x="128" y="96" width="256" height="320" rx="32" ry="32" fill="url(#doc512)" stroke="none"/>
+  
+  <!-- Document lines -->
+  <rect x="160" y="144" width="128" height="16" rx="8" fill="white" opacity="0.8"/>
+  <rect x="160" y="176" width="160" height="16" rx="8" fill="white" opacity="0.8"/>
+  <rect x="160" y="208" width="96" height="16" rx="8" fill="white" opacity="0.8"/>
+  <rect x="160" y="240" width="144" height="16" rx="8" fill="white" opacity="0.8"/>
+  <rect x="160" y="272" width="112" height="16" rx="8" fill="white" opacity="0.8"/>
+  <rect x="160" y="304" width="128" height="16" rx="8" fill="white" opacity="0.8"/>
+  <rect x="160" y="336" width="160" height="16" rx="8" fill="white" opacity="0.8"/>
+  <rect x="160" y="368" width="140" height="16" rx="8" fill="white" opacity="0.8"/>
+  
+  <!-- Scissors icon (bottom right) -->
+  <circle cx="384" cy="384" r="112" fill="url(#scissors512)" opacity="0.95"/>
+  <g transform="translate(320, 320)">
+    <path d="M48 48L80 80M80 48L48 80M128 128L96 96M96 128L128 96" stroke="white" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="48" cy="48" r="16" fill="white"/>
+    <circle cx="80" cy="80" r="16" fill="white"/>
+  </g>
+</svg>

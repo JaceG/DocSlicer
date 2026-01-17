@@ -1,0 +1,27 @@
+# robots.txt for PDF Wonder Kit
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard/
+
+# Sitemap
+Sitemap: https://www.pdfwonderkit.com/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
+
+# Special rules for AI crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /

@@ -1,0 +1,53 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F9FAFB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EEF2FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="docGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="scissorsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#059669;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  
+  <!-- Icon in center-left -->
+  <g transform="translate(280, 165)">
+    <!-- Main document icon (scaled up) -->
+    <rect x="0" y="0" width="240" height="300" rx="20" ry="20" fill="url(#docGrad)" stroke="none"/>
+    
+    <!-- Document lines -->
+    <rect x="30" y="60" width="120" height="12" rx="6" fill="white" opacity="0.7"/>
+    <rect x="30" y="90" width="150" height="12" rx="6" fill="white" opacity="0.7"/>
+    <rect x="30" y="120" width="90" height="12" rx="6" fill="white" opacity="0.7"/>
+    <rect x="30" y="150" width="135" height="12" rx="6" fill="white" opacity="0.7"/>
+    <rect x="30" y="180" width="105" height="12" rx="6" fill="white" opacity="0.7"/>
+    <rect x="30" y="210" width="120" height="12" rx="6" fill="white" opacity="0.7"/>
+    
+    <!-- Scissors icon (bottom right, scaled up) -->
+    <circle cx="200" cy="250" r="80" fill="url(#scissorsGrad)" opacity="0.95"/>
+    <g transform="translate(160, 210)">
+      <path d="M30 30L50 50M50 30L30 50M80 80L60 60M60 80L80 60" stroke="white" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="30" cy="30" r="10" fill="white"/>
+      <circle cx="50" cy="50" r="10" fill="white"/>
+    </g>
+  </g>
+  
+  <!-- Text -->
+  <text x="600" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="#111827" text-anchor="start">
+    PDF Slicer
+  </text>
+  <text x="600" y="330" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="400" fill="#4B5563" text-anchor="start">
+    Split PDF Documents with Ease
+  </text>
+  <text x="600" y="390" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="500" fill="#10B981" text-anchor="start">
+    🔒 100% Private - Files Never Leave Your Device
+  </text>
+</svg>
